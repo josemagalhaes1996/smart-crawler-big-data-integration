@@ -5,8 +5,7 @@
  */
 package com.hortonworks.hwc;
 
-import com.hortonworks.hwc.HiveWarehouseSession;
-import static com.hortonworks.hwc.HiveWarehouseSession.*;
+
 
 import java.io.Serializable;
 import java.sql.Timestamp;
