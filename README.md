@@ -2,3 +2,5 @@
 
 This project ains to produce a set of tools, that will help big data integration engineers, model the data automatically with a certain confidence interval.
 
+![Alt text](SCBDI_General_Arquitecture.png?raw=true "Title")
+
