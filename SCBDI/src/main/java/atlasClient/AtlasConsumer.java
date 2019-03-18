@@ -85,8 +85,7 @@ public class AtlasConsumer {
     }
 
     public static void main(String args[]) throws JSONException {
-
-        AtlasConsumer consumer = new AtlasConsumer();
+ AtlasConsumer consumer = new AtlasConsumer();
 
         System.out.println(consumer.getIDAtlasColumnACTIVE("ssn", "branch_intersect", "default"));
         System.out.println(consumer.getIDAtlasColumnACTIVE("location", "branch_intersect", "default"));
@@ -148,7 +147,7 @@ public class AtlasConsumer {
     }
 
     public JSONObject getAllTypes() throws JSONException {
-        String url = "http://localhost:21000/api/atlas/types";
+        String url = "http://node6.dsi.uminho.pt:21000/api/atlas/types";
         String authString = name + ":" + password;
         String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
         Client restClient = Client.create();
@@ -167,7 +166,7 @@ public class AtlasConsumer {
     }
 
     public JSONObject getEntity(String entity) throws JSONException {
-        String url = "http://localhost:21000/api/atlas/entities/" + entity;
+        String url = "http://node6.dsi.uminho.pt:21000/api/atlas/entities/" + entity;
         String authString = name + ":" + password;
         String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
         Client restClient = Client.create();
@@ -185,7 +184,7 @@ public class AtlasConsumer {
     }
 
     public JSONObject entitiesbyType(String type) throws JSONException {
-        String url = "http://localhost:21000/api/atlas/entities?type=" + type;
+        String url = "http://node6.dsi.uminho.pt:21000/api/atlas/entities?type=" + type;
         String authString = name + ":" + password;
         String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
         Client restClient = Client.create();
@@ -206,7 +205,7 @@ public class AtlasConsumer {
         String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
         try {
             Client client = Client.create();
-            WebResource webResource = client.resource("http://localhost:21000/api/atlas/entities");
+            WebResource webResource = client.resource("http://node6.dsi.uminho.pt:21000/api/atlas/entities");
             ClientResponse response = webResource.type("application/json").header("Authorization", "Basic " + authStringEnc)
                     .post(ClientResponse.class, json.toJSONString());
             if (response.getStatus() != 201) {
@@ -226,7 +225,7 @@ public class AtlasConsumer {
         String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
         try {
             Client client = Client.create();
-            WebResource webResource = client.resource("http://localhost:21000/api/atlas/entities");
+            WebResource webResource = client.resource("http://node6.dsi.uminho.pt:21000/api/atlas/entities");
             ClientResponse response = webResource.type("application/json").header("Authorization", "Basic " + authStringEnc)
                     .post(ClientResponse.class, json.toJSONString());
             if (response.getStatus() != 201) {
@@ -270,7 +269,7 @@ public class AtlasConsumer {
                     + "    ]\n"
                     + "}";
             Client client = Client.create();
-            WebResource webResource = client.resource("http://localhost:21000/api/atlas/types");
+            WebResource webResource = client.resource("http://node6.dsi.uminho.pt:21000/api/atlas/types");
             ClientResponse response = webResource.type("application/json").header("Authorization", "Basic " + authStringEnc)
                     .post(ClientResponse.class,
                             type);
