@@ -4,4 +4,6 @@ This project aims to produce a set of tools, that will help big data integration
 
 
 ![Alt text](SCBDI_General_Arquitecture.png?raw=true "SCBDI General Arquitecture V1")
+
+
 **General Arquitecture**
