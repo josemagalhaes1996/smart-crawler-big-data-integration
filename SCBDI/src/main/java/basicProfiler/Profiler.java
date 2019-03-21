@@ -5,7 +5,7 @@
  */
 package basicProfiler;
 
-import atlasClient.AtlasConsumer;
+import AtlasClient.AtlasConsumer;
 import JsonController.JsonControler;
 import com.hortonworks.hwc.Connections;
 import java.io.FileWriter;
@@ -15,19 +15,16 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.livy.Job;
-import org.apache.livy.JobContext;
 import org.apache.spark.sql.AnalysisException;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.Encoder;
 import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.SparkSession;
-import org.codehaus.jettison.json.JSONException;
 
 /**
+ * 111
+ *
  *
  * @author Utilizador
  */
@@ -46,11 +43,8 @@ public class Profiler implements Serializable {
     public Profiler(String database, String table, Connections conn) {
         this.table = table;
         this.database = database;
-         conn.getHiveSession().setDatabase(database);
+        conn.getHiveSession().setDatabase(database);
         this.dataSet = conn.getHiveSession().executeQuery("select * from " + table);
-         
-        
-      
     }
 
     public String getTable() {
@@ -77,16 +71,16 @@ public class Profiler implements Serializable {
         this.database = database;
     }
 
-    public static void main(String[] args) throws AnalysisException, JSONException, IOException {
+    public static void main(String[] args) throws AnalysisException, IOException, Exception {
         Connections conn = new Connections();
         Profiler prof = new Profiler("josedb", "branch_intersect", conn);
 
-        runcreateDataSetColumnProfiler(prof, conn.getSession());
+      //  runcreateDataSetColumnProfiler(prof, conn.getSession());
         runcreateDataSetProfiler(prof, conn.getSession());
 
     }
 
-    public static void runcreateDataSetColumnProfiler(Profiler prof, SparkSession spark) throws AnalysisException, JSONException, IOException {
+    public static void runcreateDataSetColumnProfiler(Profiler prof, SparkSession spark) throws AnalysisException, IOException, Exception {
         Instant start = Instant.now();
         AtlasConsumer restEntity = new AtlasConsumer();
         List<ColumnProfiler> columnProfiles = new ArrayList<>();
@@ -102,27 +96,37 @@ public class Profiler implements Serializable {
         Encoder<ColumnProfiler> columnEncoder = Encoders.bean(ColumnProfiler.class);
         Dataset<ColumnProfiler> columnProfilerDS = spark.createDataset(Collections.synchronizedList(columnProfiles), columnEncoder);
         columnProfilerDS.show();
+
         AtlasConsumer restconsumer = new AtlasConsumer();
         JsonControler processEntity = new JsonControler();
         Instant endDate = Instant.now();
-         restconsumer.createEntity(processEntity.createEntityProcessColumnProfiler(prof.getTable(), prof.getDatabase(), start.toString(), endDate.toString(), prof.getDataSet().columns()));
+        restconsumer.createEntityAtlas(processEntity.createEntityProcessColumnProfiler(prof.getTable(), prof.getDatabase(), start.toString(), endDate.toString(), prof.getDataSet().columns()));
 
     }
 
-    public static void runcreateDataSetProfiler(Profiler prof, SparkSession spark) throws JSONException {
+    public static void runcreateDataSetProfiler(Profiler prof, SparkSession spark) throws Exception {
         Instant start = Instant.now();
+        AtlasConsumer restconsumer = new AtlasConsumer();   
         Encoder<DataSetProfiler> dataSetEncoder = Encoders.bean(DataSetProfiler.class);
         DataSetProfiler profiler = new DataSetProfiler();
         List<DataSetProfiler> dataSetProfilerList = new ArrayList<>();
         DataSetProfiler dataSetProfiler = profiler.profilerDataSet(prof.getDataSet(), prof.getTable(), prof.getDatabase());
         dataSetProfilerList.add(dataSetProfiler);
         Dataset<DataSetProfiler> dataSetProfilerDS = spark.createDataset(Collections.synchronizedList(dataSetProfilerList), dataSetEncoder);
-        AtlasConsumer restconsumer = new AtlasConsumer();
-        restconsumer.createEntity(dataSetProfiler.getJsonDataSetProfiler());
+       
+        
+         try (FileWriter file = new FileWriter("entity.json")) {
+            file.write(dataSetProfiler.getJsonDataSetProfiler().toString());
+            System.out.println("Successfully Copied JSON Object to File...");
+            System.out.println("\nJSON Object: " + dataSetProfiler.getJsonDataSetProfiler());
+        }
+        
+        restconsumer.createEntityAtlas(dataSetProfiler.getJsonDataSetProfiler());
+         
         JsonControler processEntity = new JsonControler();
         Instant endDate = Instant.now();
-        
-        restconsumer.createEntity(processEntity.createEntityProcess(prof.getTable(), prof.getDatabase(), start.toString(), endDate.toString()));
+
+        restconsumer.createEntityAtlas(processEntity.createEntityProcess(prof.getTable(), prof.getDatabase(), start.toString(), endDate.toString()));
     }
 
 }

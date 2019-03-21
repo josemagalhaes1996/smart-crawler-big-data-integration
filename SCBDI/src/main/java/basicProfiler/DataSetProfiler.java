@@ -12,8 +12,8 @@ import java.util.List;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.util.SizeEstimator;
-import org.codehaus.jettison.json.JSONException;
-import org.json.simple.JSONObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -43,6 +43,7 @@ public class DataSetProfiler implements Serializable {
         this.jsonDataSetProfiler = jsonDataSetProfiler;
     }
 
+    
     public JSONObject getJsonDataSetProfiler() {
         return jsonDataSetProfiler;
     }
@@ -147,8 +148,8 @@ public class DataSetProfiler implements Serializable {
         }
 
         JsonControler jsonClass = new JsonControler();
-        JSONObject jsonEntity = jsonClass.createEntityDatasetProfiler(database, tableName, numCategoricalColumns, numDataColumns, (int) numObservations, numColumn, numNumericColumns, numOtherColumns);
-
+        JSONObject jsonEntity= jsonClass.createEntityTableProfiler(database, tableName, numCategoricalColumns, numDataColumns, (int) numObservations, numColumn, numNumericColumns, numOtherColumns);
+     
         DataSetProfiler columnnew = new DataSetProfiler(tbName, datasetSize, numColumn, numObservations, numNumericColumns, numCategoricalColumns, numDataColumns, numOtherColumns, jsonEntity);
         return (columnnew);
     }

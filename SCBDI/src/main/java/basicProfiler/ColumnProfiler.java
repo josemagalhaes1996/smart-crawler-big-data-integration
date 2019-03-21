@@ -15,10 +15,8 @@ import org.apache.spark.sql.Row;
 import static org.apache.spark.sql.functions.col;
 import static org.apache.spark.sql.functions.collect_list;
 import static org.apache.spark.sql.functions.size;
-import org.codehaus.jettison.json.JSONException;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import scala.Tuple2;
-import scala.collection.Seq;
 
 /**
  *
@@ -215,9 +213,9 @@ public final class ColumnProfiler implements Serializable {
     }
 
     /*
-    * @param 
+     * @param 
      */
-    public ColumnProfiler basicProfiler(Dataset<Row> dataSet, String columnName, String tableName, String database) throws JSONException {
+    public ColumnProfiler basicProfiler(Dataset<Row> dataSet, String columnName, String tableName, String database) {
         /// Data Frame describe function 
         Dataset<Row> col = dataSet.select(col(columnName));
         String datatypes = dataTypeColumn(dataSet.dtypes(), columnName);
@@ -269,12 +267,11 @@ public final class ColumnProfiler implements Serializable {
         long percentFillRecords = calculatedPercentFill(nullvalues, emptyvalues, recordCounts);
         long percentUniqueValues = calculatePercentUnique(uniqueValue, recordCounts);
 
-        
-        
         String comment = "Profiler Analysis";
         Dataset<Row> frequencyValues = frequencyValuesAnalysis(dataSet, columnName);
         JsonControler jsonAtlas = new JsonControler();
-        JSONObject jsonEntity = jsonAtlas.createEntityColumnProfiler(columnName, datatypes, database, tableName, comment, minValue, maxValue, recordCounts, uniqueValue, emptyvalues, nullvalues, maxFieldLength, minFieldLength, percentFillRecords, percentUniqueValues, truevaluecount, falsevaluecount,frequencyValues);
+
+        JSONObject jsonEntity = jsonAtlas.createEntityColumnProfiler(columnName, datatypes, database, tableName, comment, minValue, maxValue, recordCounts, uniqueValue, emptyvalues, nullvalues, maxFieldLength, minFieldLength, percentFillRecords, percentUniqueValues, truevaluecount, falsevaluecount, frequencyValues);
 
         ColumnProfiler columnnew = new ColumnProfiler(columnName, recordCounts, uniqueValue, emptyvalues, nullvalues, minValue, maxValue, maxFieldLength, minFieldLength, datatypes, truevaluecount, falsevaluecount, jsonEntity);
         return (columnnew);
