@@ -274,7 +274,7 @@ public class JsonControler {
             
      */
     public JSONObject createEntityTableProfiler(String database, String tablename, int numCategoricalColumns, int numDateColumns, int numObservations,
-            int numVariable, int numNumericalColumns, int numOtherTypesColumns) throws JSONException {
+            int numVariable, int numNumericalColumns, int numOtherTypesColumns, int dataSetSize) throws JSONException {
           
             JSONObject jsonfinal = null;
       
@@ -307,7 +307,7 @@ public class JsonControler {
             tableEntity.put("typeName", "hive_table");
             tableEntity.put("state", "ACTIVE");
             values.put("table", tableEntity);
-            values.put("dataSetSize", 2323);
+            values.put("dataSetSize", dataSetSize);
 
             JSONObject dbObject = new JSONObject();
             dbObject.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");

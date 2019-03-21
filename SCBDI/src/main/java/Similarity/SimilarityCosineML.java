@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package advancedProfiler;
+package Similarity;
 
 import com.hortonworks.hwc.Connections;
 import basicProfiler.ColumnProfiler;
@@ -65,7 +65,7 @@ public class SimilarityCosineML {
 
     public static void main(String args[]) {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("foodmart", "store", conn);
+        Profiler prof = new Profiler("tpcds", "store", conn);
         runCosineSimilarity(conn, prof.getDataSet());
     }
 

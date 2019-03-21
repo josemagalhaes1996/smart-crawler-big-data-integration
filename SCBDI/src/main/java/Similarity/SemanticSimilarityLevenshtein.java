@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package advancedProfiler;
+package Similarity;
 
 import basicProfiler.ColumnProfiler;
 import com.hortonworks.hwc.Connections;
@@ -64,10 +64,12 @@ public class SemanticSimilarityLevenshtein implements Serializable {
 
     public static void main(String args[]) {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("foodmart", "store", conn);
+        Profiler prof = new Profiler("tpcds", "store", conn);
         runSimilarity(conn, prof.getDataSet());
     }
-
+    
+    
+    
     public static void runSimilarity(Connections conn, Dataset<Row> dataset) {
         String[] columnnames = dataset.columns();
         ArrayList<SemanticSimilarityLevenshtein> similarityList = new ArrayList<>();
@@ -96,6 +98,7 @@ public class SemanticSimilarityLevenshtein implements Serializable {
             }
 
         }
+        
         Encoder<SemanticSimilarityLevenshtein> similaritysemanticEncoder = Encoders.bean(SemanticSimilarityLevenshtein.class);
         Dataset<SemanticSimilarityLevenshtein> dataSetSimilarity = conn.getSession().createDataset(Collections.synchronizedList(similarityList), similaritysemanticEncoder);
         dataSetSimilarity.show();

@@ -122,6 +122,12 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>2.28</version>
         </dependency>
+        <dependency>
+            <groupId>edu.uniba.di.lacam.kdde</groupId>
+            <artifactId>ws4j</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        
     </dependencies>
     <repositories>
         <repository>

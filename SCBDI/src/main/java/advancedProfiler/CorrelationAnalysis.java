@@ -63,7 +63,7 @@ public class CorrelationAnalysis implements Serializable {
 
     public static void main(String args[]) {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("foodmart", "store", conn);
+        Profiler prof = new Profiler("tpcds", "store_sales", conn);
         runCorrelations(conn, prof.getDataSet());
     }
 
@@ -78,8 +78,8 @@ public class CorrelationAnalysis implements Serializable {
                     if (dtype.dataTypeColumn(dataset.dtypes(), columnA).equalsIgnoreCase("StringType")
                             || dtype.dataTypeColumn(dataset.dtypes(), columnA).equalsIgnoreCase("TimestampType")
                             || dtype.dataTypeColumn(dataset.dtypes(), columnA).equalsIgnoreCase("BooleanType")
-                            || dtype.dataTypeColumn(dataset.dtypes(), columnB).equalsIgnoreCase("StringType")
                             || dtype.dataTypeColumn(dataset.dtypes(), columnB).equalsIgnoreCase("TimestampType")
+                            || dtype.dataTypeColumn(dataset.dtypes(), columnB).equalsIgnoreCase("StringType")
                             || dtype.dataTypeColumn(dataset.dtypes(), columnB).equalsIgnoreCase("BooleanType")) {
 
                     } else {
@@ -94,5 +94,6 @@ public class CorrelationAnalysis implements Serializable {
         Encoder<CorrelationAnalysis> correlationEncoder = Encoders.bean(CorrelationAnalysis.class);
         Dataset<CorrelationAnalysis> dataSetCorrelation = conn.getSession().createDataset(Collections.synchronizedList(correlationList), correlationEncoder);
         dataSetCorrelation.show();
+
     }
 }

@@ -6,6 +6,7 @@
 package basicProfiler;
 
 import JsonController.JsonControler;
+import advancedProfiler.FrequencyAnalysis;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -268,7 +269,10 @@ public final class ColumnProfiler implements Serializable {
         long percentUniqueValues = calculatePercentUnique(uniqueValue, recordCounts);
 
         String comment = "Profiler Analysis";
-        Dataset<Row> frequencyValues = frequencyValuesAnalysis(dataSet, columnName);
+        //FrequencyAnalysis - (Package advancedProfiler.FrequencyAnalysis)
+        FrequencyAnalysis freqAnalysis = new FrequencyAnalysis();
+        Dataset<Row> frequencyValues = freqAnalysis.frequencyValuesAnalysis(dataSet, columnName);
+        
         JsonControler jsonAtlas = new JsonControler();
 
         JSONObject jsonEntity = jsonAtlas.createEntityColumnProfiler(columnName, datatypes, database, tableName, comment, minValue, maxValue, recordCounts, uniqueValue, emptyvalues, nullvalues, maxFieldLength, minFieldLength, percentFillRecords, percentUniqueValues, truevaluecount, falsevaluecount, frequencyValues);
@@ -283,8 +287,6 @@ public final class ColumnProfiler implements Serializable {
         return "ColumnProfiler{" + "columnName=" + columnName + ", datatypeCol=" + datatypeCol + ", min=" + minValue + ", max=" + maxValue + ", recordCount=" + recordCount + ", uniqueValues=" + uniqueValues + ", emptyStringValues=" + emptyValues + ", nullValues=" + nullValues + ", maxFieldLength=" + maxFieldLength + ", minFieldLength=" + minFieldLength + ", percentFillRecords=" + percentFillRecords + ", percentUniqueValues=" + percentUniqueValues + '}';
     }
 
-    public Dataset<Row> frequencyValuesAnalysis(Dataset<Row> dataSet, String attribute) {
-        return dataSet.groupBy(col(attribute)).agg(size(collect_list(attribute)).as("count")).select(col(attribute), col("count")).orderBy(col("count").desc()).limit(10);
-    }
+    
 
 }
