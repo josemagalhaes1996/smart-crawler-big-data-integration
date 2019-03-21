@@ -1,0 +1,170 @@
+{
+    "enumTypes": [],
+    "structTypes": [],
+    "traitTypes": [],
+    "classTypes": [{
+            "superTypes": ["DataSet"],
+            "hierarchicalMetaTypeName": "org.apache.atlas.typesystem.types.ClassType",
+            "typeName": "ColumnStatistics",
+            "typeDescription": null,
+            "attributeDefinitions": [{
+                    "name": "dataTypeValue",
+                    "dataTypeName": "string",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": true,
+                    "reverseAttributeName": null
+                },
+                {
+                    "name": "tableName",
+                    "dataTypeName": "hive_table",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": true,
+                    "reverseAttributeName": null
+                },{
+                    "name": "columnReference",
+                    "dataTypeName": "hive_column",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                },
+                {
+                    "name": "createTime",
+                    "dataTypeName": "date",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                },
+                {
+                    "name": "comment",
+                    "dataTypeName": "string",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                },
+                {
+                    "name": "numEmptyValues",
+                    "dataTypeName": "int",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                },
+                {
+                    "name": "maxValue",
+                    "dataTypeName": "string",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                },
+                {
+                    "name": "minValue",
+                    "dataTypeName": "string",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                },
+                {
+                    "name": "maxFieldLenght",
+                    "dataTypeName": "int",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                },
+                {
+                    "name": "minFieldLenght",
+                    "dataTypeName": "int",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                },
+                {
+                    "name": "numNullValues",
+                    "dataTypeName": "int",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                },
+                {
+                    "name": "numFalseValues",
+                    "dataTypeName": "int",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                },
+                {
+                    "name": "numTrueValues",
+                    "dataTypeName": "int",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                },
+                {
+                    "name": "PercentFillRecords",
+                    "dataTypeName": "int",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                }, {
+                    "name": "PercentUniqueValues",
+                    "dataTypeName": "int",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                }, {
+                    "name": "numUniqueValues",
+                    "dataTypeName": "int",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                }, {
+                    "name": "numRecords",
+                    "dataTypeName": "int",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+                },{
+		   "name": "FrequencyValues",
+                    "dataTypeName": "map<string,string>",
+                    "multiplicity": "optional",
+                    "isComposite": false,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "reverseAttributeName": null
+
+		}
+]
+        }]
+}
