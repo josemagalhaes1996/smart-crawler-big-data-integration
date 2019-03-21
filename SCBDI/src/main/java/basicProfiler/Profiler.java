@@ -5,7 +5,7 @@
  */
 package basicProfiler;
 
-import AtlasClient.AtlasService;
+import AtlasClient.AtlasConsumer;
 import JsonController.JsonControler;
 import com.hortonworks.hwc.Connections;
 import java.io.FileWriter;
@@ -75,14 +75,14 @@ public class Profiler implements Serializable {
         Connections conn = new Connections();
         Profiler prof = new Profiler("josedb", "branch_intersect", conn);
 
-      //  runcreateDataSetColumnProfiler(prof, conn.getSession());
+        runcreateDataSetColumnProfiler(prof, conn.getSession());
         runcreateDataSetProfiler(prof, conn.getSession());
 
     }
 
     public static void runcreateDataSetColumnProfiler(Profiler prof, SparkSession spark) throws AnalysisException, IOException, Exception {
         Instant start = Instant.now();
-        AtlasService restEntity = new AtlasService();
+        AtlasConsumer restEntity = new AtlasConsumer();
         List<ColumnProfiler> columnProfiles = new ArrayList<>();
         ColumnProfiler profiler = new ColumnProfiler();
         for (String c1 : prof.getDataSet().columns()) {
@@ -97,7 +97,7 @@ public class Profiler implements Serializable {
         Dataset<ColumnProfiler> columnProfilerDS = spark.createDataset(Collections.synchronizedList(columnProfiles), columnEncoder);
         columnProfilerDS.show();
 
-        AtlasService restconsumer = new AtlasService();
+        AtlasConsumer restconsumer = new AtlasConsumer();
         JsonControler processEntity = new JsonControler();
         Instant endDate = Instant.now();
         restconsumer.createEntityAtlas(processEntity.createEntityProcessColumnProfiler(prof.getTable(), prof.getDatabase(), start.toString(), endDate.toString(), prof.getDataSet().columns()));
@@ -106,7 +106,7 @@ public class Profiler implements Serializable {
 
     public static void runcreateDataSetProfiler(Profiler prof, SparkSession spark) throws Exception {
         Instant start = Instant.now();
-        AtlasService restconsumer = new AtlasService();   
+        AtlasConsumer restconsumer = new AtlasConsumer();   
         Encoder<DataSetProfiler> dataSetEncoder = Encoders.bean(DataSetProfiler.class);
         DataSetProfiler profiler = new DataSetProfiler();
         List<DataSetProfiler> dataSetProfilerList = new ArrayList<>();

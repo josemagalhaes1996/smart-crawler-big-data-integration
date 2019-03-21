@@ -40,13 +40,13 @@ import org.json.JSONObject;
  *
  * @author Utilizador
  */
-public class AtlasService {
+public class AtlasConsumer {
 
     private final String name = "admin";
     private final String password = "adminatlaslid4";
     private final String host = "http://node6.dsi.uminho.pt:21000";
 
-    public AtlasService() {
+    public AtlasConsumer() {
     }
 
     public String getName() {
@@ -111,7 +111,7 @@ public class AtlasService {
 
     public static void main(String[] args) throws IOException, JSONException {
         Connections conn = new Connections();
-        AtlasService consumer = new AtlasService();
+        AtlasConsumer consumer = new AtlasConsumer();
 
         //        System.out.println(consumer.getIDAtlasColumnACTIVE("ssn", "branch_intersect", "default"));
 //        System.out.println(consumer.getIDAtlasColumnACTIVE("location", "branch_intersect", "default"));

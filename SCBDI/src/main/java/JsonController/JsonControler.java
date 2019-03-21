@@ -9,7 +9,7 @@ package JsonController;
  *
  * @author Utilizador
  */
-import AtlasClient.AtlasService;
+import AtlasClient.AtlasConsumer;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Instant;
@@ -33,7 +33,7 @@ public class JsonControler {
 
     public JSONObject createEntityColumnProfiler(String columnName, String datatype, String database, String tablename,
             String comment, String min, String max, long recordCount, long uniqueValues, long emptyValues, long nullValues, String maxFieldLength, String minFieldLength, long percentFillRecords, long percentUniqueValues, long numTrueValues, long numFalseValues, Dataset<Row> frequencyValuesDS) {
-        AtlasService getTableName = new AtlasService();
+        AtlasConsumer getTableName = new AtlasConsumer();
         JSONObject jsonfinal = null;
         try {
             String idTableName = getTableName.getIDAtlasTableACTIVE(tablename, database);
@@ -124,7 +124,7 @@ public class JsonControler {
      */
     public JSONObject createEntityProcess(String tableName, String database, String startdate, String endDate) {
 
-        AtlasService restConsumer = new AtlasService();
+        AtlasConsumer restConsumer = new AtlasConsumer();
         JSONObject jsonfinal = null;
         try {
             String idTableName = restConsumer.getIDAtlasTableACTIVE(tableName, database);
@@ -199,7 +199,7 @@ public class JsonControler {
      */
     public JSONObject createEntityProcessColumnProfiler(String tableName, String database, String startdate, String endDate, String[] outputcols) {
         try {
-            AtlasService restConsumer = new AtlasService();
+            AtlasConsumer restConsumer = new AtlasConsumer();
             String idTableName = restConsumer.getIDAtlasTableACTIVE(tableName, database);
 
             JSONObject jsonfinal = new JSONObject();
@@ -278,7 +278,7 @@ public class JsonControler {
           
             JSONObject jsonfinal = null;
       
-            AtlasService restConsumer = new AtlasService();
+            AtlasConsumer restConsumer = new AtlasConsumer();
             String idTableName = restConsumer.getIDAtlasTableACTIVE(tablename, database);
             String idDB = restConsumer.getDBID(idTableName);
             ArrayList<String> arrayColumnStats = restConsumer.getColumnStatsID(idTableName);
@@ -418,7 +418,7 @@ public class JsonControler {
         JSONObject traits = new JSONObject();
         jsonfinal.put("traits", traits);
 
-        AtlasService consumer = new AtlasService();
+        AtlasConsumer consumer = new AtlasConsumer();
         consumer.createEntityAtlas(jsonfinal);
 // try-with-resources statement based on post comment below :)
         try (FileWriter file = new FileWriter("entity.json")) {
