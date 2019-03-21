@@ -5,7 +5,7 @@
  */
 package basicProfiler;
 
-import AtlasClient.AtlasConsumer;
+import AtlasClient.AtlasService;
 import JsonController.JsonControler;
 import com.hortonworks.hwc.Connections;
 import java.io.FileWriter;
@@ -82,7 +82,7 @@ public class Profiler implements Serializable {
 
     public static void runcreateDataSetColumnProfiler(Profiler prof, SparkSession spark) throws AnalysisException, IOException, Exception {
         Instant start = Instant.now();
-        AtlasConsumer restEntity = new AtlasConsumer();
+        AtlasService restEntity = new AtlasService();
         List<ColumnProfiler> columnProfiles = new ArrayList<>();
         ColumnProfiler profiler = new ColumnProfiler();
         for (String c1 : prof.getDataSet().columns()) {
@@ -97,7 +97,7 @@ public class Profiler implements Serializable {
         Dataset<ColumnProfiler> columnProfilerDS = spark.createDataset(Collections.synchronizedList(columnProfiles), columnEncoder);
         columnProfilerDS.show();
 
-        AtlasConsumer restconsumer = new AtlasConsumer();
+        AtlasService restconsumer = new AtlasService();
         JsonControler processEntity = new JsonControler();
         Instant endDate = Instant.now();
         restconsumer.createEntityAtlas(processEntity.createEntityProcessColumnProfiler(prof.getTable(), prof.getDatabase(), start.toString(), endDate.toString(), prof.getDataSet().columns()));
@@ -106,7 +106,7 @@ public class Profiler implements Serializable {
 
     public static void runcreateDataSetProfiler(Profiler prof, SparkSession spark) throws Exception {
         Instant start = Instant.now();
-        AtlasConsumer restconsumer = new AtlasConsumer();   
+        AtlasService restconsumer = new AtlasService();   
         Encoder<DataSetProfiler> dataSetEncoder = Encoders.bean(DataSetProfiler.class);
         DataSetProfiler profiler = new DataSetProfiler();
         List<DataSetProfiler> dataSetProfilerList = new ArrayList<>();

@@ -3,38 +3,65 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package atlasClient;
+package AtlasClient;
 
-import sun.misc.BASE64Encoder;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.hortonworks.hwc.Connections;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.time.Instant;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.json.JSONConfiguration;
+import java.io.FileWriter;
+import java.io.IOException;
+import sun.misc.BASE64Encoder;
+
 import java.util.ArrayList;
-import jdk.nashorn.internal.parser.JSONParser;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-import org.json.JSONArray;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.htrace.shaded.fasterxml.jackson.databind.SerializationFeature;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
  * @author Utilizador
  */
-public class AtlasConsumer {
+public class AtlasService {
 
     private final String name = "admin";
     private final String password = "adminatlaslid4";
+    private final String host = "http://node6.dsi.uminho.pt:21000";
 
-    public AtlasConsumer() {
+    public AtlasService() {
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    
     public String getDBID(String idTable) throws JSONException {
         JSONObject jsonColumnStatsIDs = entitiesbyType("hive_table");
         for (int i = 0; i < jsonColumnStatsIDs.getJSONArray("results").length(); i++) {
@@ -45,10 +72,8 @@ public class AtlasConsumer {
             if (idTables.equalsIgnoreCase(idTable)) {
                 return jsonTableEntity.getJSONObject("definition").getJSONObject("values").getJSONObject("db").getString("id");
             }
-
         }
         return null;
-
     }
 
     public ArrayList<String> getColumnStatsID(String tableID) throws JSONException {
@@ -84,13 +109,31 @@ public class AtlasConsumer {
         return null;
     }
 
-    public static void main(String args[]) throws JSONException {
- AtlasConsumer consumer = new AtlasConsumer();
+    public static void main(String[] args) throws IOException, JSONException {
+        Connections conn = new Connections();
+        AtlasService consumer = new AtlasService();
 
-        System.out.println(consumer.getIDAtlasColumnACTIVE("ssn", "branch_intersect", "default"));
-        System.out.println(consumer.getIDAtlasColumnACTIVE("location", "branch_intersect", "default"));
-        System.out.println(consumer.getIDAtlasTableACTIVE("branch_intersect", "default"));
+        //        System.out.println(consumer.getIDAtlasColumnACTIVE("ssn", "branch_intersect", "default"));
+//        System.out.println(consumer.getIDAtlasColumnACTIVE("location", "branch_intersect", "default"));
+//        System.out.println(consumer.getIDAtlasTableACTIVE("branch_intersect", "default"));
+//        System.out.println(consumer.getAllTypes().toString());
+//        System.out.println("teste");
+        // System.out.println(consumer.entitiesbyType("hive_column"));
+        //    consumer.getAllTypes();
+        // System.out.println(consumer.getAllTypes().toString());
+//           consumer.entitiesbyType("hive_table");
+        consumer.getEntity("dc68aff6-4460-4405-baf5-c9c9c5fb649f");
+        String id = consumer.getDBID("dc68aff6-4460-4405-baf5-c9c9c5fb649f");
+        String id2 = consumer.getIDAtlasColumnACTIVE("full_name", "brancha", "josedb");
+        String id3 = consumer.getIDAtlasTableACTIVE("brancha", "josedb");
 
+        try (FileWriter file = new FileWriter("teste2.json")) {
+            file.write(id2);
+            System.out.println("Successfully Copied JSON Object to File...");
+            System.out.println("\nJSON Object: " + id3);
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
     }
 
     public String getIDTableStatistics(String idTable) throws JSONException {
@@ -105,6 +148,7 @@ public class AtlasConsumer {
             }
         }
         return null;
+
     }
 
     public String getIDAtlasColumnACTIVE(String column, String table, String database) throws JSONException {
@@ -130,10 +174,12 @@ public class AtlasConsumer {
             }
         }
         return null;
+
     }
 
     public String getIDAtlasTableACTIVE(String name, String database) throws JSONException {
-        JSONObject jsonHive = entitiesbyType("hive_table");
+
+        org.json.JSONObject jsonHive = entitiesbyType("hive_table");
         for (int i = 0; i < jsonHive.getJSONArray("results").length(); i++) {
             String entity = (String) jsonHive.getJSONArray("results").get(i);
             JSONObject jsonHiveTableEntity = getEntity(entity);
@@ -144,149 +190,79 @@ public class AtlasConsumer {
             }
         }
         return null;
+
     }
 
-    public JSONObject getAllTypes() throws JSONException {
-        String url = "http://node6.dsi.uminho.pt:21000/api/atlas/types";
+    public JSONObject getAllTypes() throws JSONException, IOException {
+        String url = "/api/atlas/types";
         String authString = name + ":" + password;
         String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
-        Client restClient = Client.create();
-        WebResource webResource = restClient.resource(url);
-        ClientResponse resp = webResource.accept("application/json")
-                .header("Authorization", "Basic " + authStringEnc)
-                .get(ClientResponse.class);
-        if (resp.getStatus() != 200) {
-            System.err.println("Unable to connect to the server");
-        }
-        String output = resp.getEntity(String.class);
-        JSONObject jsonObj = new JSONObject(output);
+        javax.ws.rs.client.Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(host + url);
+        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + authStringEnc);
 
-        return jsonObj;
+        Response response = invocationBuilder.get();
+        String output = response.readEntity(String.class
+        );
+
+        System.out.println(response.toString());
+        JSONObject obj = new JSONObject(output);
+
+        return obj;
+    }
+
+    public JSONObject entitiesbyType(String type) throws JSONException {
+        String url = "/api/atlas/entities?type=" + type;
+        String authString = name + ":" + password;
+        String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
+        javax.ws.rs.client.Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(host + url);
+        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + authStringEnc);
+
+        Response response = invocationBuilder.get();
+        String output = response.readEntity(String.class
+        );
+        System.out.println(response.toString());
+        JSONObject obj = new JSONObject(output);
+
+        return obj;
 
     }
 
     public JSONObject getEntity(String entity) throws JSONException {
-        String url = "http://node6.dsi.uminho.pt:21000/api/atlas/entities/" + entity;
+        String url = "/api/atlas/entities/" + entity;
         String authString = name + ":" + password;
         String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
-        Client restClient = Client.create();
-        WebResource webResource = restClient.resource(url);
-        ClientResponse resp = webResource.accept("application/json")
-                .header("Authorization", "Basic " + authStringEnc)
-                .get(ClientResponse.class);
-        if (resp.getStatus() != 200) {
-            System.err.println("Unable to connect to the server");
-        }
-        String output = resp.getEntity(String.class);
-        JSONObject jsonObj = new JSONObject(output);
-        return jsonObj;
+        javax.ws.rs.client.Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(host + url);
+        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + authStringEnc);
+        Response response = invocationBuilder.get();
+        String output = response.readEntity(String.class);
+        System.out.println(response.toString());
+        JSONObject obj = new JSONObject(output);
+        return obj;
 
     }
 
-    public JSONObject entitiesbyType(String type) throws JSONException {
-        String url = "http://node6.dsi.uminho.pt:21000/api/atlas/entities?type=" + type;
+ 
+
+    public void createEntityAtlas(JSONObject json) throws Exception {
+           DefaultHttpClient httpclient = new DefaultHttpClient();
+      HttpPost httpost = new HttpPost(host + "/api/atlas/entities");
+
         String authString = name + ":" + password;
         String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
-        Client restClient = Client.create();
-        WebResource webResource = restClient.resource(url);
-        ClientResponse resp = webResource.accept("application/json")
-                .header("Authorization", "Basic " + authStringEnc)
-                .get(ClientResponse.class);
-        if (resp.getStatus() != 200) {
-            System.err.println("Unable to connect to the server");
-        }
-        String output = resp.getEntity(String.class);
-        JSONObject jsonObj = new JSONObject(output);
-        return jsonObj;
+      
+
+        StringEntity se = new StringEntity(json.toString());
+        httpost.setEntity(se);
+        httpost.setHeader("Authorization", "Basic " + authStringEnc);
+        httpost.setHeader("Accept", "application/json");
+        httpost.setHeader("Content-type", "application/json");
+
+        ResponseHandler responseHandler = new BasicResponseHandler();
+        Object response = httpclient.execute(httpost, responseHandler);
+       
     }
 
-    public void createEntityAtlas(org.json.simple.JSONObject json) {
-        String authString = name + ":" + password;
-        String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
-        try {
-            Client client = Client.create();
-            WebResource webResource = client.resource("http://node6.dsi.uminho.pt:21000/api/atlas/entities");
-            ClientResponse response = webResource.type("application/json").header("Authorization", "Basic " + authStringEnc)
-                    .post(ClientResponse.class, json.toJSONString());
-            if (response.getStatus() != 201) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + response.getStatus());
-            }
-            System.out.println("Output from Server .... \n");
-            String output = response.getEntity(String.class);
-            System.out.println(output);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String createEntity(org.json.simple.JSONObject json) {
-        String authString = name + ":" + password;
-        String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
-        try {
-            Client client = Client.create();
-            WebResource webResource = client.resource("http://node6.dsi.uminho.pt:21000/api/atlas/entities");
-            ClientResponse response = webResource.type("application/json").header("Authorization", "Basic " + authStringEnc)
-                    .post(ClientResponse.class, json.toJSONString());
-            if (response.getStatus() != 201) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + response.getStatus());
-            }
-            System.out.println("Output from Server .... \n");
-            String output = response.getEntity(String.class);
-            System.out.println(output);
-            return output;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public String createType() {
-        String authString = name + ":" + password;
-        String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
-        try {
-            String type = "{\n"
-                    + "    \"enumTypes\": [],\n"
-                    + "    \"structTypes\": [],\n"
-                    + "    \"traitTypes\": [],\n"
-                    + "    \"classTypes\": [{\n"
-                    + "            \"superTypes\": [\"DataSet\"],\n"
-                    + "            \"hierarchicalMetaTypeName\": \"org.apache.atlas.typesystem.types.ClassType\",\n"
-                    + "            \"typeName\": \"statistics_hive3\",\n"
-                    + "            \"typeDescription\": null,\n"
-                    + "            \"attributeDefinitions\": [{\n"
-                    + "                    \"name\": \"id\",\n"
-                    + "                    \"dataTypeName\": \"string\",\n"
-                    + "                    \"multiplicity\": \"required\",\n"
-                    + "                    \"isComposite\": false,\n"
-                    + "                    \"isUnique\": true,\n"
-                    + "                    \"isIndexable\": true,\n"
-                    + "                    \"reverseAttributeName\": null\n"
-                    + "                }\n"
-                    + "            ]\n"
-                    + "        }\n"
-                    + "    ]\n"
-                    + "}";
-            Client client = Client.create();
-            WebResource webResource = client.resource("http://node6.dsi.uminho.pt:21000/api/atlas/types");
-            ClientResponse response = webResource.type("application/json").header("Authorization", "Basic " + authStringEnc)
-                    .post(ClientResponse.class,
-                            type);
-            if (response.getStatus() != 201) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + response.getStatus());
-            }
-            System.out.println("Output from Server .... \n");
-            String output = response.getEntity(String.class
-            );
-            System.out.println(output);
-            return output;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-//  Json o Qualified name e que conta , se for igual ele vai atualizar os que sao iguais ao qualified name
 }
