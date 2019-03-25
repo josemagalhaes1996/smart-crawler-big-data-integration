@@ -64,7 +64,7 @@ public class SemanticSimilarityLevenshtein implements Serializable {
 
     public static void main(String args[]) {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("tpcds", "store", conn);
+        Profiler prof = new Profiler("tpcds", "item", conn);
         runSimilarity(conn, prof.getDataSet());
     }
     

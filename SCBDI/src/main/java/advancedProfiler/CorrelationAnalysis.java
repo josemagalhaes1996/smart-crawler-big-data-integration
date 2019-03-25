@@ -11,8 +11,12 @@ import basicProfiler.DataSetProfiler;
 import basicProfiler.Profiler;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.rdd.RDD;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoder;
 import org.apache.spark.sql.Encoders;
@@ -64,26 +68,43 @@ public class CorrelationAnalysis implements Serializable {
     public static void main(String args[]) {
         Connections conn = new Connections();
         Profiler prof = new Profiler("tpcds", "store_sales", conn);
-        runCorrelations(conn, prof.getDataSet());
+
+       
+        ArrayList<String[]> array = new ArrayList<>();
+        array = combinations2(prof.getDataSet().columns(), 2, 0, new String[2], array);
+
+        System.out.println("Numero de Combinacoes : --- " + array.size());
+
+      for(String[] pairs : array){
+        System.out.println("ColunaA: --- " + pairs[0] + "---Outa Chave: " + pairs[1]);
+      
+      
+      }
+        
+
+     
+            
+//            runCorrelations2(conn, prof.getDataSet());
     }
 
     public static void runCorrelations(Connections conn, Dataset<Row> dataset) {
-        String[] columnnames = dataset.columns();
+        Dataset<Row> sample = dataset.sample(false, 0.1).limit(100);
+        String[] columnnames = sample.columns();
         ArrayList<CorrelationAnalysis> correlationList = new ArrayList<>();
         for (String columnA : columnnames) {
             for (String columnB : columnnames) {
                 if (columnA.equals(columnB)) {
                 } else {
                     ColumnProfiler dtype = new ColumnProfiler();
-                    if (dtype.dataTypeColumn(dataset.dtypes(), columnA).equalsIgnoreCase("StringType")
-                            || dtype.dataTypeColumn(dataset.dtypes(), columnA).equalsIgnoreCase("TimestampType")
-                            || dtype.dataTypeColumn(dataset.dtypes(), columnA).equalsIgnoreCase("BooleanType")
-                            || dtype.dataTypeColumn(dataset.dtypes(), columnB).equalsIgnoreCase("TimestampType")
-                            || dtype.dataTypeColumn(dataset.dtypes(), columnB).equalsIgnoreCase("StringType")
-                            || dtype.dataTypeColumn(dataset.dtypes(), columnB).equalsIgnoreCase("BooleanType")) {
+                    if (dtype.dataTypeColumn(sample.dtypes(), columnA).equalsIgnoreCase("StringType")
+                            || dtype.dataTypeColumn(sample.dtypes(), columnA).equalsIgnoreCase("TimestampType")
+                            || dtype.dataTypeColumn(sample.dtypes(), columnA).equalsIgnoreCase("BooleanType")
+                            || dtype.dataTypeColumn(sample.dtypes(), columnB).equalsIgnoreCase("TimestampType")
+                            || dtype.dataTypeColumn(sample.dtypes(), columnB).equalsIgnoreCase("StringType")
+                            || dtype.dataTypeColumn(sample.dtypes(), columnB).equalsIgnoreCase("BooleanType")) {
 
                     } else {
-                        double correlationValue = dataset.stat().corr(columnA, columnB);
+                        double correlationValue = sample.stat().corr(columnA, columnB);
                         CorrelationAnalysis correlationobject = new CorrelationAnalysis(columnA, String.valueOf(correlationValue), columnB);
                         correlationList.add(correlationobject);
                     }
@@ -93,7 +114,54 @@ public class CorrelationAnalysis implements Serializable {
         }
         Encoder<CorrelationAnalysis> correlationEncoder = Encoders.bean(CorrelationAnalysis.class);
         Dataset<CorrelationAnalysis> dataSetCorrelation = conn.getSession().createDataset(Collections.synchronizedList(correlationList), correlationEncoder);
-        dataSetCorrelation.show();
+        dataSetCorrelation.show(20);
 
     }
+
+    public static void runCorrelations2(Connections conn, Dataset<Row> dataset) {
+
+        String[] columnnames = dataset.columns();
+
+        ArrayList<CorrelationAnalysis> correlationList = new ArrayList<>();
+        ArrayList<String[]> array = new ArrayList<>();
+        array = combinations2(dataset.columns(), 2, 0, new String[2], array);
+
+        for (String[] columnPairs : array) {
+
+            ColumnProfiler dtype = new ColumnProfiler();
+            String dtypecolA = dtype.dataTypeColumn(dataset.dtypes(), columnPairs[0]);
+
+            String dtypecolB = dtype.dataTypeColumn(dataset.dtypes(), columnPairs[1]);
+
+            if (dtypecolA.equalsIgnoreCase("StringType") || dtypecolA.equalsIgnoreCase("TimestampType") || dtypecolA.equalsIgnoreCase("BooleanType")
+                    || dtypecolB.equalsIgnoreCase("TimestampType") || dtypecolB.equalsIgnoreCase("StringType") || dtypecolB.equalsIgnoreCase("BooleanType")) {
+
+            } else {
+                double correlationValue = dataset.stat().corr(columnPairs[0], columnPairs[1]);
+                                
+                System.out.println("Column A -----" + columnPairs[0] + " -- COlumnB --- " + columnPairs[1] +  "  CorrelationVALUE:---- " + correlationValue  );
+
+            }
+        }
+
+    }
+
+    public static ArrayList<String[]> combinations2(String[] arr, int len, int startPosition, String[] result, ArrayList<String[]> array) {
+
+        if (len == 0) {
+//            System.out.println(Arrays.toString(result));
+
+            return array;
+        }
+        for (int i = startPosition; i <= arr.length - len; i++) {
+            result[result.length - len] = arr[i];
+
+            array.add(result);
+            combinations2(arr, len - 1, i + 1, result, array);
+
+        }
+
+        return array;
+    }
+
 }

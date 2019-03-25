@@ -75,6 +75,7 @@ public class Profiler implements Serializable {
         Connections conn = new Connections();
         Profiler prof = new Profiler("josedb", "branch_intersect", conn);
 
+        
         runcreateDataSetColumnProfiler(prof, conn.getSession());
         runcreateDataSetProfiler(prof, conn.getSession());
 

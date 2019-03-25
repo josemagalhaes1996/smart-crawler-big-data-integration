@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests;
+package Similarity;
 
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.linalg.Vectors;
@@ -12,9 +12,9 @@ import org.apache.spark.mllib.linalg.Vectors;
  *
  * @author Utilizador
  */
-public class Similarity {
+public class Similarity_Pearson_Hellinger {
 
-    public Similarity() {
+    public Similarity_Pearson_Hellinger() {
     }
 
     //Distancia de Hellinger  entre valores 
@@ -22,7 +22,7 @@ public class Similarity {
 
         Vector dv = Vectors.dense(1.0, 0.0, 3.0);
         Vector dv2 = Vectors.dense(23.0, 2424.0, 4.0);
-        Similarity a = new Similarity();
+        Similarity_Pearson_Hellinger a = new Similarity_Pearson_Hellinger();
      
         System.out.println("É a Distance de Similarity HellingerDistance " + a.hellingerDistance(dv, dv2));
         System.out.println("É a Distance de Similarity pearsonDistance" + a.pearsonDistance(dv, dv2));

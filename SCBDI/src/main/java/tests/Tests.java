@@ -25,6 +25,7 @@ import static org.apache.spark.sql.functions.collect_list;
 import static org.apache.spark.sql.functions.size;
 
 import static org.apache.spark.sql.functions.levenshtein;
+import org.apache.commons.text.similarity.*;
 
 /**
  *
@@ -35,7 +36,9 @@ public class Tests implements Serializable {
     public static void main(String args[]) {
 
         Connections conn = new Connections();
-        Profiler prof = new Profiler("foodmart ", "store", conn);
+        Profiler prof = new Profiler("tpcds", "store_sales", conn);
+       
+        prof.getDataSet().show();
         //  prof.getDataSet().show();
         // prof.getDataSet().printSchema();
         // prof.getDataSet().describe().show();
@@ -86,13 +89,13 @@ public class Tests implements Serializable {
 //        JavaRDD<Vector> javarddresult = mat.columnSimilarities().toRowMatrix().rows().toJavaRDD();
 //
 //        //Fazer For e percorrer string e criar um array de doubles..
-        Dataset<Row> frequencyDataSet = prof.getDataSet().groupBy(col("first_opened_date")).agg(size(collect_list("first_opened_date")).as("count")).select(col("first_opened_date"), col("count")).orderBy(col("count").desc()).limit(10);
-
-        frequencyDataSet.select("first_opened_date").collectAsList().get(0);
-        frequencyDataSet.select("count").collectAsList().get(0);
-        frequencyDataSet.show();
-
-        List<String> data = new ArrayList<String>();
+//        Dataset<Row> frequencyDataSet = prof.getDataSet().groupBy(col("first_opened_date")).agg(size(collect_list("first_opened_date")).as("count")).select(col("first_opened_date"), col("count")).orderBy(col("count").desc()).limit(10);
+//
+//        frequencyDataSet.select("first_opened_date").collectAsList().get(0);
+//        frequencyDataSet.select("count").collectAsList().get(0);
+//        frequencyDataSet.show();
+//
+//        List<String> data = new ArrayList<String>();
 //        data.add(tempo.toString());
 //        data.add(dtypecolumn);
 //        data.add(stringarray.toString());
@@ -100,24 +103,33 @@ public class Tests implements Serializable {
 //        data.add(listdouble.get(1).mkString());
 //        data.add(String.valueOf(mat.columnSimilarities().entries().first().value()));
 //        data.add(sims.get(0).toString());
-//        data.add(doublelist.toString());
-        for(int i = 0 ; i< frequencyDataSet.collectAsList().size();i++){
-        
-        data.add(frequencyDataSet.select("first_opened_date").collectAsList().get(i).mkString());
-        data.add(frequencyDataSet.select("count").collectAsList().get(i).mkString());
-        }
+////        data.add(doublelist.toString());
+//        for(int i = 0 ; i< frequencyDataSet.collectAsList().size();i++){
+//        
+//        data.add(frequencyDataSet.select("first_opened_date").collectAsList().get(i).mkString());
+//        data.add(frequencyDataSet.select("count").collectAsList().get(i).mkString());
+//        }
 
       
-
-        Dataset<Row> df = conn.getSession().createDataset(data, Encoders.STRING()).toDF();
-        df.show();
-// DataFrame
+//
+//        Dataset<Row> df = conn.getSession().createDataset(data, Encoders.STRING()).toDF();
+//        df.show();
+//// DataFrame
 
         //Distance in same table //Essta parte já está retratada em metodo numa classe ( Semantic Similarity9
 //        Dataset<Row> df2 = prof2.getDataSet().withColumn("LevenshteinDistance", levenshtein(col("account_id"), col("account_id")));
 //        df2.show();
+    
+//       JaccardDistance n = new JaccardDistance(); 
+//       
+//       n.apply("teste", "teste44");
+//    
+//       JaccardSimilarity sim = new JaccardSimilarity();
+//       
+//       sim.apply("shop", "store");
     }
 
     
+        
    
 }

@@ -65,7 +65,7 @@ public class SimilarityCosineML {
 
     public static void main(String args[]) {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("tpcds", "store", conn);
+        Profiler prof = new Profiler("tpcds", "item", conn);
         runCosineSimilarity(conn, prof.getDataSet());
     }
 

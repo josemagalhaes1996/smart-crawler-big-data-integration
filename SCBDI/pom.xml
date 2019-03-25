@@ -5,7 +5,6 @@
     <artifactId>SCBDI</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-   
     <build>
         <plugins>
             <plugin>
@@ -20,7 +19,7 @@
         </plugins>
 
     </build>
-
+    
     <dependencies>
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -122,11 +121,7 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>2.28</version>
         </dependency>
-        <dependency>
-            <groupId>edu.uniba.di.lacam.kdde</groupId>
-            <artifactId>ws4j</artifactId>
-            <version>1.0.1</version>
-        </dependency>
+       
         
     </dependencies>
     <repositories>
