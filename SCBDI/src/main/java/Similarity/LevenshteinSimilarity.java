@@ -23,19 +23,19 @@ import static org.apache.spark.sql.functions.levenshtein;
  *
  * @author Utilizador
  */
-public class SemanticSimilarityLevenshtein implements Serializable {
+public class LevenshteinSimilarity implements Serializable {
 
     private String attributeA;
     private String levenshteinDistance;
     private String attributeB;
 
-    public SemanticSimilarityLevenshtein(String attribute, String similarityValue, String attributebdw) {
+    public LevenshteinSimilarity(String attribute, String similarityValue, String attributebdw) {
         this.attributeA = attribute;
         this.levenshteinDistance = similarityValue;
         this.attributeB = attributebdw;
     }
 
-    public SemanticSimilarityLevenshtein() {
+    public LevenshteinSimilarity() {
     }
 
     public String getAttributeA() {
