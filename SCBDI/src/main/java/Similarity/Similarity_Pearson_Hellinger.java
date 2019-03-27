@@ -23,7 +23,7 @@ public class Similarity_Pearson_Hellinger {
         Vector dv = Vectors.dense(1.0, 0.0, 3.0);
         Vector dv2 = Vectors.dense(23.0, 2424.0, 4.0);
         Similarity_Pearson_Hellinger a = new Similarity_Pearson_Hellinger();
-     
+
         System.out.println("É a Distance de Similarity HellingerDistance " + a.hellingerDistance(dv, dv2));
         System.out.println("É a Distance de Similarity pearsonDistance" + a.pearsonDistance(dv, dv2));
 

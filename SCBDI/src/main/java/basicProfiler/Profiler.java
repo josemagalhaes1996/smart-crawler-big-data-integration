@@ -75,7 +75,6 @@ public class Profiler implements Serializable {
         Connections conn = new Connections();
         Profiler prof = new Profiler("josedb", "branch_intersect", conn);
 
-        
         runcreateDataSetColumnProfiler(prof, conn.getSession());
         runcreateDataSetProfiler(prof, conn.getSession());
 
@@ -107,23 +106,22 @@ public class Profiler implements Serializable {
 
     public static void runcreateDataSetProfiler(Profiler prof, SparkSession spark) throws Exception {
         Instant start = Instant.now();
-        AtlasConsumer restconsumer = new AtlasConsumer();   
+        AtlasConsumer restconsumer = new AtlasConsumer();
         Encoder<DataSetProfiler> dataSetEncoder = Encoders.bean(DataSetProfiler.class);
         DataSetProfiler profiler = new DataSetProfiler();
         List<DataSetProfiler> dataSetProfilerList = new ArrayList<>();
         DataSetProfiler dataSetProfiler = profiler.profilerDataSet(prof.getDataSet(), prof.getTable(), prof.getDatabase());
         dataSetProfilerList.add(dataSetProfiler);
         Dataset<DataSetProfiler> dataSetProfilerDS = spark.createDataset(Collections.synchronizedList(dataSetProfilerList), dataSetEncoder);
-       
-        
-         try (FileWriter file = new FileWriter("entity.json")) {
+
+        try (FileWriter file = new FileWriter("entity.json")) {
             file.write(dataSetProfiler.getJsonDataSetProfiler().toString());
             System.out.println("Successfully Copied JSON Object to File...");
             System.out.println("\nJSON Object: " + dataSetProfiler.getJsonDataSetProfiler());
         }
-        
+
         restconsumer.createEntityAtlas(dataSetProfiler.getJsonDataSetProfiler());
-         
+
         JsonControler processEntity = new JsonControler();
         Instant endDate = Instant.now();
 

@@ -43,7 +43,6 @@ public class DataSetProfiler implements Serializable {
         this.jsonDataSetProfiler = jsonDataSetProfiler;
     }
 
-    
     public JSONObject getJsonDataSetProfiler() {
         return jsonDataSetProfiler;
     }
@@ -119,7 +118,7 @@ public class DataSetProfiler implements Serializable {
         this.othersColmuns = othersColmuns;
     }
 
-    public DataSetProfiler profilerDataSet(Dataset<Row> dataSet, String tableName,String database) throws JSONException {
+    public DataSetProfiler profilerDataSet(Dataset<Row> dataSet, String tableName, String database) throws JSONException {
         String tbName = tableName;
         int numColumn = dataSet.columns().length;
         long numObservations = dataSet.count();
@@ -148,8 +147,8 @@ public class DataSetProfiler implements Serializable {
         }
 
         JsonControler jsonClass = new JsonControler();
-        JSONObject jsonEntity= jsonClass.createEntityTableProfiler(database, tableName, numCategoricalColumns, numDataColumns, (int) numObservations, numColumn, numNumericColumns, numOtherColumns,(int)datasetSize);
-     
+        JSONObject jsonEntity = jsonClass.createEntityTableProfiler(database, tableName, numCategoricalColumns, numDataColumns, (int) numObservations, numColumn, numNumericColumns, numOtherColumns, (int) datasetSize);
+
         DataSetProfiler columnnew = new DataSetProfiler(tbName, datasetSize, numColumn, numObservations, numNumericColumns, numCategoricalColumns, numDataColumns, numOtherColumns, jsonEntity);
         return (columnnew);
     }

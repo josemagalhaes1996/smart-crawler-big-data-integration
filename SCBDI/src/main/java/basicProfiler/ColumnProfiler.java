@@ -272,7 +272,7 @@ public final class ColumnProfiler implements Serializable {
         //FrequencyAnalysis - (Package advancedProfiler.FrequencyAnalysis)
         FrequencyAnalysis freqAnalysis = new FrequencyAnalysis();
         Dataset<Row> frequencyValues = freqAnalysis.frequencyValuesAnalysis(dataSet, columnName);
-        
+
         JsonControler jsonAtlas = new JsonControler();
 
         JSONObject jsonEntity = jsonAtlas.createEntityColumnProfiler(columnName, datatypes, database, tableName, comment, minValue, maxValue, recordCounts, uniqueValue, emptyvalues, nullvalues, maxFieldLength, minFieldLength, percentFillRecords, percentUniqueValues, truevaluecount, falsevaluecount, frequencyValues);
@@ -286,7 +286,5 @@ public final class ColumnProfiler implements Serializable {
     public String toString() {
         return "ColumnProfiler{" + "columnName=" + columnName + ", datatypeCol=" + datatypeCol + ", min=" + minValue + ", max=" + maxValue + ", recordCount=" + recordCount + ", uniqueValues=" + uniqueValues + ", emptyStringValues=" + emptyValues + ", nullValues=" + nullValues + ", maxFieldLength=" + maxFieldLength + ", minFieldLength=" + minFieldLength + ", percentFillRecords=" + percentFillRecords + ", percentUniqueValues=" + percentUniqueValues + '}';
     }
-
-    
 
 }

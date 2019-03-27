@@ -19,10 +19,10 @@ public class FrequencyAnalysis {
 
     public FrequencyAnalysis() {
     }
- 
-      public Dataset<Row> frequencyValuesAnalysis(Dataset<Row> dataSet, String attribute) {
+
+    public Dataset<Row> frequencyValuesAnalysis(Dataset<Row> dataSet, String attribute) {
         return dataSet.groupBy(col(attribute)).agg(size(collect_list(attribute))
                 .as("count")).select(col(attribute), col("count")).orderBy(col("count").desc()).limit(10);
     }
-    
+
 }

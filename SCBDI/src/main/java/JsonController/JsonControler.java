@@ -130,7 +130,7 @@ public class JsonControler {
             String idTableName = restConsumer.getIDAtlasTableACTIVE(tableName, database);
             String idTableStatistics = restConsumer.getIDTableStatistics(idTableName);
 
-             jsonfinal = new JSONObject();
+            jsonfinal = new JSONObject();
             jsonfinal.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Reference");
             JSONObject id = new JSONObject();
             id.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
@@ -184,7 +184,7 @@ public class JsonControler {
         } catch (Exception e) {
             e.getMessage();
         }
-            return jsonfinal;
+        return jsonfinal;
     }
 
     /*
@@ -275,77 +275,75 @@ public class JsonControler {
      */
     public JSONObject createEntityTableProfiler(String database, String tablename, int numCategoricalColumns, int numDateColumns, int numObservations,
             int numVariable, int numNumericalColumns, int numOtherTypesColumns, int dataSetSize) throws JSONException {
-          
-            JSONObject jsonfinal = null;
-      
-            AtlasConsumer restConsumer = new AtlasConsumer();
-            String idTableName = restConsumer.getIDAtlasTableACTIVE(tablename, database);
-            String idDB = restConsumer.getDBID(idTableName);
-            ArrayList<String> arrayColumnStats = restConsumer.getColumnStatsID(idTableName);
-            jsonfinal = new JSONObject();
-            jsonfinal.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Reference");
 
-            JSONObject id = new JSONObject();
-            id.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
-            id.put("id", "-2521");
-            id.put("version", 0);
-            id.put("typeName", "TableStatistics");
-            jsonfinal.put("id", id);
+        JSONObject jsonfinal = null;
 
-            jsonfinal.put("typeName", "TableStatistics");
+        AtlasConsumer restConsumer = new AtlasConsumer();
+        String idTableName = restConsumer.getIDAtlasTableACTIVE(tablename, database);
+        String idDB = restConsumer.getDBID(idTableName);
+        ArrayList<String> arrayColumnStats = restConsumer.getColumnStatsID(idTableName);
+        jsonfinal = new JSONObject();
+        jsonfinal.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Reference");
 
-            JSONObject values = new JSONObject();
-            values.put("name", tablename);
-            values.put("owner", "admin");
-            values.put("description", "Profiling table " + tablename + " from " + database + " database");
-            values.put("qualifiedName", "st." + database + "." + tablename);
+        JSONObject id = new JSONObject();
+        id.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
+        id.put("id", "-2521");
+        id.put("version", 0);
+        id.put("typeName", "TableStatistics");
+        jsonfinal.put("id", id);
 
-            JSONObject tableEntity = new JSONObject();
-            tableEntity.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
-            tableEntity.put("id", idTableName);
-            tableEntity.put("version", 0);
-            tableEntity.put("typeName", "hive_table");
-            tableEntity.put("state", "ACTIVE");
-            values.put("table", tableEntity);
-            values.put("dataSetSize", dataSetSize);
+        jsonfinal.put("typeName", "TableStatistics");
 
-            JSONObject dbObject = new JSONObject();
-            dbObject.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
-            dbObject.put("id", idDB);
-            dbObject.put("version", 0);
-            dbObject.put("typeName", "hive_db");
-            dbObject.put("state", "ACTIVE");
-            values.put("db", dbObject);
+        JSONObject values = new JSONObject();
+        values.put("name", tablename);
+        values.put("owner", "admin");
+        values.put("description", "Profiling table " + tablename + " from " + database + " database");
+        values.put("qualifiedName", "st." + database + "." + tablename);
 
-            JSONArray columnsStats = new JSONArray();
-            for (String columnSts : arrayColumnStats) {
-                JSONObject columnStatsEntity = new JSONObject();
-                columnStatsEntity.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
-                columnStatsEntity.put("id", columnSts);
-                columnStatsEntity.put("version", 0);
-                columnStatsEntity.put("typeName", "ColumnStatistics");
-                columnStatsEntity.put("state", "ACTIVE");
-                columnsStats.put(columnStatsEntity);
-            }
-            values.put("columnStatistics", columnsStats); //array
+        JSONObject tableEntity = new JSONObject();
+        tableEntity.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
+        tableEntity.put("id", idTableName);
+        tableEntity.put("version", 0);
+        tableEntity.put("typeName", "hive_table");
+        tableEntity.put("state", "ACTIVE");
+        values.put("table", tableEntity);
+        values.put("dataSetSize", dataSetSize);
 
-            values.put("numCategoricalColumns", numCategoricalColumns);
-            values.put("numDateColumns", numDateColumns);
-            values.put("numObservations", numObservations);
-            values.put("numVariables", numVariable);
-            values.put("numNumericalColumns", numNumericalColumns);
-            values.put("numOtherTypesColumns", numOtherTypesColumns);
+        JSONObject dbObject = new JSONObject();
+        dbObject.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
+        dbObject.put("id", idDB);
+        dbObject.put("version", 0);
+        dbObject.put("typeName", "hive_db");
+        dbObject.put("state", "ACTIVE");
+        values.put("db", dbObject);
 
-            jsonfinal.put("values", values);
-            
-            JSONArray traitNames = new JSONArray();
-            jsonfinal.put("traitNames", traitNames);
-            JSONObject traits = new JSONObject();
-            jsonfinal.put("traits", traits);
+        JSONArray columnsStats = new JSONArray();
+        for (String columnSts : arrayColumnStats) {
+            JSONObject columnStatsEntity = new JSONObject();
+            columnStatsEntity.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
+            columnStatsEntity.put("id", columnSts);
+            columnStatsEntity.put("version", 0);
+            columnStatsEntity.put("typeName", "ColumnStatistics");
+            columnStatsEntity.put("state", "ACTIVE");
+            columnsStats.put(columnStatsEntity);
+        }
+        values.put("columnStatistics", columnsStats); //array
 
+        values.put("numCategoricalColumns", numCategoricalColumns);
+        values.put("numDateColumns", numDateColumns);
+        values.put("numObservations", numObservations);
+        values.put("numVariables", numVariable);
+        values.put("numNumericalColumns", numNumericalColumns);
+        values.put("numOtherTypesColumns", numOtherTypesColumns);
 
-       
-            return jsonfinal;
+        jsonfinal.put("values", values);
+
+        JSONArray traitNames = new JSONArray();
+        jsonfinal.put("traitNames", traitNames);
+        JSONObject traits = new JSONObject();
+        jsonfinal.put("traits", traits);
+
+        return jsonfinal;
     }
 
     public static void main(String[] args) throws IOException, JSONException, Exception {

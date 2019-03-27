@@ -10,7 +10,6 @@ import java.io.Serializable;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
-
 /**
  *
  * @author Utilizador
@@ -21,14 +20,13 @@ public class JoinAbility implements Serializable {
     private String columnToCompare;
     private long numberjoins;
     private float percentJoin;
- 
 
     public JoinAbility(String attributeCompared, String attributeBDW, long numberjoins, float percentJoin) {
         this.columnMain = attributeCompared;
         this.columnToCompare = attributeBDW;
         this.numberjoins = numberjoins;
         this.percentJoin = percentJoin;
-   
+
     }
 
     public JoinAbility() {
@@ -41,8 +39,6 @@ public class JoinAbility implements Serializable {
     public void setColumnMain(String columnMain) {
         this.columnMain = columnMain;
     }
-
- 
 
     public String getAttributecompared() {
         return columnMain;
@@ -81,7 +77,7 @@ public class JoinAbility implements Serializable {
         //FIQUEI aQUI NO MEU CICLO , E PRECISO TERMINAR ISTO !
         Dataset<Row> joined = datasetCompared.join(dataSetBDW, datasetCompared.col(attributeCompared).equalTo(dataSetBDW.col(attributeBDW)));
        //JACARD DISTANCE
-       
+
         //FORMULA (2*JOIN/NUMEROTOTAL DE LINHAS DE AMBOS OS DATASOURCES)
         long numJoin = joined.count();
         float percentjoin = 0;

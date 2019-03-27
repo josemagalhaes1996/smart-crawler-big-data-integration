@@ -10,26 +10,26 @@ package com.hortonworks.hwc;
  * @author Utilizador
  */
 public interface CreateTableBuilder {
-    
- //Silently skip table creation if table name exists
- CreateTableBuilder ifNotExists();
 
- //Add a column with the specific name and Hive type
- //Use more than once to add multiple columns
- CreateTableBuilder column(String name, String type);
+    //Silently skip table creation if table name exists
+    CreateTableBuilder ifNotExists();
 
- //Specific a column as table partition
- //Use more than once to specify multiple partitions
- CreateTableBuilder partition(String name, String type);
+    //Add a column with the specific name and Hive type
+    //Use more than once to add multiple columns
+    CreateTableBuilder column(String name, String type);
 
- //Add a table property
- //Use more than once to add multiple properties
- CreateTableBuilder prop(String key, String value);
+    //Specific a column as table partition
+    //Use more than once to specify multiple partitions
+    CreateTableBuilder partition(String name, String type);
 
- //Make table bucketed, with given number of buckets and bucket columns
- CreateTableBuilder clusterBy(long numBuckets, String ... columns);
+    //Add a table property
+    //Use more than once to add multiple properties
+    CreateTableBuilder prop(String key, String value);
 
- //Creates ORC table in Hive from builder instance
- void create();
+    //Make table bucketed, with given number of buckets and bucket columns
+    CreateTableBuilder clusterBy(long numBuckets, String... columns);
+
+    //Creates ORC table in Hive from builder instance
+    void create();
 
 }

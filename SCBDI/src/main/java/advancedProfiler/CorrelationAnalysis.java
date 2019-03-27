@@ -5,6 +5,7 @@
  */
 package advancedProfiler;
 
+import static advancedProfiler.Combination.recurse;
 import basicProfiler.ColumnProfiler;
 import com.hortonworks.hwc.Connections;
 import basicProfiler.DataSetProfiler;
@@ -69,99 +70,55 @@ public class CorrelationAnalysis implements Serializable {
         Connections conn = new Connections();
         Profiler prof = new Profiler("tpcds", "store_sales", conn);
 
-       
-        ArrayList<String[]> array = new ArrayList<>();
-        array = combinations2(prof.getDataSet().columns(), 2, 0, new String[2], array);
+        List<String> out = new ArrayList<>();
+        runCorrelations(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
 
-        System.out.println("Numero de Combinacoes : --- " + array.size());
-
-      for(String[] pairs : array){
-        System.out.println("ColunaA: --- " + pairs[0] + "---Outa Chave: " + pairs[1]);
-      
-      
-      }
-        
-
-     
-            
 //            runCorrelations2(conn, prof.getDataSet());
     }
 
-    public static void runCorrelations(Connections conn, Dataset<Row> dataset) {
-        Dataset<Row> sample = dataset.sample(false, 0.1).limit(100);
-        String[] columnnames = sample.columns();
-        ArrayList<CorrelationAnalysis> correlationList = new ArrayList<>();
-        for (String columnA : columnnames) {
-            for (String columnB : columnnames) {
-                if (columnA.equals(columnB)) {
-                } else {
-                    ColumnProfiler dtype = new ColumnProfiler();
-                    if (dtype.dataTypeColumn(sample.dtypes(), columnA).equalsIgnoreCase("StringType")
-                            || dtype.dataTypeColumn(sample.dtypes(), columnA).equalsIgnoreCase("TimestampType")
-                            || dtype.dataTypeColumn(sample.dtypes(), columnA).equalsIgnoreCase("BooleanType")
-                            || dtype.dataTypeColumn(sample.dtypes(), columnB).equalsIgnoreCase("TimestampType")
-                            || dtype.dataTypeColumn(sample.dtypes(), columnB).equalsIgnoreCase("StringType")
-                            || dtype.dataTypeColumn(sample.dtypes(), columnB).equalsIgnoreCase("BooleanType")) {
-
-                    } else {
-                        double correlationValue = sample.stat().corr(columnA, columnB);
-                        CorrelationAnalysis correlationobject = new CorrelationAnalysis(columnA, String.valueOf(correlationValue), columnB);
-                        correlationList.add(correlationobject);
-                    }
-                }
-            }
-
-        }
-        Encoder<CorrelationAnalysis> correlationEncoder = Encoders.bean(CorrelationAnalysis.class);
-        Dataset<CorrelationAnalysis> dataSetCorrelation = conn.getSession().createDataset(Collections.synchronizedList(correlationList), correlationEncoder);
-        dataSetCorrelation.show(20);
-
-    }
-
-    public static void runCorrelations2(Connections conn, Dataset<Row> dataset) {
-
-        String[] columnnames = dataset.columns();
-
-        ArrayList<CorrelationAnalysis> correlationList = new ArrayList<>();
-        ArrayList<String[]> array = new ArrayList<>();
-        array = combinations2(dataset.columns(), 2, 0, new String[2], array);
-
-        for (String[] columnPairs : array) {
-
-            ColumnProfiler dtype = new ColumnProfiler();
-            String dtypecolA = dtype.dataTypeColumn(dataset.dtypes(), columnPairs[0]);
-
-            String dtypecolB = dtype.dataTypeColumn(dataset.dtypes(), columnPairs[1]);
-
-            if (dtypecolA.equalsIgnoreCase("StringType") || dtypecolA.equalsIgnoreCase("TimestampType") || dtypecolA.equalsIgnoreCase("BooleanType")
-                    || dtypecolB.equalsIgnoreCase("TimestampType") || dtypecolB.equalsIgnoreCase("StringType") || dtypecolB.equalsIgnoreCase("BooleanType")) {
-
+    public static void runCorrelations(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
+        // base case: if combination size is k, print it
+        if (out.size() == k) {
+            if (out.get(0) == out.get(1)) {
             } else {
-                double correlationValue = dataset.stat().corr(columnPairs[0], columnPairs[1]);
-                                
-                System.out.println("Column A -----" + columnPairs[0] + " -- COlumnB --- " + columnPairs[1] +  "  CorrelationVALUE:---- " + correlationValue  );
+                System.out.println("Process to :" + out.get(0));
+                ArrayList<CorrelationAnalysis> correlationList = new ArrayList<>();
+                ColumnProfiler dtype = new ColumnProfiler();
+                if (dtype.dataTypeColumn(dataset.dtypes(), out.get(0)).equalsIgnoreCase("StringType")
+                        || dtype.dataTypeColumn(dataset.dtypes(), out.get(0)).equalsIgnoreCase("TimestampType")
+                        || dtype.dataTypeColumn(dataset.dtypes(), out.get(0)).equalsIgnoreCase("BooleanType")
+                        || dtype.dataTypeColumn(dataset.dtypes(), out.get(1)).equalsIgnoreCase("TimestampType")
+                        || dtype.dataTypeColumn(dataset.dtypes(), out.get(1)).equalsIgnoreCase("StringType")
+                        || dtype.dataTypeColumn(dataset.dtypes(), out.get(1)).equalsIgnoreCase("BooleanType")) {
 
+                } else {
+                    double correlationValue = dataset.stat().corr(out.get(0), out.get(1));
+                    CorrelationAnalysis correlationobject = new CorrelationAnalysis(out.get(0), String.valueOf(correlationValue), out.get(1));
+                    correlationList.add(correlationobject);
+                    System.out.println("\t" + "AttributeA: " + out.get(0) + " --AtributeB: " + out.get(1) + "--------Value: " + correlationValue);
+                    System.out.println("\n");
+
+                    //SEND INFORMATION TO ATLAS
+                }
+                //Profiler functions             
+            }
+            return;
+        }
+        // start from previous element in the current combination
+        // till last element
+        for (int j = i; j < n; j++) {
+            // add current element A[j] to the solution and recurse with
+            // same index j (as repeated elements are allowed in combinations)
+            out.add(A[j]);
+            runCorrelations(conn, dataset, A, out, k, j, n);
+            // backtrack - remove current element from solution
+            out.remove(out.size() - 1);
+//	    code to handle duplicates - skip adjacent duplicate elements
+            while (j < n - 1 && A[j] == A[j + 1]) {
+                j++;
             }
         }
 
-    }
-
-    public static ArrayList<String[]> combinations2(String[] arr, int len, int startPosition, String[] result, ArrayList<String[]> array) {
-
-        if (len == 0) {
-//            System.out.println(Arrays.toString(result));
-
-            return array;
-        }
-        for (int i = startPosition; i <= arr.length - len; i++) {
-            result[result.length - len] = arr[i];
-
-            array.add(result);
-            combinations2(arr, len - 1, i + 1, result, array);
-
-        }
-
-        return array;
     }
 
 }

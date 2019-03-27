@@ -61,7 +61,6 @@ public class AtlasConsumer {
         return host;
     }
 
-    
     public String getDBID(String idTable) throws JSONException {
         JSONObject jsonColumnStatsIDs = entitiesbyType("hive_table");
         for (int i = 0; i < jsonColumnStatsIDs.getJSONArray("results").length(); i++) {
@@ -244,15 +243,12 @@ public class AtlasConsumer {
 
     }
 
- 
-
     public void createEntityAtlas(JSONObject json) throws Exception {
-           DefaultHttpClient httpclient = new DefaultHttpClient();
-      HttpPost httpost = new HttpPost(host + "/api/atlas/entities");
+        DefaultHttpClient httpclient = new DefaultHttpClient();
+        HttpPost httpost = new HttpPost(host + "/api/atlas/entities");
 
         String authString = name + ":" + password;
         String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
-      
 
         StringEntity se = new StringEntity(json.toString());
         httpost.setEntity(se);
@@ -262,7 +258,7 @@ public class AtlasConsumer {
 
         ResponseHandler responseHandler = new BasicResponseHandler();
         Object response = httpclient.execute(httpost, responseHandler);
-       
+
     }
 
 }

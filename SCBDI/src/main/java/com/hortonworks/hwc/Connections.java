@@ -5,7 +5,6 @@
  */
 package com.hortonworks.hwc;
 
-
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
@@ -16,7 +15,6 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import static org.apache.spark.sql.functions.col;
 import scala.Tuple2;
-
 
 /**
  *
@@ -37,11 +35,10 @@ public class Connections implements Serializable {
                 .enableHiveSupport().getOrCreate();
         this.javasparkContext = JavaSparkContext.fromSparkContext(this.session.sparkContext());
         this.hiveSession = com.hortonworks.spark.sql.hive.llap.HiveWarehouseBuilder.session(this.session).build();
-        
-        
+
     }
-    
- public String dataTypeColumn(Tuple2<String, String>[] dtype, String columnName) {
+
+    public String dataTypeColumn(Tuple2<String, String>[] dtype, String columnName) {
         String dtypecolumn = null;
         for (Tuple2<String, String> tuplearray : dtype) {
             if (tuplearray._1().equalsIgnoreCase(columnName)) {
@@ -51,7 +48,7 @@ public class Connections implements Serializable {
         }
         return (dtypecolumn);
     }
- 
+
     public HiveWarehouseSession getHiveSession() {
         return hiveSession;
     }

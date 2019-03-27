@@ -19,8 +19,50 @@
         </plugins>
 
     </build>
-    
+   <properties>
+        <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <commons.componentid>text</commons.componentid>
+        <commons.module.name>org.apache.commons.text</commons.module.name>
+
+        <commons.release.version>1.6</commons.release.version>
+        <commons.release.desc>(Java 8+)</commons.release.desc>
+
+        <commons.jira.id>TEXT</commons.jira.id>
+        <commons.jira.pid>12318221</commons.jira.pid>
+
+        <commons.site.path>text</commons.site.path>
+        <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
+        <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
+
+        <junit.version>5.3.1</junit.version>
+
+        <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
+        <checkstyle.version>8.13</checkstyle.version>
+
+        <spotbugs.plugin.version>3.1.6</spotbugs.plugin.version>
+
+        <!-- generate report even if there are binary incompatible changes -->
+        <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>false</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
+        <!-- 0.12.0 dies with a NullPointerException -->
+        <commons.japicmp.version>0.13.0</commons.japicmp.version>
+        <japicmp.skip>false</japicmp.skip>
+
+        <!-- Commons Release Plugin -->
+        <commons.bc.version>1.5</commons.bc.version>
+        <commons.rc.version>RC1</commons.rc.version>
+        <commons.release.isDistModule>true</commons.release.isDistModule>
+        <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
+        <commons.releaseManagerName>Rob Tompkins</commons.releaseManagerName>
+        <commons.releaseManagerKey>B6E73D84EA4FCC47166087253FAAD2CD5ECBB314</commons.releaseManagerKey>
+    </properties>
+
     <dependencies>
+      
+    
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.11</artifactId>
@@ -121,8 +163,6 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>2.28</version>
         </dependency>
-       
-        
     </dependencies>
     <repositories>
         <repository>
@@ -144,9 +184,5 @@
             <layout>default</layout>
         </repository>
     </repositories>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+   
 </project>

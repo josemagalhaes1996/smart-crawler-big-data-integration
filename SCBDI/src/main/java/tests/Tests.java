@@ -37,7 +37,7 @@ public class Tests implements Serializable {
 
         Connections conn = new Connections();
         Profiler prof = new Profiler("tpcds", "store_sales", conn);
-       
+
         prof.getDataSet().show();
         //  prof.getDataSet().show();
         // prof.getDataSet().printSchema();
@@ -110,16 +110,13 @@ public class Tests implements Serializable {
 //        data.add(frequencyDataSet.select("count").collectAsList().get(i).mkString());
 //        }
 
-      
 //
 //        Dataset<Row> df = conn.getSession().createDataset(data, Encoders.STRING()).toDF();
 //        df.show();
 //// DataFrame
-
         //Distance in same table //Essta parte já está retratada em metodo numa classe ( Semantic Similarity9
 //        Dataset<Row> df2 = prof2.getDataSet().withColumn("LevenshteinDistance", levenshtein(col("account_id"), col("account_id")));
 //        df2.show();
-    
 //       JaccardDistance n = new JaccardDistance(); 
 //       
 //       n.apply("teste", "teste44");
@@ -129,7 +126,4 @@ public class Tests implements Serializable {
 //       sim.apply("shop", "store");
     }
 
-    
-        
-   
 }

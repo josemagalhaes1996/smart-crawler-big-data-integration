@@ -22,7 +22,7 @@ import org.apache.spark.sql.Row;
  *
  * @author Utilizador
  */
-public class JoinAbilityCompare implements Serializable{
+public class JoinAbilityCompare implements Serializable {
 
     public static void main(String args[]) {
         Connections conn = new Connections();
@@ -44,7 +44,7 @@ public class JoinAbilityCompare implements Serializable{
                 if (dtypeAttributeComprared.equals(dtypeAttributeBDW)) {
                     JoinAbility joinattribute = new JoinAbility();
                     JoinAbility joinedCheckDS = joinattribute.joinabiltymetric(datasetarrived, datasetBDW, columnstocompare, columnBDW);
-                    joinedCheckDS.setPercentJoin((float)(((float)2 * joinedCheckDS.getNumberjoins())/ (2* datasetarrived.count()))*100);
+                    joinedCheckDS.setPercentJoin((float) (((float) 2 * joinedCheckDS.getNumberjoins()) / (2 * datasetarrived.count())) * 100);
                     joinedlist.add(joinedCheckDS);
                 }
             }
