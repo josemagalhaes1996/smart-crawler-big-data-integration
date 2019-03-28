@@ -5,19 +5,15 @@
  */
 package Similarity;
 
-import basicProfiler.ColumnProfiler;
 import com.hortonworks.hwc.Connections;
 import basicProfiler.Profiler;
+import info.debatty.java.stringsimilarity.NormalizedLevenshtein;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Encoder;
-import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import static org.apache.spark.sql.functions.col;
-import static org.apache.spark.sql.functions.levenshtein;
 
 /**
  *
@@ -68,28 +64,18 @@ public class LevenshteinSimilarity implements Serializable {
         List<String> out = new ArrayList<>();
         runLevenshteinSimilarity(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
     }
-
+    
     public static void runLevenshteinSimilarity(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
-
-        if (out.size() == k) {
+ if (out.size() == k) {
             if (out.get(0) == out.get(1)) {
             } else {
-                Dataset<Row> df2 = dataset.withColumn("LevenshteinSimilarity", levenshtein(col(out.get(0)), col(out.get(1))));
-                List<Row> listLevenshteinDistance = df2.select(col("LevenshteinSimilarity")).collectAsList();
-                double similarity = 0;
-                int countValidNumbers = 0;
-                for (Row r : listLevenshteinDistance) {
-                    if (r.mkString().equals("null")) {
-
-                    } else {
-                        similarity = similarity + Double.parseDouble(r.mkString());
-                        countValidNumbers = countValidNumbers + 1;
-                    }
-                }
-                double LevenshteinSimilarity = (double) similarity / countValidNumbers;
-                //  df2.show();
-                System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + LevenshteinSimilarity);
-                System.out.println("\n");
+               NormalizedLevenshtein  sim = new NormalizedLevenshtein ();
+                List<Row> columnA = dataset.select(col(out.get(0))).collectAsList();
+                List<Row> columnB = dataset.select(col(out.get(1))).collectAsList();
+             //      sim.apply(columnA.toString(), columnB.toString());
+                System.out.println(columnA.toString());
+                System.out.println(columnB.toString());
+               System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.similarity(columnA.toString(), columnB.toString()));                
             }
             return;
         }
@@ -108,5 +94,4 @@ public class LevenshteinSimilarity implements Serializable {
             }
         }
     }
-
 }

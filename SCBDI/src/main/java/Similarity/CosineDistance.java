@@ -7,7 +7,6 @@ package Similarity;
 
 import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
-import info.debatty.java.stringsimilarity.Cosine;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.spark.sql.Dataset;
@@ -18,18 +17,19 @@ import static org.apache.spark.sql.functions.col;
  *
  * @author Utilizador
  */
-public class CosineSimilarity {
-        private String attributeA;
-    private String cosineSimilarity;
+public class CosineDistance {
+    
+    private String attributeA;
+    private String cosineDistance;
     private String attributeB;
 
-    public CosineSimilarity(String attribute, String similarityValue, String attributebdw) {
+    public CosineDistance(String attribute, String similarityValue, String attributebdw) {
         this.attributeA = attribute;
-        this.cosineSimilarity = similarityValue;
+        this.cosineDistance = similarityValue;
         this.attributeB = attributebdw;
     }
 
-    public CosineSimilarity() {
+    public CosineDistance() {
     }
 
     public String getAttributeA() {
@@ -40,14 +40,13 @@ public class CosineSimilarity {
         this.attributeA = attributeA;
     }
 
-    public String getCosineSimilarity() {
-        return cosineSimilarity;
+    public String getCosineDistance() {
+        return cosineDistance;
     }
 
-    public void setCosineSimilarity(String cosineSimilarity) {
-        this.cosineSimilarity = cosineSimilarity;
+    public void setCosineDistance(String cosineDistance) {
+        this.cosineDistance = cosineDistance;
     }
-
    
     public String getAttributeB() {
         return attributeB;
@@ -61,7 +60,7 @@ public class CosineSimilarity {
         Connections conn = new Connections();
         Profiler prof = new Profiler("tpcds", "item", conn);
         List<String> out = new ArrayList<>();
-        runCosineSimilarity(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
+        runCosineDistance(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
     }
     
     /**
@@ -70,12 +69,12 @@ public class CosineSimilarity {
      * characters). In this n-dimensional space, the similarity between the two
      * strings is the cosine of their respective vectors.
      * */
-    public static void runCosineSimilarity(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
+    public static void runCosineDistance(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
         if (out.size() == k) {
             if (out.get(0) == out.get(1)) {
             } else {
 
-               Cosine sim = new Cosine(2);
+               org.apache.commons.text.similarity.CosineDistance sim = new org.apache.commons.text.similarity.CosineDistance();
             
                 List<Row> columnA = dataset.select(col(out.get(0))).collectAsList();
                 List<Row> columnB = dataset.select(col(out.get(1))).collectAsList();
@@ -84,7 +83,7 @@ public class CosineSimilarity {
                 System.out.println(columnA.toString());
                 System.out.println(columnB.toString());
 
-               System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.similarity(columnA.toString(), columnB.toString()));
+               System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.apply(columnA.toString(), columnB.toString()));
   
                 
             }
@@ -96,7 +95,7 @@ public class CosineSimilarity {
             // add current element A[j] to the solution and recurse with
             // same index j (as repeated elements are allowed in combinations)
             out.add(A[j]);
-            runCosineSimilarity(conn, dataset, A, out, k, j, n);
+            runCosineDistance(conn, dataset, A, out, k, j, n);
             // backtrack - remove current element from solution
             out.remove(out.size() - 1);
 //	    code to handle duplicates - skip adjacent duplicate elements

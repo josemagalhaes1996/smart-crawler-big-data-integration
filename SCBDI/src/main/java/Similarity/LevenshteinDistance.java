@@ -7,29 +7,30 @@ package Similarity;
 
 import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
-import info.debatty.java.stringsimilarity.Cosine;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import static org.apache.spark.sql.functions.col;
+import static org.apache.spark.sql.functions.levenshtein;
 
 /**
  *
  * @author Utilizador
  */
-public class CosineSimilarity {
-        private String attributeA;
-    private String cosineSimilarity;
+public class LevenshteinDistance {
+    
+  private String attributeA;
+    private String levenshteinDistance;
     private String attributeB;
 
-    public CosineSimilarity(String attribute, String similarityValue, String attributebdw) {
+    public LevenshteinDistance(String attribute, String similarityValue, String attributebdw) {
         this.attributeA = attribute;
-        this.cosineSimilarity = similarityValue;
+        this.levenshteinDistance = similarityValue;
         this.attributeB = attributebdw;
     }
 
-    public CosineSimilarity() {
+    public LevenshteinDistance() {
     }
 
     public String getAttributeA() {
@@ -40,15 +41,14 @@ public class CosineSimilarity {
         this.attributeA = attributeA;
     }
 
-    public String getCosineSimilarity() {
-        return cosineSimilarity;
+    public String getLevenshteinDistance() {
+        return levenshteinDistance;
     }
 
-    public void setCosineSimilarity(String cosineSimilarity) {
-        this.cosineSimilarity = cosineSimilarity;
+    public void setLevenshteinDistance(String levenshteinDistance) {
+        this.levenshteinDistance = levenshteinDistance;
     }
 
-   
     public String getAttributeB() {
         return attributeB;
     }
@@ -61,32 +61,30 @@ public class CosineSimilarity {
         Connections conn = new Connections();
         Profiler prof = new Profiler("tpcds", "item", conn);
         List<String> out = new ArrayList<>();
-        runCosineSimilarity(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
+        runLevenshteinDistance(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
     }
-    
-    /**
-     * Implements Cosine Similarity between strings. The strings are first
-     * transformed in vectors of occurrences of k-shingles (sequences of k
-     * characters). In this n-dimensional space, the similarity between the two
-     * strings is the cosine of their respective vectors.
-     * */
-    public static void runCosineSimilarity(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
+
+    public static void runLevenshteinDistance(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
+
         if (out.size() == k) {
             if (out.get(0) == out.get(1)) {
             } else {
+                Dataset<Row> df2 = dataset.withColumn("LevenshteinSimilarity", levenshtein(col(out.get(0)), col(out.get(1))));
+                List<Row> listLevenshteinDistance = df2.select(col("LevenshteinSimilarity")).collectAsList();
+                double similarity = 0;
+                int countValidNumbers = 0;
+                for (Row r : listLevenshteinDistance) {
+                    if (r.mkString().equals("null")) {
 
-               Cosine sim = new Cosine(2);
-            
-                List<Row> columnA = dataset.select(col(out.get(0))).collectAsList();
-                List<Row> columnB = dataset.select(col(out.get(1))).collectAsList();
-             //      sim.apply(columnA.toString(), columnB.toString());
-
-                System.out.println(columnA.toString());
-                System.out.println(columnB.toString());
-
-               System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.similarity(columnA.toString(), columnB.toString()));
-  
-                
+                    } else {
+                        similarity = similarity + Double.parseDouble(r.mkString());
+                        countValidNumbers = countValidNumbers + 1;
+                    }
+                }
+                double LevenshteinSimilarity = (double) similarity / countValidNumbers;
+                //  df2.show();
+                System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + LevenshteinSimilarity);
+                System.out.println("\n");
             }
             return;
         }
@@ -96,7 +94,7 @@ public class CosineSimilarity {
             // add current element A[j] to the solution and recurse with
             // same index j (as repeated elements are allowed in combinations)
             out.add(A[j]);
-            runCosineSimilarity(conn, dataset, A, out, k, j, n);
+            runLevenshteinDistance(conn, dataset, A, out, k, j, n);
             // backtrack - remove current element from solution
             out.remove(out.size() - 1);
 //	    code to handle duplicates - skip adjacent duplicate elements
@@ -105,4 +103,5 @@ public class CosineSimilarity {
             }
         }
     }
+
 }
