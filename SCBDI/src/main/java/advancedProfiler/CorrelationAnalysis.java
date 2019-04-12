@@ -5,23 +5,18 @@
  */
 package advancedProfiler;
 
-import static advancedProfiler.Combination.recurse;
+import AtlasClient.AtlasConsumer;
+import JsonController.JsonControler;
 import basicProfiler.ColumnProfiler;
 import com.hortonworks.hwc.Connections;
-import basicProfiler.DataSetProfiler;
 import basicProfiler.Profiler;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.rdd.RDD;
 import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Encoder;
-import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -66,17 +61,16 @@ public class CorrelationAnalysis implements Serializable {
         this.correlationValue = correlationValue;
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws JSONException, Exception {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("tpcds", "store_sales", conn);
+        Profiler prof = new Profiler("storesale_er", "income_band", conn);
 
         List<String> out = new ArrayList<>();
-        runCorrelations(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
+        runCorrelations(prof.getTable(), prof.getDatabase(), conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
 
-//            runCorrelations2(conn, prof.getDataSet());
     }
 
-    public static void runCorrelations(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
+    public static void runCorrelations(String table, String database, Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) throws JSONException, Exception {
         // base case: if combination size is k, print it
         if (out.size() == k) {
             if (out.get(0) == out.get(1)) {
@@ -98,7 +92,13 @@ public class CorrelationAnalysis implements Serializable {
                     System.out.println("\t" + "AttributeA: " + out.get(0) + " --AtributeB: " + out.get(1) + "--------Value: " + correlationValue);
                     System.out.println("\n");
 
-                    //SEND INFORMATION TO ATLAS
+//                    //SEND INFORMATION TO ATLAS
+                    AtlasConsumer restconsumer = new AtlasConsumer();
+                    JsonControler jsoncontroler = new JsonControler();
+                    JSONObject columnMain = jsoncontroler.createEntityIntraStatistics(table, database, out.get(0), out.get(1), correlationValue);
+                    JSONObject comlumnToCompare = jsoncontroler.createEntityIntraStatistics(table, database, out.get(1), out.get(0), correlationValue);
+                    restconsumer.createEntityAtlas(columnMain);
+                    restconsumer.createEntityAtlas(comlumnToCompare);
                 }
                 //Profiler functions             
             }
@@ -110,7 +110,7 @@ public class CorrelationAnalysis implements Serializable {
             // add current element A[j] to the solution and recurse with
             // same index j (as repeated elements are allowed in combinations)
             out.add(A[j]);
-            runCorrelations(conn, dataset, A, out, k, j, n);
+            runCorrelations(table, database, conn, dataset, A, out, k, j, n);
             // backtrack - remove current element from solution
             out.remove(out.size() - 1);
 //	    code to handle duplicates - skip adjacent duplicate elements

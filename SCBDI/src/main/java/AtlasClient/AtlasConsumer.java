@@ -5,29 +5,16 @@
  */
 package AtlasClient;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.hortonworks.hwc.Connections;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
 import java.io.FileWriter;
 import java.io.IOException;
 import sun.misc.BASE64Encoder;
-
 import java.util.ArrayList;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.apache.htrace.shaded.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -223,7 +210,6 @@ public class AtlasConsumer {
         );
         System.out.println(response.toString());
         JSONObject obj = new JSONObject(output);
-
         return obj;
 
     }
@@ -237,10 +223,8 @@ public class AtlasConsumer {
         Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + authStringEnc);
         Response response = invocationBuilder.get();
         String output = response.readEntity(String.class);
-        System.out.println(response.toString());
         JSONObject obj = new JSONObject(output);
         return obj;
-
     }
 
     public void createEntityAtlas(JSONObject json) throws Exception {

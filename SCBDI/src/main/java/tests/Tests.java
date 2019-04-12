@@ -5,6 +5,7 @@
  */
 package tests;
 
+import basicProfiler.ColumnProfiler;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,9 @@ import org.apache.spark.sql.Row;
 import com.hortonworks.hwc.Connections;
 import basicProfiler.Profiler;
 import java.io.Serializable;
+import java.util.Collections;
+import matcherAbility.JoinAbility;
+import static matcherAbility.JoinAbilityCompare.runJoinAbility;
 import org.apache.spark.api.java.JavaDoubleRDD;
 import org.apache.spark.api.java.JavaRDD;
 import scala.Tuple2;
@@ -26,6 +30,9 @@ import static org.apache.spark.sql.functions.size;
 
 import static org.apache.spark.sql.functions.levenshtein;
 import org.apache.commons.text.similarity.*;
+import org.apache.spark.sql.Encoder;
+import org.spark_project.guava.collect.Lists;
+import scala.collection.Seq;
 
 /**
  *
@@ -35,10 +42,10 @@ public class Tests implements Serializable {
 
     public static void main(String args[]) {
 
-        Connections conn = new Connections();
-        Profiler prof = new Profiler("tpcds", "store_sales", conn);
-
-        prof.getDataSet().show();
+//        Connections conn = new Connections();
+//        Profiler prof = new Profiler("tpcds", "store_sales", conn);
+//
+//        prof.getDataSet().show();
         //  prof.getDataSet().show();
         // prof.getDataSet().printSchema();
         // prof.getDataSet().describe().show();
@@ -109,7 +116,6 @@ public class Tests implements Serializable {
 //        data.add(frequencyDataSet.select("first_opened_date").collectAsList().get(i).mkString());
 //        data.add(frequencyDataSet.select("count").collectAsList().get(i).mkString());
 //        }
-
 //
 //        Dataset<Row> df = conn.getSession().createDataset(data, Encoders.STRING()).toDF();
 //        df.show();
@@ -124,6 +130,29 @@ public class Tests implements Serializable {
 //       JaccardSimilarity sim = new JaccardSimilarity();
 //       
 //       sim.apply("shop", "store");
+        Connections conn = new Connections();
+
+        Profiler prof = new Profiler("tpcds", "customer", conn); //THIS tABLE is a TABLE that arrives to BDW
+        Profiler prof2 = new Profiler("tpcds", "customer_address", conn);
+        runSim(conn, prof2.getDataSet(), prof.getDataSet());
+
+    }
+
+    public static void runSim(Connections conn, Dataset<Row> datasetarrived, Dataset<Row> datasetBDW) {
+        
+        String[] columnstoDrop = datasetarrived.columns();
+        
+        
+        
+        
+        
+        
+        Dataset<Row> joined = datasetBDW.join(datasetarrived, datasetBDW.col("c_current_addr_sk").equalTo(datasetarrived.col("ca_address_sk"))).drop(datasetBDW.col("c_current_addr_sk")).drop(datasetarrived.col("ca_address_sk"));
+                    
+        
+        
+                    joined.show();;
+   
     }
 
 }

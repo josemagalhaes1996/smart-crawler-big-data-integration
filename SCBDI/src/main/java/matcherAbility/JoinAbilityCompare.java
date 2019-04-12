@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package matcher;
+package matcherAbility;
 
 import basicProfiler.ColumnProfiler;
 import com.hortonworks.hwc.Connections;
@@ -31,6 +31,7 @@ public class JoinAbilityCompare implements Serializable {
         runJoinAbility(conn, prof.getDataSet(), prof2.getDataSet());
     }
 
+    
     public static void runJoinAbility(Connections conn, Dataset<Row> datasetarrived, Dataset<Row> datasetBDW) {
         String[] columnnames = datasetarrived.columns();
         List<JoinAbility> joinedlist = new ArrayList<>();

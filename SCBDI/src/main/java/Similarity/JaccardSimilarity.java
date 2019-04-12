@@ -71,14 +71,8 @@ public class JaccardSimilarity {
                 org.apache.commons.text.similarity.JaccardSimilarity sim = new org.apache.commons.text.similarity.JaccardSimilarity();
                 List<Row> columnA = dataset.select(col(out.get(0))).collectAsList();
                 List<Row> columnB = dataset.select(col(out.get(1))).collectAsList();
-             //      sim.apply(columnA.toString(), columnB.toString());
-
-                System.out.println(columnA.toString());
-                System.out.println(columnB.toString());
-
+                //      sim.apply(columnA.toString(), columnB.toString());s
                 System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.apply(columnA.toString(), columnB.toString()));
-  
-                
             }
             return;
         }

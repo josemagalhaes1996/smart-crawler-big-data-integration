@@ -19,7 +19,8 @@ import static org.apache.spark.sql.functions.col;
  * @author Utilizador
  */
 public class CosineSimilarity {
-        private String attributeA;
+
+    private String attributeA;
     private String cosineSimilarity;
     private String attributeB;
 
@@ -48,7 +49,6 @@ public class CosineSimilarity {
         this.cosineSimilarity = cosineSimilarity;
     }
 
-   
     public String getAttributeB() {
         return attributeB;
     }
@@ -63,30 +63,26 @@ public class CosineSimilarity {
         List<String> out = new ArrayList<>();
         runCosineSimilarity(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
     }
-    
+
     /**
      * Implements Cosine Similarity between strings. The strings are first
      * transformed in vectors of occurrences of k-shingles (sequences of k
      * characters). In this n-dimensional space, the similarity between the two
      * strings is the cosine of their respective vectors.
-     * */
+     *
+     */
     public static void runCosineSimilarity(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
         if (out.size() == k) {
             if (out.get(0) == out.get(1)) {
             } else {
-
-               Cosine sim = new Cosine(2);
-            
+                Cosine sim = new Cosine(2);
                 List<Row> columnA = dataset.select(col(out.get(0))).collectAsList();
                 List<Row> columnB = dataset.select(col(out.get(1))).collectAsList();
-             //      sim.apply(columnA.toString(), columnB.toString());
-
+                //      sim.apply(columnA.toString(), columnB.toString());
                 System.out.println(columnA.toString());
                 System.out.println(columnB.toString());
+                System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.similarity(columnA.toString(), columnB.toString()));
 
-               System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.similarity(columnA.toString(), columnB.toString()));
-  
-                
             }
             return;
         }
