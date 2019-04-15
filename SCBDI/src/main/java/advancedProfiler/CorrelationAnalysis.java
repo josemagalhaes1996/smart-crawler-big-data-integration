@@ -7,13 +7,23 @@ package advancedProfiler;
 
 import AtlasClient.AtlasConsumer;
 import JsonController.JsonControler;
+import static advancedProfiler.Combination.recurse;
 import basicProfiler.ColumnProfiler;
 import com.hortonworks.hwc.Connections;
+import basicProfiler.DataSetProfiler;
 import basicProfiler.Profiler;
+import java.io.FileWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.rdd.RDD;
 import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Encoder;
+import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,6 +107,7 @@ public class CorrelationAnalysis implements Serializable {
                     JsonControler jsoncontroler = new JsonControler();
                     JSONObject columnMain = jsoncontroler.createEntityIntraStatistics(table, database, out.get(0), out.get(1), correlationValue);
                     JSONObject comlumnToCompare = jsoncontroler.createEntityIntraStatistics(table, database, out.get(1), out.get(0), correlationValue);
+
                     restconsumer.createEntityAtlas(columnMain);
                     restconsumer.createEntityAtlas(comlumnToCompare);
                 }
