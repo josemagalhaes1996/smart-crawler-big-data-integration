@@ -183,6 +183,11 @@
             <version>1.6.1.2.4.2.12-1</version>
             <type>jar</type>
         </dependency>
+        <dependency> 
+            <groupId>org.wisdom-framework</groupId> 
+            <artifactId>wisdom-monitor</artifactId> 
+            <version>0.9.1</version> 
+        </dependency>
     </dependencies>
     <repositories>
         <repository>

@@ -30,7 +30,11 @@ public class SimilarityAnalysis {
         Profiler prof = new Profiler("storesale_er", "income_band", conn);
         Profiler prof2 = new Profiler("storesale_er", "household_demographics", conn);
         List<String> out = new ArrayList<>();
-        runSimilarityAnalysis(conn, prof.getDataSet(), prof2.getDataSet(), prof.getDataSet().columns(), out, 1, 0, prof.getDataSet().columns().length);
+        //  runSimilarityAnalysis(conn, prof.getDataSet(), prof2.getDataSet(), prof.getDataSet().columns(), out, 1, 0, prof.getDataSet().columns().length);
+
+        Profiler prof3 = new Profiler("storesale_st", "household_demographics", conn);
+        runSimilarityIntraColumn(conn, prof3.getDataSet(), prof3.getDataSet().columns(), out, 2, 0, prof3.getDataSet().columns().length);
+
     }
 
     public static void runSimilarityAnalysis(Connections conn, Dataset<Row> datasetMain, Dataset<Row> datasetToCompare, String[] A, List<String> out, int k, int i, int n) {
@@ -44,7 +48,7 @@ public class SimilarityAnalysis {
                 org.apache.commons.text.similarity.JaccardSimilarity jaccardSim = new org.apache.commons.text.similarity.JaccardSimilarity();
                 JaroWinkler jaroWinklerSimilarity = new JaroWinkler();
                 NormalizedLevenshtein levenshteinSimilarity = new NormalizedLevenshtein();
-                
+
                 List<Row> columnA = datasetMain.select(col(out.get(0))).collectAsList();
                 List<Row> columnB = datasetToCompare.select(col(column)).collectAsList();
                 System.out.println("\t" + "---- SimilarityCosine" + "\t" + "ColumnToCompare: " + column + "---Value: " + cosineSim.similarity(columnA.toString(), columnB.toString()));
@@ -63,6 +67,43 @@ public class SimilarityAnalysis {
             // same index j (as repeated elements are allowed in combinations)
             out.add(A[j]);
             runSimilarityAnalysis(conn, datasetMain, datasetToCompare, A, out, k, j, n);
+            // backtrack - remove current element from solution
+            out.remove(out.size() - 1);
+//	    code to handle duplicates - skip adjacent duplicate elements
+            while (j < n - 1 && A[j] == A[j + 1]) {
+                j++;
+            }
+        }
+    }
+
+    public static void runSimilarityIntraColumn(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
+        if (out.size() == k) {
+            if (out.get(0) == out.get(1)) {
+            } else {
+                Cosine cosineSim = new Cosine(2);
+                org.apache.commons.text.similarity.JaccardSimilarity jaccardSim = new org.apache.commons.text.similarity.JaccardSimilarity();
+                JaroWinkler jaroWinklerSimilarity = new JaroWinkler();
+                NormalizedLevenshtein levenshteinSimilarity = new NormalizedLevenshtein();
+
+                List<Row> columnA = dataset.select(col(out.get(0))).collectAsList();
+                List<Row> columnB = dataset.select(col(out.get(1))).collectAsList();
+                //      sim.apply(columnA.toString(), columnB.toString());
+                System.out.println("\t" + "---- SimilarityCosine" + "\t" + "----ColumnMain: " + out.get(0) + " ColumnToCompare: " + out.get(1) + "---Value: " + cosineSim.similarity(columnA.toString(), columnB.toString()));
+                System.out.println("\t" + "---- JaccardSimilarity" + "\t" + "----ColumnMain: " + out.get(0) + " ColumnToCompare: " + out.get(1) + "---Value: " + jaccardSim.apply(columnA.toString(), columnB.toString()));
+                System.out.println("\t" + "---- JaroWinkler" + "\t" + "----ColumnMain: " + out.get(0) + " ColumnToCompare: " + out.get(1) + "---Value: " + jaroWinklerSimilarity.similarity(columnA.toString(), columnB.toString()));
+                System.out.println("\t" + "---- NormalizedLevenshtein" + "----ColumnMain: " + out.get(0) + " ColumnToCompare: " + out.get(1) + "---Value: " + levenshteinSimilarity.similarity(columnA.toString(), columnB.toString()));
+                System.out.println("\n");
+
+            }
+            return;
+        }
+        // start from previous element in the current combination
+        // till last element
+        for (int j = i; j < n; j++) {
+            // add current element A[j] to the solution and recurse with
+            // same index j (as repeated elements are allowed in combinations)
+            out.add(A[j]);
+            runSimilarityIntraColumn(conn, dataset, A, out, k, j, n);
             // backtrack - remove current element from solution
             out.remove(out.size() - 1);
 //	    code to handle duplicates - skip adjacent duplicate elements
