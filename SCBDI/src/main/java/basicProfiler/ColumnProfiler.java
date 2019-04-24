@@ -279,9 +279,9 @@ public final class ColumnProfiler implements Serializable {
 
         ColumnProfiler columnnew = new ColumnProfiler(columnName, recordCounts, uniqueValue, emptyvalues, nullvalues, minValue, maxValue, maxFieldLength, minFieldLength, datatypes, truevaluecount, falsevaluecount, jsonEntity);
         return (columnnew);
-
     }
 
+    
     @Override
     public String toString() {
         return "ColumnProfiler{" + "columnName=" + columnName + ", datatypeCol=" + datatypeCol + ", min=" + minValue + ", max=" + maxValue + ", recordCount=" + recordCount + ", uniqueValues=" + uniqueValues + ", emptyStringValues=" + emptyValues + ", nullValues=" + nullValues + ", maxFieldLength=" + maxFieldLength + ", minFieldLength=" + minFieldLength + ", percentFillRecords=" + percentFillRecords + ", percentUniqueValues=" + percentUniqueValues + '}';
