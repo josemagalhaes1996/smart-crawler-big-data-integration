@@ -24,5 +24,5 @@ public class FrequencyAnalysis {
         return dataSet.groupBy(col(attribute)).agg(size(collect_list(attribute))
                 .as("count")).select(col(attribute), col("count")).orderBy(col("count").desc()).limit(10);
     }
-
+    
 }
