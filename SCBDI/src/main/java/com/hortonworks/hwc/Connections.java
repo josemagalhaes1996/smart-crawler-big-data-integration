@@ -30,7 +30,7 @@ public class Connections implements Serializable {
 
     public Connections() {
 
-        this.conf = new SparkConf().setAppName("ProfilerApp").setMaster("master").set("spark.driver.allowMultipleContexts", "true");
+        this.conf = new SparkConf().setAppName("ProfilerApp").setMaster("master").set("spark.driver.allowMultipleContexts", "true").set("spark.debug.maxToStringFields", "10000");
         this.session = SparkSession.builder().appName("ProfilerApp")
                 .enableHiveSupport().getOrCreate();
         this.javasparkContext = JavaSparkContext.fromSparkContext(this.session.sparkContext());

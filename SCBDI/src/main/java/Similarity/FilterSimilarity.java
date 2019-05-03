@@ -29,13 +29,12 @@ public class FilterSimilarity {
         Dataset<Row> dataset = conn.getSession().read().format("csv").option("header", "true").option("delimiter", delimiter).option("inferSchema", "true").load(path);
         filterPairs(dataset, prof.getDataSet());
         
-
-    }
-
+    }    
+    
+    
     //Fuzzy Score entre clunas  
     //
     public static void filterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW) {
-        
         String[] columnsNewSource = newSource.columns();
         String[] columnsBDW = tableBDW.columns();
         ColumnProfiler cp = new ColumnProfiler();
@@ -43,7 +42,7 @@ public class FilterSimilarity {
         org.apache.commons.text.similarity.JaccardSimilarity jaccardSim = new org.apache.commons.text.similarity.JaccardSimilarity();
         JaroWinkler jaroWinklerSimilarity = new JaroWinkler();
         NormalizedLevenshtein levenshteinSimilarity = new NormalizedLevenshtein();
-
+        
         for (String columnNewSource : columnsNewSource) {
             System.out.println("ColumnMain: " + columnNewSource);
             for (String columnBDW : columnsBDW) {
