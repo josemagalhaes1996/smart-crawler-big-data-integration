@@ -8,12 +8,18 @@ package advancedProfiler;
 import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.ListIterator;
+import org.apache.spark.api.java.function.ForeachFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import static org.apache.spark.sql.functions.col;
 import static org.apache.spark.sql.functions.collect_list;
 import static org.apache.spark.sql.functions.size;
+import scala.collection.mutable.HashTable;
 
 /**
  *
@@ -25,41 +31,86 @@ public class FrequencyAnalysis {
 
     }
 
-//    public static void main(String args[]) {
-//        Instant start = Instant.now();
-//        Hashtable<String, String> hashtable = new Hashtable<>();
-//        Hashtable<String, String> hashfinal = new Hashtable<>();
-//        Connections conn = new Connections();
-//        Profiler prof = new Profiler("storesale_st", "customer", conn); //New Source
-//        Profiler prof2 = new Profiler("storesale_st", "customer_address", conn); // BDW
-//        for (int i = 0; i < prof.getDataSet().select("c_current_addr_sk").collectAsList().size(); i++) {
-//            hashtable.put(prof.getDataSet().select("c_current_addr_sk").collectAsList().get(i).mkString(), "");
-//        }
-//        System.out.println("Feito primeira conversao para hash");
-//        for (int i = 0; i < prof2.getDataSet().select("ca_address_sk").collectAsList().size(); i++) {
-//            if (hashtable.containsKey(prof2.getDataSet().select("ca_address_sk").collectAsList().get(i).mkString())) {
-//                hashfinal.put(prof2.getDataSet().select("ca_address_sk").collectAsList().get(i).mkString(), "");
-//            }
-//        }
-//        System.out.println("Tamanho hasfinal: " + hashfinal.size());
-//        long intersection = (long) (hashfinal.size() / prof2.getDataSet().count());
-//        System.out.println("Intersecção: " + intersection);
-//        Instant endDate = Instant.now();
-//    }
+    
     public static void main(String args[]) {
+        Instant start = Instant.now();
         Connections conn = new Connections();
-        Profiler prof = new Profiler("storesale_st", "store_sales", conn);
+        Profiler prof = new Profiler("storesale_st", "customer_address", conn); //New Source
+        Profiler prof2 = new Profiler("storesale_st", "customer", conn); // BDW        
+
         FrequencyAnalysis freqAnalysis = new FrequencyAnalysis();
-        Dataset<Row> frequencyValues = freqAnalysis.frequencyValuesAnalysisWOLim(prof.getDataSet(), "ss_customer_sk");
 
-        Hashtable<String, Integer> hashtable = new Hashtable<>();
+        String[] columnsbdw = prof2.getDataSet().columns();
+        String[] columnsNS = prof.getDataSet().columns();
 
-        
-         for (int i = 0; i < frequencyValues.collectAsList().size(); i++) {
-                hashtable.put(frequencyValues.select("ss_customer_sk").collectAsList().get(i).mkString(),Integer.parseInt(frequencyValues.select("count").collectAsList().get(i).mkString()));
+        for (int i = 0; i < columnsbdw.length; i++) {
+            for (int j = 0; j < columnsNS.length; j++) {
+
+                Hashtable<String, Integer> hashtable = new Hashtable<>();
+                Hashtable<String, Integer> hashfinal = new Hashtable<>();
+
+                Dataset<Row> frequencyValues = freqAnalysis.frequencyValuesAnalysisWOLim(prof.getDataSet(), columnsNS[j]);
+                Dataset<Row> frequencyValuesBDW = freqAnalysis.frequencyValuesAnalysisWOLim(prof2.getDataSet(), columnsbdw[i]);
+
+                List<Row> rowsKey = frequencyValuesBDW.select(columnsbdw[i]).collectAsList();
+                List<Row> rowVal = frequencyValuesBDW.select("count").collectAsList();
+                ListIterator<Row> it = rowsKey.listIterator();
+                ListIterator<Row> itVal = rowsKey.listIterator();
+
+                while (it.hasNext() && itVal.hasNext()) {
+                    try {
+                        Row recordKey = it.next();
+                        Row recordVal = itVal.next();
+
+                        hashtable.put(recordKey.mkString(), Integer.parseInt(recordVal.mkString()));
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
+
+                List<Row> rowsNSKey = frequencyValues.select(columnsNS[j]).collectAsList();
+                List<Row> rowNSVal = frequencyValues.select("count").collectAsList();
+
+                ListIterator<Row> itNS = rowsNSKey.listIterator();
+                ListIterator<Row> itNSVal = rowsKey.listIterator();
+
+                while (itNS.hasNext() && itNSVal.hasNext()) {
+                    try {
+                        Row record = itNS.next();
+                        Row recordVal = itNSVal.next();
+
+                        if (hashtable.containsKey(record.mkString())) {
+
+                            int hash = hashtable.get(record.mkString()); //Tem X Valores 
+
+                            hashfinal.put(record.mkString(), Integer.parseInt(recordVal.mkString()) * hash);
+                        }
+
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
+
+                
+                
+                int sum = 0;
+                for (int f : hashfinal.values()) {
+                    sum += f;
+                }
+                
+                
+                System.out.println("Atributo Main : " + columnsbdw[i] + " ");
+                System.out.println("\t" + "Attribute to Compare " + columnsNS[j]);
+                System.out.println("\t" + "Tamanho hasfinal: " + hashfinal.size());
+                System.out.println("\t" + "Soma total de linhas AxB: " + sum);
+                long intersection = (((long) hashfinal.size() * 100) / ((long) frequencyValues.count()));
+                System.out.println("\t" + "Intersection: " + intersection);
+
             }
-        
-         frequencyValues.show();
+
+        }
+        Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
+        System.out.println(end);
 
     }
 
