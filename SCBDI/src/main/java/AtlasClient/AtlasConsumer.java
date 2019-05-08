@@ -48,6 +48,7 @@ public class AtlasConsumer {
         return host;
     }
 
+    
     public String getDBID(String idTable) throws JSONException {
         JSONObject jsonColumnStatsIDs = entitiesbyType("hive_table");
         for (int i = 0; i < jsonColumnStatsIDs.getJSONArray("results").length(); i++) {
@@ -121,6 +122,7 @@ public class AtlasConsumer {
             ex.getMessage();
         }
     }
+    
 
     public String getIDTableStatistics(String idTable) throws JSONException {
         JSONObject jsonTable = entitiesbyType("TableStatistics");
