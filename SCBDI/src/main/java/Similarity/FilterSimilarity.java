@@ -28,10 +28,46 @@ public class FilterSimilarity {
         String delimiter = ";";
         Dataset<Row> dataset = conn.getSession().read().format("csv").option("header", "true").option("delimiter", delimiter).option("inferSchema", "true").load(path);
         filterPairs(dataset, prof.getDataSet());
-        
-    }    
-    
-    
+
+    }
+
+    public static void firstFilterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW) {
+        String[] columnsNewSource = newSource.columns();
+        String[] columnsBDW = tableBDW.columns();
+        Cosine cosineSim = new Cosine(2);
+        org.apache.commons.text.similarity.JaccardSimilarity jaccardSim = new org.apache.commons.text.similarity.JaccardSimilarity();
+        JaroWinkler jaroWinklerSimilarity = new JaroWinkler();
+        NormalizedLevenshtein levenshteinSimilarity = new NormalizedLevenshtein();
+
+        for (String columnNewSource : columnsNewSource) {
+            System.out.println("ColumnMain: " + columnNewSource);
+            for (String columnBDW : columnsBDW) {
+                double cosinesim = cosineSim.similarity(columnNewSource, columnBDW);
+                double jaccardsim = jaccardSim.apply(columnNewSource, columnBDW);
+                double jarwinklersim = jaroWinklerSimilarity.similarity(columnNewSource, columnBDW);
+                double levenshteinSim = levenshteinSimilarity.similarity(columnNewSource, columnBDW);
+                double mean = (cosinesim + jaccardsim + jarwinklersim + levenshteinSim) / 4;
+                
+                
+                
+                System.out.println("Column " + columnNewSource + " same data type than " + columnBDW);
+                System.out.println("\t" + "---- SimilarityCosine" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + cosinesim);
+                System.out.println("\t" + "---- JaccardSimilarity" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + jaccardsim);
+                System.out.println("\t" + "---- JaroWinkler" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + jarwinklersim);
+                System.out.println("\t" + "---- NormalizedLevenshtein" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + levenshteinSim);
+                System.out.println("Mean: " + mean);
+                System.out.println("\n");
+                
+                
+                System.out.println("---------------------------------WORDNET-------------------------------------------");
+              
+            
+            }
+
+        }
+
+    }
+
     //Fuzzy Score entre clunas  
     //
     public static void filterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW) {
@@ -42,7 +78,7 @@ public class FilterSimilarity {
         org.apache.commons.text.similarity.JaccardSimilarity jaccardSim = new org.apache.commons.text.similarity.JaccardSimilarity();
         JaroWinkler jaroWinklerSimilarity = new JaroWinkler();
         NormalizedLevenshtein levenshteinSimilarity = new NormalizedLevenshtein();
-        
+
         for (String columnNewSource : columnsNewSource) {
             System.out.println("ColumnMain: " + columnNewSource);
             for (String columnBDW : columnsBDW) {
@@ -51,13 +87,13 @@ public class FilterSimilarity {
                     double jaccardsim = jaccardSim.apply(columnNewSource, columnBDW);
                     double jarwinklersim = jaroWinklerSimilarity.similarity(columnNewSource, columnBDW);
                     double levenshteinSim = levenshteinSimilarity.similarity(columnNewSource, columnBDW);
-                    double mean =  (cosinesim + jaccardsim + jarwinklersim + levenshteinSim) / 4;
+                    double mean = (cosinesim + jaccardsim + jarwinklersim + levenshteinSim) / 4;
                     System.out.println("Column " + columnNewSource + " same data type than " + columnBDW);
-                    System.out.println("\t" + "---- SimilarityCosine" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + cosinesim );
-                    System.out.println("\t" + "---- JaccardSimilarity" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + jaccardsim );
-                    System.out.println("\t" + "---- JaroWinkler" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " +jarwinklersim );
+                    System.out.println("\t" + "---- SimilarityCosine" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + cosinesim);
+                    System.out.println("\t" + "---- JaccardSimilarity" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + jaccardsim);
+                    System.out.println("\t" + "---- JaroWinkler" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + jarwinklersim);
                     System.out.println("\t" + "---- NormalizedLevenshtein" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + levenshteinSim);
-                    System.out.println("Mean: "  + mean);
+                    System.out.println("Mean: " + mean);
                     System.out.println("\n");
 
                 }

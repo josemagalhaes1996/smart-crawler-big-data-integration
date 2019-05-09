@@ -63,12 +63,15 @@ public class CosineDistance {
         runCosineDistance(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
     }
     
+    
     /**
      * Implements Cosine Similarity between strings. The strings are first
      * transformed in vectors of occurrences of k-shingles (sequences of k
      * characters). In this n-dimensional space, the similarity between the two
      * strings is the cosine of their respective vectors.
      * */
+    
+    
     public static void runCosineDistance(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
         if (out.size() == k) {
             if (out.get(0) == out.get(1)) {
@@ -89,6 +92,7 @@ public class CosineDistance {
             }
             return;
         }
+        
         // start from previous element in the current combination
         // till last element
         for (int j = i; j < n; j++) {
