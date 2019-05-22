@@ -48,7 +48,7 @@ public class SimilarityAnalysis {
                 org.apache.commons.text.similarity.JaccardSimilarity jaccardSim = new org.apache.commons.text.similarity.JaccardSimilarity();
                 JaroWinkler jaroWinklerSimilarity = new JaroWinkler();
                 NormalizedLevenshtein levenshteinSimilarity = new NormalizedLevenshtein();
-
+                
                 List<Row> columnA = datasetMain.select(col(out.get(0))).collectAsList();
                 List<Row> columnB = datasetToCompare.select(col(column)).collectAsList();
                 System.out.println("\t" + "---- SimilarityCosine" + "\t" + "ColumnToCompare: " + column + "---Value: " + cosineSim.similarity(columnA.toString(), columnB.toString()));
@@ -57,7 +57,7 @@ public class SimilarityAnalysis {
                 System.out.println("\t" + "---- NormalizedLevenshtein" + "\t" + "ColumnToCompare: " + column + "---Value: " + levenshteinSimilarity.similarity(columnA.toString(), columnB.toString()));
                 System.out.println("\n");
             }
-
+            
             return;
         }
         // start from previous element in the current combination
