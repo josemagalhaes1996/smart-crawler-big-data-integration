@@ -262,8 +262,7 @@ public class JsonControler {
      Database - database related to Table 
      StartDate - Json read as String but the format is Date . Date when the process started
      EndDate - Date when the process was finished; 
-     OutputCols - All columns are related with the profiler processes ( 
-            
+     OutputCols - All columns are related with the profiler processes (             
      */
     public JSONObject createEntityTableProfiler(String database, String tablename, int numCategoricalColumns, int numDateColumns, int numObservations,
             int numVariable, int numNumericalColumns, int numOtherTypesColumns, int dataSetSize) throws JSONException {

@@ -14,9 +14,9 @@ import java.util.List;
 public class Match {
     private Token newColumn; 
     private Token columnBDW;
-    private double score;
+    private Score score;
 
-    public Match(Token newColumn, Token columnBDW, double score) {
+    public Match(Token newColumn, Token columnBDW, Score score) {
         this.newColumn = newColumn;
         this.columnBDW = columnBDW;
         this.score = score;
@@ -41,11 +41,11 @@ public class Match {
         this.columnBDW = columnBDW;
     }
 
-    public double getScore() {
+    public Score getScore() {
         return score;
     }
 
-    public void setScore(double score) {
+    public void setScore(Score score) {
         this.score = score;
     }
     

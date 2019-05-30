@@ -5,6 +5,9 @@
  */
 package Similarity;
 
+import Domain.Match;
+import Domain.Score;
+import Domain.Token;
 import basicProfiler.ColumnProfiler;
 import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
@@ -28,31 +31,39 @@ public class FilterSimilarity {
         String delimiter = ";";
         String header = "true";
         Dataset<Row> dataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
-        filterPairs(dataset, prof.getDataSet());        
+        filterPairs(dataset, prof.getDataSet());
     }
 
     public static void firstFilterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW) {
-        
+
         String[] columnsNewSource = newSource.columns();
         String[] columnsBDW = tableBDW.columns();
-      
+
         Cosine cosineSim = new Cosine(2);
         org.apache.commons.text.similarity.JaccardSimilarity jaccardSim = new org.apache.commons.text.similarity.JaccardSimilarity();
         JaroWinkler jaroWinklerSimilarity = new JaroWinkler();
         NormalizedLevenshtein levenshteinSimilarity = new NormalizedLevenshtein();
-          
+        ArrayList<Match> matchesList = new ArrayList<>();
+
         for (String columnNewSource : columnsNewSource) {
             System.out.println("ColumnMain: " + columnNewSource);
+
+            
+            Token newcolmn = new Token(columnNewSource);
             for (String columnBDW : columnsBDW) {
+                Token columnTokenBDW = new Token(columnBDW);
+
                 double cosinesim = cosineSim.similarity(columnNewSource, columnBDW);
                 double jaccardsim = jaccardSim.apply(columnNewSource, columnBDW);
-                double jarwinklersim = jaroWinklerSimilarity.similarity(columnNewSource, columnBDW);
+                double jarowinklersim = jaroWinklerSimilarity.similarity(columnNewSource, columnBDW);
                 double levenshteinSim = levenshteinSimilarity.similarity(columnNewSource, columnBDW);
-                double mean = (cosinesim + jaccardsim + jarwinklersim + levenshteinSim) / 4;
+                double mean = (cosinesim + jaccardsim + jarowinklersim + levenshteinSim) / 4;
+
+                Score score = new Score(jaccardsim, jarowinklersim, levenshteinSim, cosinesim);
 
                 System.out.println("\t" + "---- SimilarityCosine" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + cosinesim);
                 System.out.println("\t" + "---- JaccardSimilarity" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + jaccardsim);
-                System.out.println("\t" + "---- JaroWinkler" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + jarwinklersim);
+                System.out.println("\t" + "---- JaroWinkler" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + jarowinklersim);
                 System.out.println("\t" + "---- NormalizedLevenshtein" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + levenshteinSim);
                 System.out.println("Mean: " + mean);
                 System.out.println("\n");
@@ -61,9 +72,8 @@ public class FilterSimilarity {
                 /* client , customer - sex - gender */
                 /* Devido às ontologias é necessário algumas combinações nos dados*/
                 //Word1  falta o 1o if
-
-                if (mean < 0) {
-                    System.out.println("Entrou Aqui!  mean < 0");
+                
+                if (mean < 0.6) {
                     columnBDW.replace(" ", "");
                     columnNewSource.replace(" ", "");
                     String camelCase = "(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])";
@@ -104,12 +114,25 @@ public class FilterSimilarity {
                             stringSourceBDW.add(stringCamelCase);
                         }
                     }
+                    
+                    for (String token : stringNewSource) {
+                        for (String tokenbdw : stringSourceBDW) {
+                        try{
+                        
+                        }catch(Exception e){
+                        
+                        }
+                        }
+                    }
+
+                } else {
+                    Match match = new Match();
+                    match.setColumnBDW(columnTokenBDW);
+                    match.setNewColumn(newcolmn);
+                    match.setScore(score);
+                    matchesList.add(match);
                 }
-                
-                //WORDNET
-
             }
-
         }
 
     }

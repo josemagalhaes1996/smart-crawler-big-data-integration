@@ -73,9 +73,9 @@ public class Profiler implements Serializable {
 
     public static void main(String[] args) throws AnalysisException, IOException, Exception {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("storesale_er", "household_demographics", conn);
+        Profiler prof = new Profiler("tpcds", "store_sales", conn);
 
-        runcreateDataSetColumnProfiler(prof, conn.getSession());
+        // runcreateDataSetColumnProfiler(prof, conn.getSession());
         runcreateDataSetProfiler(prof, conn.getSession());
 
     }

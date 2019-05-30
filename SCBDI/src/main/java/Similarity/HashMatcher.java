@@ -79,8 +79,8 @@ public class HashMatcher {
                     try {
                         Row record = itNS.next();
                         Row recordVal = itNSVal.next();
-
-                        if (hashtable.containsKey(record.mkString())) {
+                        
+                        if (hashtable.containsKey(record.mkString())) { //Como já tinhamos, posteriormente podiamos remover esse valor!
                             int hash = hashtable.get(record.mkString()); //Tem X Valores 
                             System.out.println(hash);
                             int generatedRows = Integer.parseInt(recordVal.mkString());
@@ -104,6 +104,8 @@ public class HashMatcher {
 
             }
         }
+        
+        
         //Filtering Pairs 
         long sumIntersections = 0;
         long meanintersections = 0;
