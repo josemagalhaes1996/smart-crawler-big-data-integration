@@ -6,7 +6,7 @@
 package basicProfiler;
 
 import AtlasClient.AtlasConsumer;
-import JsonController.JsonControler;
+import Controller.JsonControler;
 import com.hortonworks.hwc.Connections;
 import java.io.FileWriter;
 import java.io.IOException;

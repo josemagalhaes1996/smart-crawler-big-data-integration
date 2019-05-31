@@ -17,12 +17,23 @@ public class Score {
     private double cosine;
     private double averageAll;
 
+    private double JiangandConrath;
+    private double Wu_Palmer;
+    private double LIN;
+
     public Score(double jaccard, double jaro_winkler, double levenshetein, double cosine) {
         this.jaccard = jaccard;
         this.jaro_winkler = jaro_winkler;
         this.levenshetein = levenshetein;
         this.cosine = cosine;
         this.averageAll = (cosine + jaccard + jaro_winkler + levenshetein) / 4;
+    }
+
+    public Score(double JiangandConrath, double Wu_Palmer, double LIN) {
+        this.JiangandConrath = JiangandConrath;
+        this.Wu_Palmer = Wu_Palmer;
+        this.LIN = LIN;
+        this.averageAll = (JiangandConrath + Wu_Palmer + LIN) / 3;
     }
 
     public double getJaccard() {

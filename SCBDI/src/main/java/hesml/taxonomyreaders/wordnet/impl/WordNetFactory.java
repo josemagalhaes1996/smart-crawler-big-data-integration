@@ -41,11 +41,9 @@ public class WordNetFactory
      * @throws java.lang.Exception Unexpected error
      */
     
-    public static IWordNetDB loadWordNetDatabase(
-            String  strWordnetDir,
-            String  strWordNetDBFileName) throws Exception
+    public static IWordNetDB loadWordNetDatabase() throws Exception
     {
-        return (WordNetReader.loadDatabase(strWordnetDir, strWordNetDBFileName, false));
+        return (WordNetReader.loadDatabase());
     }
     
     /**
@@ -61,23 +59,9 @@ public class WordNetFactory
         return (WordNetReader.loadDatabase(strWordNetDBFullpath, false));
     }
     
-    /**
-     * This function loads a WordNet database and reads the glosses
-     * @param strWordnetDir Directory for the WordNet database files
-     * @param strWordNetDBFileName  Database filename
-     * @param loadGloss Indicates if the gloss will be loaded
-     * @return The loaded WordnNetDB
-     * @throws java.lang.Exception Unexpected error
-     */
     
-    public static IWordNetDB loadWordNetDatabase(
-            String  strWordnetDir,
-            String  strWordNetDBFileName,
-            boolean loadGloss) throws Exception
-    {
-        return (WordNetReader.loadDatabase(strWordnetDir,
-                strWordNetDBFileName, loadGloss));
-    }
+    
+
        
     /**
      * This function builds the taxonomy associated to a WordNetDB

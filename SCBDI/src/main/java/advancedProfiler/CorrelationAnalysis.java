@@ -6,7 +6,7 @@
 package advancedProfiler;
 
 import AtlasClient.AtlasConsumer;
-import JsonController.JsonControler;
+import Controller.JsonControler;
 import static advancedProfiler.Combination.recurse;
 import basicProfiler.ColumnProfiler;
 import com.hortonworks.hwc.Connections;

@@ -11,6 +11,7 @@ import Domain.Token;
 import basicProfiler.ColumnProfiler;
 import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
+import hesmlclient.HESMLclient;
 import info.debatty.java.stringsimilarity.Cosine;
 import info.debatty.java.stringsimilarity.JaroWinkler;
 import info.debatty.java.stringsimilarity.NormalizedLevenshtein;
@@ -31,11 +32,11 @@ public class FilterSimilarity {
         String delimiter = ";";
         String header = "true";
         Dataset<Row> dataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
-        filterPairs(dataset, prof.getDataSet());
+        firstFilterPairs(dataset, prof.getDataSet(), 0.6);
     }
 
-    public static void firstFilterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW) {
-
+    
+    public static void firstFilterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW, double threshold) {
         String[] columnsNewSource = newSource.columns();
         String[] columnsBDW = tableBDW.columns();
 
@@ -46,10 +47,9 @@ public class FilterSimilarity {
         ArrayList<Match> matchesList = new ArrayList<>();
 
         for (String columnNewSource : columnsNewSource) {
-            System.out.println("ColumnMain: " + columnNewSource);
+            System.out.println("\n" + " ColumnMain: " + columnNewSource);
 
-            
-            Token newcolmn = new Token(columnNewSource);
+            Token newcolmnToken = new Token(columnNewSource);
             for (String columnBDW : columnsBDW) {
                 Token columnTokenBDW = new Token(columnBDW);
 
@@ -57,120 +57,155 @@ public class FilterSimilarity {
                 double jaccardsim = jaccardSim.apply(columnNewSource, columnBDW);
                 double jarowinklersim = jaroWinklerSimilarity.similarity(columnNewSource, columnBDW);
                 double levenshteinSim = levenshteinSimilarity.similarity(columnNewSource, columnBDW);
-                double mean = (cosinesim + jaccardsim + jarowinklersim + levenshteinSim) / 4;
 
                 Score score = new Score(jaccardsim, jarowinklersim, levenshteinSim, cosinesim);
 
                 System.out.println("\t" + "---- SimilarityCosine" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + cosinesim);
                 System.out.println("\t" + "---- JaccardSimilarity" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + jaccardsim);
                 System.out.println("\t" + "---- JaroWinkler" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + jarowinklersim);
-                System.out.println("\t" + "---- NormalizedLevenshtein" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + levenshteinSim);
-                System.out.println("Mean: " + mean);
+                System.out.println("\t" + "---- Levenshtein" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + levenshteinSim);
+                System.out.println("Mean: " + score.getAverageAll());
                 System.out.println("\n");
 
-                /*  CASO o valor Seja inferior da média for inferior a 0 ( nada em comum) , será aplicado ontologias de dados*/
+                /*  CASO o valor Seja inferior da média for inferior a 0.6 será aplicado ontologias de dados*/
                 /* client , customer - sex - gender */
                 /* Devido às ontologias é necessário algumas combinações nos dados*/
-                //Word1  falta o 1o if
-                
-                if (mean < 0.6) {
-                    columnBDW.replace(" ", "");
-                    columnNewSource.replace(" ", "");
-                    String camelCase = "(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])";
+                if (score.getAverageAll() < threshold) {
+
+                    System.out.println("Média de Similaridade Inferior a  " + threshold);
+                    ArrayList<Score> semanticScoreList = new ArrayList<>();
+                    Score bestscore = null;
+                    hesmlclient.HESMLclient semanticClient = new HESMLclient();
                     ArrayList<String> stringNewSource = new ArrayList<>();
                     ArrayList<String> stringSourceBDW = new ArrayList<>();
+                    double[] resultsSemanctic = null;
 
-                    if (columnNewSource.contains("-")) {
-                        String[] splitedColumnName = columnNewSource.split("-");
-                        for (String stringHifen : splitedColumnName) {
-                            stringNewSource.add(stringHifen);
-                        }
+                    String camelCase = "(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])";
 
-                    } else if (columnNewSource.contains("_")) {
-                        String[] splitedColumnName = columnNewSource.split("_");
-                        for (String stringUnderScore : splitedColumnName) {
-                            stringNewSource.add(stringUnderScore);
-                        }
+                    try {
 
-                    } else if (camelCase.matches(columnNewSource)) {
-                        for (String stringCamelCase : columnNewSource.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])")) {
-                            stringNewSource.add(stringCamelCase);
-                        }
+                        resultsSemanctic = semanticClient.semanticPairSimilarity(columnBDW, columnNewSource);
+
+                    } catch (Exception e) {
+                        System.out.println("entrou logo auqi");
+                        System.out.println(e.getMessage());
                     }
 
-                    if (columnBDW.contains("-")) {
-                        String[] splitedColumnName = columnBDW.split("-");
-                        for (String stringHifen : splitedColumnName) {
-                            stringSourceBDW.add(stringHifen);
+                    if (resultsSemanctic == null) {
+                        System.out.println("Split Process||| CamelCase|| By - || By _ || By ");
+                        //Split word by - and _ and CamelCase ... 3 different situations
+                        if (columnNewSource.contains("-")) {
+                            String[] splitedColumnName = columnNewSource.split("-");
+                            for (String stringHifen : splitedColumnName) {
+                                stringNewSource.add(stringHifen);
+                            }
+
+                        } else if (columnNewSource.contains("_")) {
+                            String[] splitedColumnName = columnNewSource.split("_");
+                            for (String stringUnderScore : splitedColumnName) {
+                                stringNewSource.add(stringUnderScore);
+                            }
+
+                        } else if (camelCase.matches(columnNewSource)) {
+                            for (String stringCamelCase : columnNewSource.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])")) {
+                                stringNewSource.add(stringCamelCase);
+                            }
                         }
 
-                    } else if (columnBDW.contains("_")) {
-                        String[] splitedColumnName = columnBDW.split("_");
-                        for (String stringUnderScore : splitedColumnName) {
-                            stringSourceBDW.add(stringUnderScore);
-                        }
-                    } else if (camelCase.matches(columnBDW)) {
-                        for (String stringCamelCase : columnBDW.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])")) {
-                            stringSourceBDW.add(stringCamelCase);
-                        }
-                    }
-                    
-                    for (String token : stringNewSource) {
-                        for (String tokenbdw : stringSourceBDW) {
-                        try{
-                        
-                        }catch(Exception e){
-                        
-                        }
-                        }
-                    }
+                        if (columnBDW.contains("-")) {
+                            String[] splitedColumnName = columnBDW.split("-");
+                            for (String stringHifen : splitedColumnName) {
+                                stringSourceBDW.add(stringHifen);
+                            }
 
+                        } else if (columnBDW.contains("_")) {
+                            String[] splitedColumnName = columnBDW.split("_");
+                            for (String stringUnderScore : splitedColumnName) {
+                                stringSourceBDW.add(stringUnderScore);
+                            }
+                        } else if (camelCase.matches(columnBDW)) {
+                            for (String stringCamelCase : columnBDW.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])")) {
+                                stringSourceBDW.add(stringCamelCase);
+                            }
+                        }
+
+                        stringNewSource.stream().forEach((token) -> {
+                            stringSourceBDW.stream().forEach((tokenbdw) -> {
+                                try {
+
+                                    double[] result = semanticClient.semanticPairSimilarity(token, tokenbdw);
+
+                                    if (!(result == null)) {
+
+                                        Score semanticScore = new Score(result[0], result[1], result[2]);
+                                        semanticScoreList.add(semanticScore);
+                                    }
+
+                                } catch (Exception e) {
+                                    e.getMessage();
+                                }
+                            });
+                        });
+
+                        if (semanticScoreList.size() > 0) {
+
+                            for (Score scoreElement : semanticScoreList) {
+
+                                if (bestscore == null) {
+                                    bestscore = scoreElement;
+                                } else {
+                                    if (bestscore.getAverageAll() > scoreElement.getAverageAll()) {
+                                        bestscore = scoreElement;
+                                    }
+                                }
+                            }
+
+                        } else {
+                            System.out.println("\n" + "SCORE List is empty");
+                        }
+
+                        if (bestscore.getAverageAll() > threshold) {
+                            System.out.println("\n" + "Recorreu ao passos semanticos e obteve uma similaridade de " + bestscore.getAverageAll());
+
+                            Match match = new Match();
+                            match.setColumnBDW(columnTokenBDW);
+                            match.setNewColumn(newcolmnToken);
+                            match.setScore(bestscore);
+                            matchesList.add(match);
+                        } else {
+                            System.out.println("\n" + "ScoreList Semantic is " + bestscore.getAverageAll());
+                        }
+
+                    } else {
+                        System.out.println("first step only");
+                        bestscore = new Score(resultsSemanctic[0], resultsSemanctic[1], resultsSemanctic[2]);
+                        System.out.println("Semanticamente " + bestscore.getAverageAll());
+                        System.out.println("Elemetno 1 " + resultsSemanctic[0]);
+                        if (bestscore.getAverageAll() > threshold) {
+                            System.out.println("\n" + "Recorreu ao passos semanticos e obteve uma similaridade de " + bestscore.getAverageAll());
+                            System.out.println("\n" + "Best Score Semantic Similirty value is " + bestscore.getAverageAll());
+
+                            Match match = new Match();
+                            match.setColumnBDW(columnTokenBDW);
+                            match.setNewColumn(newcolmnToken);
+                            match.setScore(bestscore);
+                            matchesList.add(match);
+                        }
+                    }
                 } else {
                     Match match = new Match();
                     match.setColumnBDW(columnTokenBDW);
-                    match.setNewColumn(newcolmn);
+                    match.setNewColumn(newcolmnToken);
                     match.setScore(score);
                     matchesList.add(match);
                 }
             }
         }
 
+        System.out.println("Number of Emparelhamentos: " + matchesList.size());
     }
 
-    //Fuzzy Score entre clunas  
-    //
-    public static void filterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW) {
-        String[] columnsNewSource = newSource.columns();
-        String[] columnsBDW = tableBDW.columns();
-        ColumnProfiler cp = new ColumnProfiler();
-        Cosine cosineSim = new Cosine(2);
-        org.apache.commons.text.similarity.JaccardSimilarity jaccardSim = new org.apache.commons.text.similarity.JaccardSimilarity();
-        JaroWinkler jaroWinklerSimilarity = new JaroWinkler();
-        NormalizedLevenshtein levenshteinSimilarity = new NormalizedLevenshtein();
-
-        for (String columnNewSource : columnsNewSource) {
-            System.out.println("ColumnMain: " + columnNewSource);
-            for (String columnBDW : columnsBDW) {
-                if (cp.dataTypeColumn(newSource.dtypes(), columnNewSource).equals(cp.dataTypeColumn(tableBDW.dtypes(), columnBDW))) {
-                    double cosinesim = cosineSim.similarity(columnNewSource, columnBDW);
-                    double jaccardsim = jaccardSim.apply(columnNewSource, columnBDW);
-                    double jarwinklersim = jaroWinklerSimilarity.similarity(columnNewSource, columnBDW);
-                    double levenshteinSim = levenshteinSimilarity.similarity(columnNewSource, columnBDW);
-                    double mean = (cosinesim + jaccardsim + jarwinklersim + levenshteinSim) / 4;
-                    System.out.println("Column " + columnNewSource + " same data type than " + columnBDW);
-                    System.out.println("\t" + "---- SimilarityCosine" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + cosinesim);
-                    System.out.println("\t" + "---- JaccardSimilarity" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + jaccardsim);
-                    System.out.println("\t" + "---- JaroWinkler" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + jarwinklersim);
-                    System.out.println("\t" + "---- NormalizedLevenshtein" + "\t" + "ColumnToCompare: " + columnNewSource + "---Value: " + levenshteinSim);
-                    System.out.println("Mean: " + mean);
-                    System.out.println("\n");
-
-                }
-
-            }
-
-        }
-
-    }
-
+//    public Score semanticFilter() {
+//
+//    }
 }

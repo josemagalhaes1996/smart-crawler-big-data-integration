@@ -5,7 +5,7 @@
  */
 package basicProfiler;
 
-import JsonController.JsonControler;
+import Controller.JsonControler;
 import advancedProfiler.FrequencyAnalysis;
 import java.io.Serializable;
 import java.sql.Timestamp;
