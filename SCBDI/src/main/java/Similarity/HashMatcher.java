@@ -27,12 +27,12 @@ public class HashMatcher {
     public static void main(String args[]) {
         Instant start = Instant.now();
         Connections conn = new Connections();
-        intersectionAnalyss("storesale_er", "promotion", "store_sales");
+        intersectionAnalysis("storesale_er", "promotion", "store_sales");
         Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
         System.out.println(end.getEpochSecond());
     }
 
-    public static void intersectionAnalyss(String dbName, String newsourceName, String sourceBDWName) {
+    public static void intersectionAnalysis(String dbName, String newsourceName, String sourceBDWName) {
         String db = dbName;
         String newSource = newsourceName;
         String sourceBDW = sourceBDWName;
