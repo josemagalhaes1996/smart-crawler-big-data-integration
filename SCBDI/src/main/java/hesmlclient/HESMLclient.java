@@ -53,6 +53,9 @@ public class HESMLclient {
      * similarity model with an IC model, as well as the use of two non IC-based
      * similarity measure.
      *
+     * @param word1
+     * @param word2
+     * @return 
      * @throws Exception
      */
     public double[] semanticPairSimilarity(String word1, String word2) throws Exception {
@@ -93,8 +96,6 @@ public class HESMLclient {
             word2Concepts = wordnetTaxonomy.getVertexes().getByIds(
                     wordnet.getWordSynsetsID(word2));
 
-//        secoICmodel = ICModelsFactory.getIntrinsicICmodel(IntrinsicICModelType.Seco);        
-//        secoICmodel.setTaxonomyData(wordnetTaxonomy);
             // We create all the similarity measures
             JCN = MeasureFactory.getMeasure(wordnetTaxonomy, SimilarityMeasureType.JiangConrath);
             WUP = MeasureFactory.getMeasure(wordnetTaxonomy, SimilarityMeasureType.WuPalmer);

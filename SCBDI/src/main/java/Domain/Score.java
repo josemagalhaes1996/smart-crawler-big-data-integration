@@ -15,13 +15,16 @@ public class Score {
     private double jaro_winkler;
     private double levenshetein;
     private double cosine;
-    private double averageAll;
 
     private double JiangandConrath;
     private double Wu_Palmer;
-    private double LIN;
+    private double PATH;
+
+    private int constructor;
+    private double averageAll;
 
     public Score(double jaccard, double jaro_winkler, double levenshetein, double cosine) {
+        this.constructor = 1;
         this.jaccard = jaccard;
         this.jaro_winkler = jaro_winkler;
         this.levenshetein = levenshetein;
@@ -29,11 +32,12 @@ public class Score {
         this.averageAll = (cosine + jaccard + jaro_winkler + levenshetein) / 4;
     }
 
-    public Score(double JiangandConrath, double Wu_Palmer, double LIN) {
+    public Score(double JiangandConrath, double Wu_Palmer, double PATH) {
+        this.constructor = 2;
         this.JiangandConrath = JiangandConrath;
         this.Wu_Palmer = Wu_Palmer;
-        this.LIN = LIN;
-        this.averageAll = (JiangandConrath + Wu_Palmer + LIN) / 3;
+        this.PATH = PATH;
+        this.averageAll = (JiangandConrath + Wu_Palmer + PATH) / 3;
     }
 
     public double getJaccard() {
@@ -74,6 +78,38 @@ public class Score {
 
     public void setAverageAll(double averageAll) {
         this.averageAll = averageAll;
+    }
+
+    public double getJiangandConrath() {
+        return JiangandConrath;
+    }
+
+    public void setJiangandConrath(double JiangandConrath) {
+        this.JiangandConrath = JiangandConrath;
+    }
+
+    public double getWu_Palmer() {
+        return Wu_Palmer;
+    }
+
+    public void setWu_Palmer(double Wu_Palmer) {
+        this.Wu_Palmer = Wu_Palmer;
+    }
+
+    public double getPATH() {
+        return PATH;
+    }
+
+    public void setPATH(double PATH) {
+        this.PATH = PATH;
+    }
+
+    public int getConstructor() {
+        return constructor;
+    }
+
+    public void setConstructor(int constructor) {
+        this.constructor = constructor;
     }
 
 }

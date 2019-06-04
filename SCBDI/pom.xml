@@ -186,26 +186,31 @@
             <artifactId>wisdom-monitor</artifactId> 
             <version>0.9.1</version> 
         </dependency>
-    </dependencies>
-    <repositories>
-        <repository>
-            <id>SparkPackagesRepo</id>
-            <name>Spark Packages Repo</name>
-            <url>https://dl.bintray.com/spark-packages/maven/</url>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>SparkPackagesRep2o</id>
-            <name>Spark Packages Repo</name>
-            <url>https://dl.bintray.com/kemlg/wordnet-utils/</url>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>Hortonworks</id>
-            <name>Spark Packages Repo</name>
-            <url>http://repo.hortonworks.com/content/repositories/releases</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
+        <dependency>
+            <groupId>net.sf.supercsv</groupId>
+            <artifactId>super-csv</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+</dependencies>
+<repositories>
+    <repository>
+        <id>SparkPackagesRepo</id>
+        <name>Spark Packages Repo</name>
+        <url>https://dl.bintray.com/spark-packages/maven/</url>
+        <layout>default</layout>
+    </repository>
+    <repository>
+        <id>SparkPackagesRep2o</id>
+        <name>Spark Packages Repo</name>
+        <url>https://dl.bintray.com/kemlg/wordnet-utils/</url>
+        <layout>default</layout>
+    </repository>
+    <repository>
+        <id>Hortonworks</id>
+        <name>Spark Packages Repo</name>
+        <url>http://repo.hortonworks.com/content/repositories/releases</url>
+        <layout>default</layout>
+    </repository>
+</repositories>
    
 </project>
