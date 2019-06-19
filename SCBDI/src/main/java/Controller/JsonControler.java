@@ -32,6 +32,30 @@ public class JsonControler {
             
      */
 
+    public void updateNumAudits(String tableName, String dbName) throws JSONException, IOException {
+
+        AtlasConsumer consumer = new AtlasConsumer();
+        JSONObject jsonTable = consumer.getGuidHiveTable(tableName, "hive_table");
+        JSONObject jsonDb = consumer.getGuidHiveTable(dbName, "hive_db");
+        String guidDataBase = jsonDb.getJSONArray("results").getJSONObject(0).getJSONObject("$id$").getString("id");
+        String guidTable = null;
+
+        for (int i = 0; i < jsonDb.getJSONArray("results").length(); i++) {
+
+            if (jsonTable.getJSONArray("results").getJSONObject(i).getJSONObject("db").getString("id").equals(guidDataBase)) {
+                guidTable = jsonTable.getJSONArray("results").getJSONObject(i).getJSONObject("$id$").getString("id");
+
+            }
+
+        }
+
+        System.out.println("O GUID da tabela é " + guidTable);
+        int jsonAudtis = consumer.getAudtisTable(guidTable).length();
+
+        System.out.println("Audtis é  " + jsonAudtis);
+        consumer.updateAuditsTable(jsonAudtis, guidTable);
+    }
+
     public JSONObject createEntityColumnProfiler(String columnName, String datatype, String database, String tablename,
             String comment, String min, String max, long recordCount, long uniqueValues, long emptyValues, long nullValues, String maxFieldLength, String minFieldLength, long percentFillRecords, long percentUniqueValues, long numTrueValues, long numFalseValues, Dataset<Row> frequencyValuesDS) {
         AtlasConsumer getTableName = new AtlasConsumer();

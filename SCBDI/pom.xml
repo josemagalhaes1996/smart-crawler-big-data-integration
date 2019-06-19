@@ -208,9 +208,11 @@
     <repository>
         <id>Hortonworks</id>
         <name>Spark Packages Repo</name>
-        <url>http://repo.hortonworks.com/content/repositories/releases</url>
+        <url>http://repo.hortonworks.com/content/repositories/releases/</url>
         <layout>default</layout>
+        
     </repository>
+    
 </repositories>
    
 </project>

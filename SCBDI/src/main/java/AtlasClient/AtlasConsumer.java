@@ -17,9 +17,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,7 +50,6 @@ public class AtlasConsumer {
         return host;
     }
 
-    
     public String getDBID(String idTable) throws JSONException {
         JSONObject jsonColumnStatsIDs = entitiesbyType("hive_table");
         for (int i = 0; i < jsonColumnStatsIDs.getJSONArray("results").length(); i++) {
@@ -122,7 +123,6 @@ public class AtlasConsumer {
             ex.getMessage();
         }
     }
-    
 
     public String getIDTableStatistics(String idTable) throws JSONException {
         JSONObject jsonTable = entitiesbyType("TableStatistics");
@@ -247,4 +247,57 @@ public class AtlasConsumer {
 
     }
 
+    public JSONObject getGuidHiveTable(String nameEntity,String type) throws JSONException {
+        String url = "/api/atlas/discovery/search/dsl?query="+type+"+where+__state=ACTIVE+name=" + nameEntity;
+        String authString = name + ":" + password;
+        String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
+        javax.ws.rs.client.Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(host + url);
+        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + authStringEnc);
+        Response response = invocationBuilder.get();
+        String output = response.readEntity(String.class
+        );
+        System.out.println(response.toString());
+        JSONObject obj = new JSONObject(output);
+        return obj;
+    }
+    
+    
+    
+    
+    
+
+    public JSONArray getAudtisTable(String guidTable) throws JSONException {
+        String url = "/api/atlas/v2/entity/" + guidTable + "/audit";
+        String authString = name + ":" + password;
+        String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
+        javax.ws.rs.client.Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(host + url);
+        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + authStringEnc);
+
+        Response response = invocationBuilder.get();
+        String output = response.readEntity(String.class
+        );
+        System.out.println(response.toString());
+        JSONArray obj = new JSONArray(output);
+        return obj;
+
+    }
+
+    public void updateAuditsTable(int audits, String guid) throws IOException {
+        DefaultHttpClient httpclient = new DefaultHttpClient();
+        String authString = name + ":" + password;
+        String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
+        
+        HttpPut httput = new HttpPut( host +"/api/atlas/v2/entity/guid/" + guid + "?name=acessesCounter");
+        StringEntity se = new StringEntity(String.valueOf(audits));
+        httput.setEntity(se);
+        httput.setHeader("Authorization", "Basic " + authStringEnc);
+        httput.setHeader("Accept", "application/json");
+        httput.setHeader("Content-type", "application/json");
+
+        ResponseHandler responseHandler = new BasicResponseHandler();
+        Object response = httpclient.execute(httput, responseHandler);
+
+    }
 }

@@ -23,7 +23,13 @@ import org.supercsv.prefs.CsvPreference;
  */
 public class CSVGenerator {
 
-    public static void writeHeadersCSV(ArrayList<Match> matchArray) throws IOException {
+    /**
+     *
+     *
+     * @param matchArray
+     * @throws IOException
+     */
+    public static void writeCSVResults(ArrayList<Match> matchArray) throws IOException {
 
         ICsvListWriter listWriter = null;
         try {
@@ -45,17 +51,61 @@ public class CSVGenerator {
                     if (score.getConstructor() == 1) {
 
                         listWriter.write(Arrays.asList(new Object[]{match.getNewColumn(), match.getColumnBDW(), match.getScore().getJaccard(), match.getScore().getCosine(),
-                            match.getScore().getJaro_winkler(), match.getScore().getLevenshetein(), "", "", "", match.getScore().getAverageAll()}), processors);
+                            match.getScore().getJaro_winkler(), match.getScore().getLevenshetein(), "", "", "", match.getScore().getAverageSimilarity()}), processors);
 
                     } else {
 
-                        listWriter.write(Arrays.asList(new Object[]{match.getNewColumn(), match.getColumnBDW(), "", "", "", "", match.getScore().getJiangandConrath(), match.getScore().getWu_Palmer(), match.getScore().getPATH(), match.getScore().getAverageAll()}), processors);
+                        listWriter.write(Arrays.asList(new Object[]{match.getNewColumn(), match.getColumnBDW(), "", "", "", "", match.getScore().getJiangandConrath(), match.getScore().getWu_Palmer(), match.getScore().getPATH(), match.getScore().getAverageSimilarity()}), processors);
                     }
 
                 }
 
             }
 
+        } finally {
+            if (listWriter != null) {
+                listWriter.close();
+            }
+        }
+
+    }
+
+    public static void writeCSVResults2(ArrayList<Match> matchArray) throws IOException {
+
+        ICsvListWriter listWriter = null;
+        try {
+            listWriter = new CsvListWriter(new FileWriter("./BenchmarkContent.csv"),
+                    CsvPreference.STANDARD_PREFERENCE);
+
+            final CellProcessor[] processors = getContentProcessors();
+            final String[] header = new String[]{
+                //                "New Source Column Name", 
+                "Pairs",
+                "Jaccard Similarity", "Jaccard  Time",
+                "Cosine Similarity", "Cosine  Time",
+                "Jaro-Winkler Similarity", "Jaro-Winkler Time",
+                "Levenshtein Similarity", "Levenshtein Time",
+                "HashSimilarity", "Hash Time",
+                "AverageSimilarity", "AverageTime"};
+
+            // write the header
+            listWriter.writeHeader(header);
+
+            // write the customer lists
+            if (matchArray.size() > 0) {
+                for (Match match : matchArray) {
+                    Score score = match.getScore();
+                    if (score.getConstructor() == 3) {
+                        listWriter.write(Arrays.asList(new Object[]{match.getNewColumn().getToken() + "-" + match.getColumnBDW().getToken(),
+                            match.getScore().getJaccard(), match.getScore().getJaccardTime(),
+                            match.getScore().getCosine(), match.getScore().getCosineTime(),
+                            match.getScore().getJaro_winkler(), match.getScore().getJaro_winklerTime(),
+                            match.getScore().getLevenshetein(), match.getScore().getLevensheteinTime(),
+                            match.getScore().getHashMatcher(),  match.getScore().getHashTime(),
+                            match.getScore().getAverageSimilarity(), match.getScore().getAverageTime()}), processors);
+                    }
+                }
+            }
         } finally {
             if (listWriter != null) {
                 listWriter.close();
@@ -80,4 +130,26 @@ public class CSVGenerator {
 
         return processors;
     }
+
+    private static CellProcessor[] getContentProcessors() {
+        final CellProcessor[] processors = new CellProcessor[]{
+            new Optional(), //New Souce Column Name  
+            //            new Optional(), // BDW Column Name
+            new Optional(), //Jaccard 
+            new Optional(), //Jaccard Time
+            new Optional(), //Cosine 
+            new Optional(), //Cosine  Time
+            new Optional(), //Jaro-Winkler
+            new Optional(), //Jaro-Winkler Time
+            new Optional(), // Levenshtein
+            new Optional(), // Levenshtein Time
+            new Optional(), // HASH SIMILARITY
+            new Optional(), // HASH Time
+            new Optional(), // AverageSimilarity
+            new Optional(), // AverageTime
+        };
+
+        return processors;
+    }
+
 }

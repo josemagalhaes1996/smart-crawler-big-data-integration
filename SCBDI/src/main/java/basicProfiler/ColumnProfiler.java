@@ -3,21 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package basicProfiler;
 
 import Controller.JsonControler;
 import advancedProfiler.FrequencyAnalysis;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import static org.apache.spark.sql.functions.col;
-import static org.apache.spark.sql.functions.collect_list;
-import static org.apache.spark.sql.functions.size;
 import org.json.JSONObject;
 import scala.Tuple2;
+
 
 /**
  *

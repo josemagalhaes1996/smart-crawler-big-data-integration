@@ -5,7 +5,9 @@
  */
 package basicProfiler;
 
+import AtlasClient.AtlasConsumer;
 import Controller.JsonControler;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +120,7 @@ public class DataSetProfiler implements Serializable {
         this.othersColmuns = othersColmuns;
     }
 
-    public DataSetProfiler profilerDataSet(Dataset<Row> dataSet, String tableName, String database) throws JSONException {
+    public DataSetProfiler profilerDataSet(Dataset<Row> dataSet, String tableName, String dbName) throws JSONException, IOException {
         String tbName = tableName;
         int numColumn = dataSet.columns().length;
         long numObservations = dataSet.count();
@@ -145,9 +147,13 @@ public class DataSetProfiler implements Serializable {
                 numOtherColumns = numOtherColumns + 1;
             }
         }
-
-        JsonControler jsonClass = new JsonControler();
-        JSONObject jsonEntity = jsonClass.createEntityTableProfiler(database, tableName, numCategoricalColumns, numDataColumns, (int) numObservations, numColumn, numNumericColumns, numOtherColumns, (int) datasetSize);
+       
+        JsonControler jsonController = new JsonControler();
+      
+        jsonController.updateNumAudits(tableName, dbName);
+        
+        
+        JSONObject jsonEntity = jsonController.createEntityTableProfiler(dbName, tableName, numCategoricalColumns, numDataColumns, (int) numObservations, numColumn, numNumericColumns, numOtherColumns, (int) datasetSize);
 
         DataSetProfiler columnnew = new DataSetProfiler(tbName, datasetSize, numColumn, numObservations, numNumericColumns, numCategoricalColumns, numDataColumns, numOtherColumns, jsonEntity);
         return (columnnew);

@@ -5,6 +5,7 @@
  */
 package Similarity;
 
+import Domain.Score;
 import advancedProfiler.FrequencyAnalysis;
 import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
@@ -27,7 +28,7 @@ public class HashMatcher {
     public static void main(String args[]) {
         Instant start = Instant.now();
         Connections conn = new Connections();
-        intersectionAnalysis("storesale_er", "promotion", "store_sales");
+        intersectionAnalysis("tpcds", "promotion", "item");
         Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
         System.out.println(end.getEpochSecond());
     }
@@ -47,85 +48,173 @@ public class HashMatcher {
 
         Hashtable<Long, Hashtable<String, String>> hashIntersection = new Hashtable<>();
 
-        for (int i = 0; i < columnsbdw.length; i++) {
+//        for (int i = 0; i < columnsbdw.length; i++) {
+        Dataset<Row> frequencyValuesBDW = freqAnalysis.frequencyValuesAnalysisWOLim(prof2.getDataSet(), "i_item_sk");
+        Hashtable<String, Integer> hashtable = new Hashtable<>();
 
-            Dataset<Row> frequencyValuesBDW = freqAnalysis.frequencyValuesAnalysisWOLim(prof2.getDataSet(), columnsbdw[i]);
-            Hashtable<String, Integer> hashtable = new Hashtable<>();
-            List<Row> rowsKey = frequencyValuesBDW.select(columnsbdw[i]).collectAsList();
-            List<Row> rowVal = frequencyValuesBDW.select("count").collectAsList();
-            ListIterator<Row> it = rowsKey.listIterator();
-            ListIterator<Row> itVal = rowVal.listIterator();
+        List<Row> rowsKey = frequencyValuesBDW.select("i_item_sk").collectAsList();
+        List<Row> rowVal = frequencyValuesBDW.select("count").collectAsList();
 
-            while (it.hasNext() && itVal.hasNext()) {
-                try {
-                    Row recordKey = it.next();
-                    Row recordVal = itVal.next();
-                    hashtable.put(recordKey.mkString(), Integer.parseInt(recordVal.mkString()));
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
-            for (int j = 0; j < columnsNS.length; j++) {
+        ListIterator<Row> it = rowsKey.listIterator();
+        ListIterator<Row> itVal = rowVal.listIterator();
 
-                Hashtable<String, Integer> hashfinal = new Hashtable<>();
-                Dataset<Row> frequencyValues = freqAnalysis.frequencyValuesAnalysisWOLim(prof.getDataSet(), columnsNS[j]);
-
-                List<Row> rowsNSKey = frequencyValues.select(columnsNS[j]).collectAsList();
-                List<Row> rowNSVal = frequencyValues.select("count").collectAsList();
-                ListIterator<Row> itNS = rowsNSKey.listIterator();
-                ListIterator<Row> itNSVal = rowNSVal.listIterator();
-
-                while (itNS.hasNext() && itNSVal.hasNext()) {
-                    try {
-                        Row record = itNS.next();
-                        Row recordVal = itNSVal.next();
-                        
-                        if (hashtable.containsKey(record.mkString())) { //Como já tinhamos, posteriormente podiamos remover esse valor!
-                            int hash = hashtable.get(record.mkString()); //Tem X Valores 
-                            System.out.println(hash);
-                            int generatedRows = Integer.parseInt(recordVal.mkString());
-                            hashfinal.put(record.mkString(), hash);
-                        }
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                }
-                int sumGeneratedRows = 0;
-                for (int value : hashfinal.values()) {
-                    sumGeneratedRows = sumGeneratedRows + value;
-                }
-                long percentFillTable = ((sumGeneratedRows / prof2.getDataSet().count()) * 100);
-                long intersection = (((long) hashfinal.size() * 100) / ((long) frequencyValues.count()));
-                Hashtable<String, String> pairs = new Hashtable<>();
-                pairs.put(columnsbdw[i], columnsNS[j]);
-                hashIntersection.put(intersection, pairs);
-                System.out.println("Atributo Main: " + columnsbdw[i] + " Atributo New: " + columnsNS[j]);
-                System.out.println("\t" + "Intersection: " + intersection + " GeneratedRows: " + sumGeneratedRows + " Percent Fill: " + percentFillTable);
-
+        while (it.hasNext() && itVal.hasNext()) {
+            try {
+                Row recordKey = it.next();
+                Row recordVal = itVal.next();
+                hashtable.put(recordKey.mkString(), Integer.parseInt(recordVal.mkString()));
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
         }
-        
-        
-        //Filtering Pairs 
-        long sumIntersections = 0;
-        long meanintersections = 0;
-        Set<Long> setKeys = hashIntersection.keySet();
-        for (long keyval : setKeys) {
-            sumIntersections = sumIntersections + keyval;
-        }
-        meanintersections = ((long) sumIntersections) / ((long) hashIntersection.size());
 
-        for (long keyval : setKeys) {
-            if (keyval < meanintersections) {
-            } else {
-                Hashtable<String, String> finalPair = hashIntersection.get(keyval);
-                Map.Entry<String, String> entry = finalPair.entrySet().iterator().next();
-                String mainAttribute = entry.getKey();
-                String attributeToCompare = entry.getValue();
-                System.out.println("PairMain: " + mainAttribute + " Attribute to Compare: " + attributeToCompare + "\t" + " Intersection: " + keyval);
+//            for (int j = 0; j < columnsNS.length; j++) {
+        Hashtable<String, Integer> hashfinal = new Hashtable<>();
+        Dataset<Row> frequencyValues = freqAnalysis.frequencyValuesAnalysisWOLim(prof.getDataSet(), "p_item_sk");
+
+        List<Row> rowsNSKey = frequencyValues.select("p_item_sk").collectAsList();
+        List<Row> rowNSVal = frequencyValues.select("count").collectAsList();
+        ListIterator<Row> itNS = rowsNSKey.listIterator();
+        ListIterator<Row> itNSVal = rowNSVal.listIterator();
+
+        while (itNS.hasNext() && itNSVal.hasNext()) {
+            try {
+                Row record = itNS.next();
+                Row recordVal = itNSVal.next();
+
+                if (hashtable.containsKey(record.mkString())) { //Como já tinhamos, posteriormente podiamos remover esse valor!
+                    int hash = hashtable.get(record.mkString()); //Tem X Valores 
+                    System.out.println("Tem estes valores " + hash);
+                    int generatedRows = Integer.parseInt(recordVal.mkString());
+                    hashfinal.put(record.mkString(), generatedRows);
+                } else {
+                    System.out.println("Não encontrou este par no hashtable: " + record.mkString());
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
         }
-        System.out.println("\t" + "MeanIntersection: " + meanintersections);
 
+//                }
+        int sumGeneratedRows = 0;
+
+        for (int value : hashfinal.values()) {
+
+            sumGeneratedRows = sumGeneratedRows + value;
+
+        }
+
+        System.out.println("Numero de Linhas Geradas: " + sumGeneratedRows);
+        System.out.println("Numero de Linhas DataSet New Source: " + prof.getDataSet().count());
+
+        double percentFillTable = (((double) (sumGeneratedRows * 100)) / ((double) prof.getDataSet().count()));
+
+        long intersection = (((long) hashfinal.size() * 100) / ((long) frequencyValues.count()));
+
+        Hashtable<String, String> pairs = new Hashtable<>();
+//                pairs.put(columnsbdw[i], columnsNS[j]);
+//                hashIntersection.put(intersection, pairs);
+
+//                System.out.println("Atributo Main: " + columnsbdw[i] + " Atributo New: " + columnsNS[j]);
+        System.out.println("\t" + "Intersection: " + intersection + " GeneratedRows: " + sumGeneratedRows + " Percent Fill: " + percentFillTable);
+
+//            }
+//        }
+//        
+//        //Filtering Pairs 
+//        long sumIntersections = 0;
+//        long meanintersections = 0;
+//        Set<Long> setKeys = hashIntersection.keySet();
+//        for (long keyval : setKeys) {
+//            sumIntersections = sumIntersections + keyval;
+//        }
+//        meanintersections = ((long) sumIntersections) / ((long) hashIntersection.size());
+//
+//        for (long keyval : setKeys) {
+//            if (keyval < meanintersections) {
+//            } else {
+//                Hashtable<String, String> finalPair = hashIntersection.get(keyval);
+//                Map.Entry<String, String> entry = finalPair.entrySet().iterator().next();
+//                String mainAttribute = entry.getKey();
+//                String attributeToCompare = entry.getValue();
+//                System.out.println("PairMain: " + mainAttribute + " Attribute to Compare: " + attributeToCompare + "\t" + " Intersection: " + keyval);
+//            }
+//        }
+//     
+//        
+//        System.out.println("\t" + "MeanIntersection: " + meanintersections);
     }
+
+    public static double hashMather(String columnBDW, String columnNewDataSource, Dataset<Row> bdw, Dataset<Row> newSource) {
+        Hashtable<Long, Hashtable<String, String>> hashIntersection = new Hashtable<>();
+
+        FrequencyAnalysis freqAnalysis = new FrequencyAnalysis();
+        Dataset<Row> frequencyValuesBDW = freqAnalysis.frequencyValuesAnalysisWOLim(bdw, columnBDW);
+        Hashtable<String, Integer> hashtable = new Hashtable<>();
+
+        List<Row> rowsKey = frequencyValuesBDW.select(columnBDW).collectAsList();
+        List<Row> rowVal = frequencyValuesBDW.select("count").collectAsList();
+
+        ListIterator<Row> it = rowsKey.listIterator();
+        ListIterator<Row> itVal = rowVal.listIterator();
+
+        while (it.hasNext() && itVal.hasNext()) {
+            try {
+                Row recordKey = it.next();
+                Row recordVal = itVal.next();
+                hashtable.put(recordKey.mkString(), Integer.parseInt(recordVal.mkString()));
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+        Hashtable<String, Integer> hashfinal = new Hashtable<>();
+        Dataset<Row> frequencyValues = freqAnalysis.frequencyValuesAnalysisWOLim(newSource, columnNewDataSource);
+
+        List<Row> rowsNSKey = frequencyValues.select(columnNewDataSource).collectAsList();
+        List<Row> rowNSVal = frequencyValues.select("count").collectAsList();
+        ListIterator<Row> itNS = rowsNSKey.listIterator();
+        ListIterator<Row> itNSVal = rowNSVal.listIterator();
+
+        while (itNS.hasNext() && itNSVal.hasNext()) {
+            try {
+                Row record = itNS.next();
+                Row recordVal = itNSVal.next();
+
+                if (hashtable.containsKey(record.mkString())) { //Como já tinhamos, posteriormente podiamos remover esse valor!
+                    int hash = hashtable.get(record.mkString()); //Tem X Valores 
+                    int generatedRows = Integer.parseInt(recordVal.mkString());
+                    hashfinal.put(record.mkString(), generatedRows);
+                } else {
+//                    System.out.println("Não encontrou este par no hashtable: " + record.mkString());
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+//                }
+        int sumGeneratedRows = 0;
+
+        for (int value : hashfinal.values()) {
+
+            sumGeneratedRows = sumGeneratedRows + value;
+
+        }
+
+        System.out.println("Numero de Linhas Geradas: " + sumGeneratedRows);
+        System.out.println("Numero de Linhas DataSet New Source: " + newSource.count());
+
+        double percentFillTable = (((double) (sumGeneratedRows * 100)) / ((double) newSource.count()));
+
+        long intersection = (((long) hashfinal.size() * 100) / ((long) frequencyValues.count()));
+
+//                pairs.put(columnsbdw[i], columnsNS[j]);
+//                hashIntersection.put(intersection, pairs);
+//                System.out.println("Atributo Main: " + columnsbdw[i] + " Atributo New: " + columnsNS[j]);
+        System.out.println("\t" + "Intersection: " + intersection + " GeneratedRows: " + sumGeneratedRows + " Percent Fill: " + percentFillTable);
+
+        return percentFillTable;
+    }
+
 }

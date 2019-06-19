@@ -27,7 +27,7 @@ public class FilterSimilarity {
 
     public static void main(String args[]) {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("storesale_er", "store_sales", conn);
+        Profiler prof = new Profiler("storesale_er", "item", conn);
         String path = "/user/jose/storesale_er/promotion/promotion.csv";
         String delimiter = ";";
         String header = "true";
@@ -63,13 +63,13 @@ public class FilterSimilarity {
                 System.out.println("\t" + "---- JaccardSimilarity" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + jaccardsim);
                 System.out.println("\t" + "---- JaroWinkler" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + jarowinklersim);
                 System.out.println("\t" + "---- Levenshtein" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + levenshteinSim);
-                System.out.println("Mean: " + score.getAverageAll());
+                System.out.println("Mean: " + score.getAverageSimilarity());
                 System.out.println("\n");
 
                 /*  CASO o valor Seja inferior da média for inferior a 0.6 será aplicado ontologias de dados*/
                 /* client , customer - sex - gender */
                 /* Devido às ontologias é necessário algumas combinações nos dados*/
-                if (score.getAverageAll() < threshold) {
+                if (score.getAverageSimilarity() < threshold) {
 
                     Score ontologyScore = checkOntology(columnNewSource, columnBDW, threshold);
                  
@@ -93,6 +93,8 @@ public class FilterSimilarity {
         System.out.println("Number of Pairs " + matchesList.size());
     }
 
+    
+    
     public static Score checkOntology(String newcolumnToken, String columnTokenBDW, double threshold) {
 
         ArrayList<Score> semanticScoreList = new ArrayList<>();
@@ -181,7 +183,7 @@ public class FilterSimilarity {
                     if (bestscore == null) {
                         bestscore = scoreElement;
                     } else {
-                        if (bestscore.getAverageAll() > scoreElement.getAverageAll()) {
+                        if (bestscore.getAverageSimilarity() > scoreElement.getAverageSimilarity()) {
                             bestscore = scoreElement;
                         }
                     }
@@ -192,8 +194,8 @@ public class FilterSimilarity {
                 return null;
             }
 
-            if (bestscore.getAverageAll() > threshold) {
-                System.out.println("\n" + "Recorreu ao passos semanticos e obteve uma similaridade de " + bestscore.getAverageAll());
+            if (bestscore.getAverageSimilarity() > threshold) {
+                System.out.println("\n" + "Recorreu ao passos semanticos e obteve uma similaridade de " + bestscore.getAverageSimilarity());
 
                 return bestscore;
 
@@ -201,10 +203,10 @@ public class FilterSimilarity {
 
         } else {
             bestscore = new Score(resultsSemanctic[0], resultsSemanctic[1], resultsSemanctic[2]);
-            System.out.println("Semanticamente " + bestscore.getAverageAll());
+            System.out.println("Semanticamente " + bestscore.getAverageSimilarity());
 
-            if (bestscore.getAverageAll() > threshold) {
-                System.out.println("\n" + " Semantic Similarity Score  is " + bestscore.getAverageAll());
+            if (bestscore.getAverageSimilarity() > threshold) {
+                System.out.println("\n" + " Semantic Similarity Score  is " + bestscore.getAverageSimilarity());
                 return bestscore;
             }
         }
