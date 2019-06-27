@@ -5,6 +5,7 @@
  */
 package Similarity;
 
+import Controller.CSVGenerator;
 import Domain.Match;
 import Domain.Score;
 import Domain.Token;
@@ -15,6 +16,7 @@ import hesmlclient.HESMLclient;
 import info.debatty.java.stringsimilarity.Cosine;
 import info.debatty.java.stringsimilarity.JaroWinkler;
 import info.debatty.java.stringsimilarity.NormalizedLevenshtein;
+import java.io.IOException;
 import java.util.ArrayList;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -25,7 +27,10 @@ import org.apache.spark.sql.Row;
  */
 public class FilterSimilarity {
 
-    public static void main(String args[]) {
+    
+    
+    
+    public static void main(String args[]) throws IOException {
         Connections conn = new Connections();
         Profiler prof = new Profiler("storesale_er", "item", conn);
         String path = "/user/jose/storesale_er/promotion/promotion.csv";
@@ -34,8 +39,10 @@ public class FilterSimilarity {
         Dataset<Row> dataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
         firstFilterPairs(dataset, prof.getDataSet(), 0.6);
     }
+    
+    
 
-    public static void firstFilterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW, double threshold) {
+    public static void firstFilterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW, double threshold) throws IOException {
         String[] columnsNewSource = newSource.columns();
         String[] columnsBDW = tableBDW.columns();
 
@@ -72,14 +79,15 @@ public class FilterSimilarity {
                 if (score.getAverageSimilarity() < threshold) {
 
                     Score ontologyScore = checkOntology(columnNewSource, columnBDW, threshold);
-                 
-                    if(!(ontologyScore == null)){
-                    Match match = new Match();
-                    match.setColumnBDW(columnTokenBDW);
-                    match.setNewColumn(newcolmnToken);
-                    match.setScore(ontologyScore);
-                    matchesList.add(match);
+
+                    if (!(ontologyScore == null)) {
+                        Match match = new Match();
+                        match.setColumnBDW(columnTokenBDW);
+                        match.setNewColumn(newcolmnToken);
+                        match.setScore(ontologyScore);
+                        matchesList.add(match);
                     }
+
                 } else {
                     Match match = new Match();
                     match.setColumnBDW(columnTokenBDW);
@@ -89,12 +97,12 @@ public class FilterSimilarity {
                 }
             }
         }
+        CSVGenerator.writeCSVResults(matchesList);
 
         System.out.println("Number of Pairs " + matchesList.size());
+
     }
 
-    
-    
     public static Score checkOntology(String newcolumnToken, String columnTokenBDW, double threshold) {
 
         ArrayList<Score> semanticScoreList = new ArrayList<>();
@@ -103,7 +111,6 @@ public class FilterSimilarity {
         ArrayList<String> stringNewSource = new ArrayList<>();
         ArrayList<String> stringSourceBDW = new ArrayList<>();
         double[] resultsSemanctic = null;
-
         String camelCase = "(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])";
 
         try {
@@ -211,7 +218,7 @@ public class FilterSimilarity {
             }
         }
 
-        return null;
+        return bestscore;
     }
 
 //Falta preencher os exceis e separar os metodos da ontologia e os outros ! 

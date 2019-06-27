@@ -9,6 +9,7 @@ import Controller.CSVGenerator;
 import Domain.Match;
 import Domain.Score;
 import Domain.Token;
+import advancedProfiler.FrequencyAnalysis;
 import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
 import info.debatty.java.stringsimilarity.Cosine;
@@ -50,25 +51,31 @@ public class SimilarityAnalysis {
         Dataset<Row> newDataSource = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
 
 //        runSimilarityIntraColumn(conn, prof2.getDataSet(), prof2.getDataSet().columns(), out, 2, 0, prof2.getDataSet().columns().length);
-        runSimilarityInterAnalysis(conn, newDataSource.sample(0.1), prof.getDataSet().sample(0.1));
+        runSimilarityInterAnalysis(conn, newDataSource, prof.getDataSet());
 
     }
 
     public static void runSimilarityInterAnalysis(Connections conn, Dataset<Row> newDataSource, Dataset<Row> BDWSource) throws IOException {
         System.out.println("Linhas são " + BDWSource.count());
-        Cosine cosineSim = new Cosine(2);
+      
+      Cosine cosineSim = new Cosine(1);
         org.apache.commons.text.similarity.JaccardSimilarity jaccardSim = new org.apache.commons.text.similarity.JaccardSimilarity();
         JaroWinkler jaroWinklerSimilarity = new JaroWinkler();
         NormalizedLevenshtein levenshteinSimilarity = new NormalizedLevenshtein();
         ArrayList<Match> matchList = new ArrayList<>();
+        FrequencyAnalysis freqAnalysis = new FrequencyAnalysis();
+
         for (String columnNewSource : newDataSource.columns()) {
-            List<Row> newSourceRows = newDataSource.select(columnNewSource).collectAsList();
+
+            Dataset<Row> frequencyValuesNS = freqAnalysis.frequencyValuesAnalysisWOLim(newDataSource, columnNewSource);
+            List<Row> newSourceRows = newDataSource.select(columnNewSource).distinct().collectAsList();
             System.out.println("\n" + " ColumnMain: " + columnNewSource);
 
             for (String columnBDW : BDWSource.columns()) {
 
-                List<Row> BDWRows = BDWSource.select(columnBDW).collectAsList();
+                Dataset<Row> frequencyValuesBDW = freqAnalysis.frequencyValuesAnalysisWOLim(BDWSource, columnBDW);
 
+                List<Row> BDWRows = BDWSource.select(columnBDW).distinct().collectAsList();
                 Instant startCosine = Instant.now();
 //                System.out.println("\t" + "---- SimilarityCosine" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + cosineSim.similarity(newSourceRows.toString(), BDWRows.toString()));
                 double cosineSimilarity = cosineSim.similarity(newSourceRows.toString(), BDWRows.toString());
@@ -94,7 +101,8 @@ public class SimilarityAnalysis {
                 Duration timeLevenshtein = Duration.between(startLevenshtein, endLevenshtein);
 
                 Instant startHash = Instant.now();
-                double hashSimilarity = HashMatcher.hashMather(columnBDW, columnNewSource, BDWSource, newDataSource);
+                double hashSimilarity = HashMatcher.hashMatcherSimilarity(columnBDW, columnNewSource, BDWSource, newDataSource, frequencyValuesBDW, frequencyValuesNS);
+
                 Instant endHash = Instant.now();
                 Duration timeHash = Duration.between(startHash, endHash);
 
@@ -103,7 +111,7 @@ public class SimilarityAnalysis {
                 Match match = new Match();
                 match.setColumnBDW(tokenBDW);
                 match.setNewColumn(tokenNewSource);
-                Score score = new Score(jaccardSimilarity, (double) timeJaccard.getNano() / 1000000000, JaroWinklerSimilarity, (double) timeJaroWinkler.getNano() / 1000000000, levenshteinSim, (double) timeLevenshtein.getNano() / 1000000000, cosineSimilarity, (double) timeCosine.getNano() / 1000000000, hashSimilarity, (double)timeHash.getNano()/1000000000);
+                Score score = new Score(jaccardSimilarity, (double) timeJaccard.getNano() / 1000000000, JaroWinklerSimilarity, (double) timeJaroWinkler.getNano() / 1000000000, levenshteinSim, (double) timeLevenshtein.getNano() / 1000000000, cosineSimilarity, (double) timeCosine.getNano() / 1000000000, hashSimilarity, (double) timeHash.getNano() / 1000000000);
                 match.setScore(score);
                 matchList.add(match);
             }

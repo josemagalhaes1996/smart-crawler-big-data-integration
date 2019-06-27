@@ -78,7 +78,6 @@ public class Score {
         this.cosineTime = cosineTime;
         this.jaro_winklerTime = jaro_winklerTime;
         this.levensheteinTime = levenshteinTime;
-
         
         this.hashMatcher = hashSimilarity;
         this.hashTime = hashTime;

@@ -23,6 +23,11 @@ import org.supercsv.prefs.CsvPreference;
  */
 public class CSVGenerator {
 
+    public CSVGenerator() {
+    }
+
+    
+    
     /**
      *
      *
@@ -101,7 +106,7 @@ public class CSVGenerator {
                             match.getScore().getCosine(), match.getScore().getCosineTime(),
                             match.getScore().getJaro_winkler(), match.getScore().getJaro_winklerTime(),
                             match.getScore().getLevenshetein(), match.getScore().getLevensheteinTime(),
-                            match.getScore().getHashMatcher(),  match.getScore().getHashTime(),
+                            match.getScore().getHashMatcher(), match.getScore().getHashTime(),
                             match.getScore().getAverageSimilarity(), match.getScore().getAverageTime()}), processors);
                     }
                 }
@@ -113,6 +118,36 @@ public class CSVGenerator {
         }
 
     }
+
+    public  ICsvListWriter createHeaderCSV(String name) throws IOException {
+        ICsvListWriter listWriter = null;
+        try {
+            listWriter = new CsvListWriter(new FileWriter("./" + name + ".csv"),
+                    CsvPreference.STANDARD_PREFERENCE);
+
+            final String[] header = new String[]{
+                //                "New Source Column Name", 
+                "ColumnValue", "FrequencyValue"};
+
+            // write the header
+            listWriter.writeHeader(header);
+
+        } finally {
+
+        }
+
+        return listWriter;
+    }
+
+    public  void writeLine(String name, String frequencyValues, ICsvListWriter listWriter) throws IOException {
+       
+        final CellProcessor[] processors = getProcessorsFrequencyValues();
+
+        listWriter.write(Arrays.asList(new Object[]{name, frequencyValues}), processors);
+
+    }
+
+   
 
     private static CellProcessor[] getProcessors() {
         final CellProcessor[] processors = new CellProcessor[]{
@@ -126,6 +161,15 @@ public class CSVGenerator {
             new Optional(), //WUP
             new Optional(), //PATH
             new Optional(), //Average All Similarities
+        };
+
+        return processors;
+    }
+
+    private static CellProcessor[] getProcessorsFrequencyValues() {
+        final CellProcessor[] processors = new CellProcessor[]{
+            new Optional(), // ColumnName 
+            new Optional(), // FrequencyValues
         };
 
         return processors;

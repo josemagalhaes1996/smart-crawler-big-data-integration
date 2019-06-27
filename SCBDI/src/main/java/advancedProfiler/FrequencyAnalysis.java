@@ -5,23 +5,11 @@
  */
 package advancedProfiler;
 
-import basicProfiler.Profiler;
-import com.hortonworks.hwc.Connections;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
-import org.apache.spark.api.java.function.ForeachFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import static org.apache.spark.sql.functions.col;
 import static org.apache.spark.sql.functions.collect_list;
 import static org.apache.spark.sql.functions.size;
-import scala.collection.mutable.HashTable;
 
 /**
  *

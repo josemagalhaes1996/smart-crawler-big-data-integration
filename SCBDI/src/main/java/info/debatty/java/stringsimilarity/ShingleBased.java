@@ -105,6 +105,7 @@ public abstract class ShingleBased {
         HashMap<String, Integer> shingles = new HashMap<String, Integer>();
 
         String string_no_space = SPACE_REG.matcher(string).replaceAll(" ");
+       
         for (int i = 0; i < (string_no_space.length() - k + 1); i++) {
             String shingle = string_no_space.substring(i, i + k);
             Integer old = shingles.get(shingle);
