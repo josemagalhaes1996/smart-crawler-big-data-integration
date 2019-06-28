@@ -20,8 +20,8 @@ import org.apache.spark.sql.Row;
  *
  * @author Utilizador
  */
-public class SimilarityIntersection {
-
+public class SimilarityIntersectionWB {
+  
     public static void main(String args[]) throws IOException {
         Instant start = Instant.now();
         Connections conn = new Connections();
@@ -53,17 +53,19 @@ public class SimilarityIntersection {
                 System.out.println("\t" + "Column New Source: " + columnsNS[j]);
 
                 Dataset<Row> rowsNewSouce = prof.getDataSet().select(columnsNS[j]);
-                Map<Row, Long> frequencyVal = rowsNewSouce.rdd().toJavaRDD().countByValue();
+                
+                Broadcast<Dataset<Row>> newSourceBroadCasted = conn.getJavasparkContext().broadcast(rowsNewSouce);
+
+                Map<Row, Long> frequencyVal = newSourceBroadCasted.value().rdd().toJavaRDD().countByValue();
 
 //                System.out.println("Generated " +rowsNewSouceDistinct.count());
 //             
 //                System.out.println("Faz frequency-a");
                 Broadcast< Map<Row, Long>> mapFrequencyBroadCasted = conn.getJavasparkContext().broadcast(frequencyVal);
 
-                Broadcast<Dataset<Row>> newSourceBroadCasted = conn.getJavasparkContext().broadcast(rowsNewSouce);
 
 //                System.out.println("Faz broadcast");
-                JavaRDD<Row> intersectedRows = rowsBDWDistinct.rdd().intersection(rowsNewSouce.rdd()).toJavaRDD();
+                JavaRDD<Row> intersectedRows = rowsBDWDistinct.rdd().intersection(newSourceBroadCasted.value().rdd()).toJavaRDD();
 
 //
 //                if (intersectedRows == null || intersectedRows.count() <= 0 ) {
@@ -72,7 +74,7 @@ public class SimilarityIntersection {
 //                    
                 JavaRDD<Long> numValues = intersectedRows.map(x -> {
 
-                    return frequencyVal.get(x);
+                    return mapFrequencyBroadCasted.value().get(x);
 
                 });
                 double intersection;
@@ -81,7 +83,7 @@ public class SimilarityIntersection {
 
                     long sumIntersections = numValues.reduce((c1, c2) -> c1 + c2);
 
-                    intersection = ((double) (sumIntersections * 100)) / (double) rowsNewSouce.count();
+                    intersection = ((double) (sumIntersections * 100)) / (double) newSourceBroadCasted.value().count();
                 } else {
 
                     intersection = 0.0;

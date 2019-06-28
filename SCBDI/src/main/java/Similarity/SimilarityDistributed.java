@@ -97,7 +97,6 @@ public class SimilarityDistributed {
 
                 }, Encoders.DOUBLE()).reduce((c1, c2) -> c1 + c2);
 
-
                 //Guardar os resultados em acumulatores...
             }
         }
