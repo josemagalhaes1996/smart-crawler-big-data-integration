@@ -36,6 +36,7 @@ public class Connections implements Serializable {
         this.javasparkContext = JavaSparkContext.fromSparkContext(this.session.sparkContext());
         this.hiveSession = com.hortonworks.spark.sql.hive.llap.HiveWarehouseBuilder.session(this.session).build();
 
+        
     }
 
     public String dataTypeColumn(Tuple2<String, String>[] dtype, String columnName) {

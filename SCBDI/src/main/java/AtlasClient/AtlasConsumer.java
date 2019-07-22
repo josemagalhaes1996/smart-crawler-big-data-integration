@@ -64,6 +64,28 @@ public class AtlasConsumer {
         return null;
     }
 
+    public String getJob(String qualifiedNameJob) throws JSONException {
+        String url = "/api/atlas/discovery/search/dsl?query=Job+where+qualifiedName=" + qualifiedNameJob;
+        String authString = name + ":" + password;
+        String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
+        javax.ws.rs.client.Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(host + url);
+        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + authStringEnc);
+        Response response = invocationBuilder.get();
+        String output = response.readEntity(String.class);
+        JSONObject obj = new JSONObject(output);
+        JSONArray resultsArray = obj.getJSONArray("results");
+
+        for (int i = 0; i < resultsArray.length(); i++) {
+
+            if (resultsArray.getJSONObject(i).get("qualifiedName").equals(qualifiedNameJob) && resultsArray.getJSONObject(i).getJSONObject("$id$").get("state").equals("ACTIVE")) {
+                return resultsArray.getJSONObject(i).getJSONObject("$id$").getString("id");
+            }
+
+        }
+        return null;
+    }
+
     public ArrayList<String> getColumnStatsID(String tableID) throws JSONException {
         JSONObject jsonColumnStatsIDs = entitiesbyType("ColumnStatistics");
         ArrayList<String> arraycolumnID = new ArrayList<>();
@@ -101,15 +123,6 @@ public class AtlasConsumer {
         Connections conn = new Connections();
         AtlasConsumer consumer = new AtlasConsumer();
 
-        //        System.out.println(consumer.getIDAtlasColumnACTIVE("ssn", "branch_intersect", "default"));
-//        System.out.println(consumer.getIDAtlasColumnACTIVE("location", "branch_intersect", "default"));
-//        System.out.println(consumer.getIDAtlasTableACTIVE("branch_intersect", "default"));
-//        System.out.println(consumer.getAllTypes().toString());
-//        System.out.println("teste");
-        // System.out.println(consumer.entitiesbyType("hive_column"));
-        //    consumer.getAllTypes();
-        // System.out.println(consumer.getAllTypes().toString());
-//           consumer.entitiesbyType("hive_table");
         consumer.getEntity("dc68aff6-4460-4405-baf5-c9c9c5fb649f");
         String id = consumer.getDBID("dc68aff6-4460-4405-baf5-c9c9c5fb649f");
         String id2 = consumer.getIDAtlasColumnACTIVE("full_name", "brancha", "josedb");
@@ -247,8 +260,8 @@ public class AtlasConsumer {
 
     }
 
-    public JSONObject getGuidHiveTable(String nameEntity,String type) throws JSONException {
-        String url = "/api/atlas/discovery/search/dsl?query="+type+"+where+__state=ACTIVE+name=" + nameEntity;
+    public JSONObject getGuidHiveTable(String nameEntity, String type) throws JSONException {
+        String url = "/api/atlas/discovery/search/dsl?query=" + type + "+where+__state=ACTIVE+name=" + nameEntity;
         String authString = name + ":" + password;
         String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
         javax.ws.rs.client.Client client = ClientBuilder.newClient();
@@ -261,11 +274,6 @@ public class AtlasConsumer {
         JSONObject obj = new JSONObject(output);
         return obj;
     }
-    
-    
-    
-    
-    
 
     public JSONArray getAudtisTable(String guidTable) throws JSONException {
         String url = "/api/atlas/v2/entity/" + guidTable + "/audit";
@@ -288,8 +296,8 @@ public class AtlasConsumer {
         DefaultHttpClient httpclient = new DefaultHttpClient();
         String authString = name + ":" + password;
         String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
-        
-        HttpPut httput = new HttpPut( host +"/api/atlas/v2/entity/guid/" + guid + "?name=acessesCounter");
+
+        HttpPut httput = new HttpPut(host + "/api/atlas/v2/entity/guid/" + guid + "?name=acessesCounter");
         StringEntity se = new StringEntity(String.valueOf(audits));
         httput.setEntity(se);
         httput.setHeader("Authorization", "Basic " + authStringEnc);

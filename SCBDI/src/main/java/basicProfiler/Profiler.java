@@ -21,6 +21,7 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.Encoder;
 import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.SparkSession;
+import org.json.JSONObject;
 
 /**
  * 111
@@ -73,12 +74,19 @@ public class Profiler implements Serializable {
 
     public static void main(String[] args) throws AnalysisException, IOException, Exception {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("tpcds", "store_sales", conn);
+        AtlasConsumer restEntity = new AtlasConsumer();
+        JsonControler jobEntity = new JsonControler();
 
+        JSONObject jobJSON = jobEntity.createEntityJob(conn.getJavasparkContext().sc().applicationId(), conn.getJavasparkContext().sc().sparkUser());
+        restEntity.createEntityAtlas(jobJSON);
+        Profiler prof = new Profiler("tpcds", "store_sales", conn);
+       
         // runcreateDataSetColumnProfiler(prof, conn.getSession());
-        runcreateDataSetProfiler(prof, conn.getSession());
+        
+        runcreateDataSetProfiler(prof, conn.getSession(),conn.getJavasparkContext().sc().applicationId());
 
     }
+    
 
     public static void runcreateDataSetColumnProfiler(Profiler prof, SparkSession spark) throws AnalysisException, IOException, Exception {
         Instant start = Instant.now();
@@ -97,14 +105,13 @@ public class Profiler implements Serializable {
         Dataset<ColumnProfiler> columnProfilerDS = spark.createDataset(Collections.synchronizedList(columnProfiles), columnEncoder);
         columnProfilerDS.show();
 
-        AtlasConsumer restconsumer = new AtlasConsumer();
         JsonControler processEntity = new JsonControler();
         Instant endDate = Instant.now();
-        restconsumer.createEntityAtlas(processEntity.createEntityProcessColumnProfiler(prof.getTable(), prof.getDatabase(), start.toString(), endDate.toString(), prof.getDataSet().columns()));
+        restEntity.createEntityAtlas(processEntity.createEntityProcessColumnProfiler(prof.getTable(), prof.getDatabase(), start.toString(), endDate.toString(), prof.getDataSet().columns()));
 
     }
 
-    public static void runcreateDataSetProfiler(Profiler prof, SparkSession spark) throws Exception {
+    public static void runcreateDataSetProfiler(Profiler prof, SparkSession spark, String qualifiedNameJOB) throws Exception {
         Instant start = Instant.now();
         AtlasConsumer restconsumer = new AtlasConsumer();
         Encoder<DataSetProfiler> dataSetEncoder = Encoders.bean(DataSetProfiler.class);
@@ -125,7 +132,7 @@ public class Profiler implements Serializable {
         JsonControler processEntity = new JsonControler();
         Instant endDate = Instant.now();
 
-        restconsumer.createEntityAtlas(processEntity.createEntityProcess(prof.getTable(), prof.getDatabase(), start.toString(), endDate.toString()));
+        restconsumer.createEntityAtlas(processEntity.createEntityProcess(prof.getTable(), prof.getDatabase(), start.toString(), endDate.toString(),qualifiedNameJOB));
     }
 
 }

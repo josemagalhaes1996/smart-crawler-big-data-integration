@@ -25,7 +25,7 @@ public class SimilarityIntersection {
     public static void main(String args[]) throws IOException {
         Instant start = Instant.now();
         Connections conn = new Connections();
-        joinAnalysis("tpcds", "promotion", "store_sales");
+        joinAnalysis("tpcds", "promotion", "item");
         Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
         System.out.println("O JOb demorou " + end.getEpochSecond() + " Segundos");
 
@@ -55,21 +55,13 @@ public class SimilarityIntersection {
                 Dataset<Row> rowsNewSouce = prof.getDataSet().select(columnsNS[j]);
                 Map<Row, Long> frequencyVal = rowsNewSouce.rdd().toJavaRDD().countByValue();
 
-//                System.out.println("Generated " +rowsNewSouceDistinct.count());
 //             
-//                System.out.println("Faz frequency-a");
                 Broadcast< Map<Row, Long>> mapFrequencyBroadCasted = conn.getJavasparkContext().broadcast(frequencyVal);
 
                 Broadcast<Dataset<Row>> newSourceBroadCasted = conn.getJavasparkContext().broadcast(rowsNewSouce);
 
-//                System.out.println("Faz broadcast");
                 JavaRDD<Row> intersectedRows = rowsBDWDistinct.rdd().intersection(rowsNewSouce.rdd()).toJavaRDD();
 
-//
-//                if (intersectedRows == null || intersectedRows.count() <= 0 ) {
-//
-//                } else {
-//                    
                 JavaRDD<Long> numValues = intersectedRows.map(x -> {
 
                     return frequencyVal.get(x);
@@ -89,13 +81,8 @@ public class SimilarityIntersection {
 
                 System.out.println("Intersection: " + intersection);
 
-//                System.out.println("\t"  + "Java Long " + numValues.count());
-////                        numValues.reduce((c1,c2)-> c1+c2).doubleValue();
-////                    System.out.println("Numero de Intersecções: " + numValues.count());
-//
-//                }
-//                broadcastNewSet.destroy();
-                //Guar}dar os resultados em acumulatores...
+                newSourceBroadCasted.destroy();
+                mapFrequencyBroadCasted.destroy();
             }
         }
     }

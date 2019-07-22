@@ -9,7 +9,6 @@ import Controller.CSVGenerator;
 import Domain.Match;
 import Domain.Score;
 import Domain.Token;
-import basicProfiler.ColumnProfiler;
 import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
 import hesmlclient.HESMLclient;
@@ -27,22 +26,18 @@ import org.apache.spark.sql.Row;
  */
 public class FilterSimilarity {
 
-    
-    
-    
     public static void main(String args[]) throws IOException {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("storesale_er", "item", conn);
+        Profiler prof = new Profiler("tpcds", "item", conn);
         String path = "/user/jose/storesale_er/promotion/promotion.csv";
         String delimiter = ";";
         String header = "true";
-        Dataset<Row> dataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
-        firstFilterPairs(dataset, prof.getDataSet(), 0.6);
-    }
-    
-    
+        Dataset<Row> newDataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
+        filterPairs(newDataset, prof.getDataSet(), 0.75);
 
-    public static void firstFilterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW, double threshold) throws IOException {
+    }
+
+    public static void filterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW, double threshold) throws IOException {
         String[] columnsNewSource = newSource.columns();
         String[] columnsBDW = tableBDW.columns();
 
@@ -50,13 +45,16 @@ public class FilterSimilarity {
         org.apache.commons.text.similarity.JaccardSimilarity jaccardSim = new org.apache.commons.text.similarity.JaccardSimilarity();
         JaroWinkler jaroWinklerSimilarity = new JaroWinkler();
         NormalizedLevenshtein levenshteinSimilarity = new NormalizedLevenshtein();
+
         ArrayList<Match> matchesList = new ArrayList<>();
 
         for (String columnNewSource : columnsNewSource) {
             System.out.println("\n" + " ColumnMain: " + columnNewSource);
 
-            Token newcolmnToken = new Token(columnNewSource);
+            Token newcolumnToken = new Token(columnNewSource);
+
             for (String columnBDW : columnsBDW) {
+
                 Token columnTokenBDW = new Token(columnBDW);
 
                 double cosinesim = cosineSim.similarity(columnNewSource, columnBDW);
@@ -83,22 +81,20 @@ public class FilterSimilarity {
                     if (!(ontologyScore == null)) {
                         Match match = new Match();
                         match.setColumnBDW(columnTokenBDW);
-                        match.setNewColumn(newcolmnToken);
+                        match.setNewColumn(newcolumnToken);
                         match.setScore(ontologyScore);
                         matchesList.add(match);
                     }
-
                 } else {
                     Match match = new Match();
                     match.setColumnBDW(columnTokenBDW);
-                    match.setNewColumn(newcolmnToken);
+                    match.setNewColumn(newcolumnToken);
                     match.setScore(score);
                     matchesList.add(match);
                 }
             }
         }
         CSVGenerator.writeCSVResults(matchesList);
-
         System.out.println("Number of Pairs " + matchesList.size());
 
     }

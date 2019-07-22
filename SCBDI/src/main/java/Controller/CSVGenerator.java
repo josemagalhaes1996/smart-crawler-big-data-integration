@@ -118,6 +118,42 @@ public class CSVGenerator {
         }
 
     }
+    
+      public static void writeCSVJaccard (ArrayList<Match> matchArray) throws IOException {
+
+        ICsvListWriter listWriter = null;
+        try {
+            listWriter = new CsvListWriter(new FileWriter("./ResultsJaccard.csv"),
+                    CsvPreference.STANDARD_PREFERENCE);
+
+            final CellProcessor[] processors = getMesuresProcessors();
+            final String[] header = new String[]{
+                //                "New Source Column Name", 
+                "Pairs",
+                "Jaccard Similarity", "Jaccard  Time",
+                };
+
+            // write the header
+            listWriter.writeHeader(header);
+
+            // write the customer lists
+            if (matchArray.size() > 0) {
+                for (Match match : matchArray) {
+                    Score score = match.getScore();
+                    if (score.getConstructor() == 3) {
+                        listWriter.write(Arrays.asList(new Object[]{match.getNewColumn().getToken() + "-" + match.getColumnBDW().getToken(),
+                            match.getScore().getJaccard(), match.getScore().getJaccardTime() }));
+                    }
+                }
+            }
+        } finally {
+            if (listWriter != null) {
+                listWriter.close();
+            }
+        }
+
+    }
+      
 
     public  ICsvListWriter createHeaderCSV(String name) throws IOException {
         ICsvListWriter listWriter = null;
@@ -196,4 +232,15 @@ public class CSVGenerator {
         return processors;
     }
 
+    
+    private static CellProcessor[] getMesuresProcessors() {
+        final CellProcessor[] processors = new CellProcessor[]{
+            new Optional(), //New Souce Column Name  
+            //            new Optional(), // BDW Column Name
+            new Optional(), //Jaccard 
+            new Optional(), //Jaccard Time
+        };
+
+        return processors;
+    }
 }

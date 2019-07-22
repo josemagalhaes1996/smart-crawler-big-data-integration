@@ -25,9 +25,9 @@ public class Score {
     private double Wu_Palmer;
     private double PATH;
 
-    private double hashMatcher; 
+    private double hashMatcher;
     private double hashTime;
-    
+
     private int constructor;
 
     private double averageSimilarity;
@@ -78,13 +78,19 @@ public class Score {
         this.cosineTime = cosineTime;
         this.jaro_winklerTime = jaro_winklerTime;
         this.levensheteinTime = levenshteinTime;
-        
+
         this.hashMatcher = hashSimilarity;
         this.hashTime = hashTime;
-        
+
         this.averageSimilarity = (cosine + jaccard + jaro_winkler + levenshtein) / 4;
         this.averageTime = (jaccardTime + cosineTime + jaro_winklerTime + levenshteinTime) / 4;
 
+    }
+
+    public Score(double jaccard, double jaccardTime) {
+        this.constructor = 3;
+        this.jaccard = jaccard;
+        this.jaccardTime = jaccardTime;
     }
 
     public double getHashMatcher() {

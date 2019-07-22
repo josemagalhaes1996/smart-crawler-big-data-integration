@@ -21,11 +21,11 @@ import org.apache.spark.sql.Row;
  * @author Utilizador
  */
 public class SimilarityIntersectionWB {
-  
+
     public static void main(String args[]) throws IOException {
         Instant start = Instant.now();
         Connections conn = new Connections();
-        joinAnalysis("tpcds", "promotion", "store_sales");
+        joinAnalysis("tpcds", "promotion", "item");
         Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
         System.out.println("O JOb demorou " + end.getEpochSecond() + " Segundos");
 
@@ -53,25 +53,15 @@ public class SimilarityIntersectionWB {
                 System.out.println("\t" + "Column New Source: " + columnsNS[j]);
 
                 Dataset<Row> rowsNewSouce = prof.getDataSet().select(columnsNS[j]);
-                
+
                 Broadcast<Dataset<Row>> newSourceBroadCasted = conn.getJavasparkContext().broadcast(rowsNewSouce);
 
                 Map<Row, Long> frequencyVal = newSourceBroadCasted.value().rdd().toJavaRDD().countByValue();
 
-//                System.out.println("Generated " +rowsNewSouceDistinct.count());
-//             
-//                System.out.println("Faz frequency-a");
                 Broadcast< Map<Row, Long>> mapFrequencyBroadCasted = conn.getJavasparkContext().broadcast(frequencyVal);
 
-
-//                System.out.println("Faz broadcast");
                 JavaRDD<Row> intersectedRows = rowsBDWDistinct.rdd().intersection(newSourceBroadCasted.value().rdd()).toJavaRDD();
-
-//
-//                if (intersectedRows == null || intersectedRows.count() <= 0 ) {
-//
-//                } else {
-//                    
+                   
                 JavaRDD<Long> numValues = intersectedRows.map(x -> {
 
                     return mapFrequencyBroadCasted.value().get(x);
@@ -91,13 +81,9 @@ public class SimilarityIntersectionWB {
 
                 System.out.println("Intersection: " + intersection);
 
-//                System.out.println("\t"  + "Java Long " + numValues.count());
-////                        numValues.reduce((c1,c2)-> c1+c2).doubleValue();
-////                    System.out.println("Numero de Intersecções: " + numValues.count());
-//
-//                }
-//                broadcastNewSet.destroy();
-                //Guar}dar os resultados em acumulatores...
+                newSourceBroadCasted.destroy();
+                mapFrequencyBroadCasted.destroy();
+
             }
         }
     }

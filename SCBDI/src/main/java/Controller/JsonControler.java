@@ -129,6 +129,38 @@ public class JsonControler {
         return jsonfinal;
     }
 
+    public JSONObject createEntityJob(String jobName, String sparkUser) {
+        AtlasConsumer getTableName = new AtlasConsumer();
+        JSONObject jsonfinal = null;
+        try {
+
+            jsonfinal = new JSONObject();
+            jsonfinal.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Reference");
+
+            JSONObject id = new JSONObject();
+            id.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
+            id.put("id", "-1466683608564093000");
+            id.put("version", 0);
+            id.put("typeName", "Job");
+            jsonfinal.put("id", id);
+            jsonfinal.put("typeName", "Job");
+
+            JSONObject values = new JSONObject();
+            values.put("name", jobName);
+            values.put("sparkUser", sparkUser);
+
+            values.put("qualifiedName", jobName);
+
+            jsonfinal.put("values", values);
+            JSONArray traitNames = new JSONArray();
+            jsonfinal.put("traitNames", traitNames);
+            JSONObject traits = new JSONObject();
+            jsonfinal.put("traits", traits);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        return jsonfinal;
+    }
     /*
      This function has the purpose of creating json to create a Process Entity in the Atlas.
      It is invoked in  Profiler Class (package basicProfiler)
@@ -138,7 +170,8 @@ public class JsonControler {
      EndDate - Date when the process was finished; 
             
      */
-    public JSONObject createEntityProcess(String tableName, String database, String startdate, String endDate) {
+
+    public JSONObject createEntityProcess(String tableName, String database, String startdate, String endDate, String qualifiedName) {
 
         AtlasConsumer restConsumer = new AtlasConsumer();
         JSONObject jsonfinal = null;
@@ -185,6 +218,17 @@ public class JsonControler {
             outputEntity.put("state", "ACTIVE");
             outputs.put(outputEntity);
             values.put("outputs", outputs);
+
+            
+           String idJob =  restConsumer.getJob(qualifiedName);
+            System.out.println("\n" + " Encontrou o id e é este" + idJob);
+            JSONObject job = new JSONObject();
+            job.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
+            job.put("id", idJob);
+            job.put("version", 0);
+            job.put("typeName", "Job");
+            job.put("state", "ACTIVE");
+            values.put("job", job);
 
             values.put("qualifiedName", "prc." + database + "." + tableName);
             values.put("name", "Profiler Table " + tableName);
