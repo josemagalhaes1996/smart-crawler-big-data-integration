@@ -55,13 +55,9 @@ public class SimilarityIntersection {
                 Dataset<Row> rowsNewSouce = prof.getDataSet().select(columnsNS[j]);
                 Map<Row, Long> frequencyVal = rowsNewSouce.rdd().toJavaRDD().countByValue();
 
-//             
-                Broadcast< Map<Row, Long>> mapFrequencyBroadCasted = conn.getJavasparkContext().broadcast(frequencyVal);
-
-                Broadcast<Dataset<Row>> newSourceBroadCasted = conn.getJavasparkContext().broadcast(rowsNewSouce);
+                
 
                 JavaRDD<Row> intersectedRows = rowsBDWDistinct.rdd().intersection(rowsNewSouce.rdd()).toJavaRDD();
-
                 JavaRDD<Long> numValues = intersectedRows.map(x -> {
 
                     return frequencyVal.get(x);
@@ -81,8 +77,6 @@ public class SimilarityIntersection {
 
                 System.out.println("Intersection: " + intersection);
 
-                newSourceBroadCasted.destroy();
-                mapFrequencyBroadCasted.destroy();
             }
         }
     }

@@ -67,13 +67,14 @@ public class SimilarityIntersectionWB {
                     return mapFrequencyBroadCasted.value().get(x);
 
                 });
+                
                 double intersection;
 
                 if (numValues.count() > 0) {
 
                     long sumIntersections = numValues.reduce((c1, c2) -> c1 + c2);
-
                     intersection = ((double) (sumIntersections * 100)) / (double) newSourceBroadCasted.value().count();
+             
                 } else {
 
                     intersection = 0.0;
