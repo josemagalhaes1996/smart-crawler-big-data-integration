@@ -15,6 +15,8 @@ import info.debatty.java.stringsimilarity.Cosine;
 import info.debatty.java.stringsimilarity.JaroWinkler;
 import info.debatty.java.stringsimilarity.NormalizedLevenshtein;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -24,8 +26,8 @@ import org.apache.spark.sql.Row;
  * @author Utilizador
  */
 public class SimilarityMesuresProcessingTimeHeaders {
-    
-   public static void main(String args[]) throws IOException {
+
+    public static void main(String args[]) throws IOException {
         Connections conn = new Connections();
         Profiler prof = new Profiler("tpcds", "store_sales", conn);
         String path = "/user/jose/storesale_er/promotion/promotion.csv";
@@ -53,33 +55,36 @@ public class SimilarityMesuresProcessingTimeHeaders {
             Token newcolumnToken = new Token(columnNewSource);
 
             for (String columnBDW : columnsBDW) {
-
                 Token columnTokenBDW = new Token(columnBDW);
 
+                Instant startCosine = Instant.now();
                 double cosinesim = cosineSim.similarity(columnNewSource, columnBDW);
+                Instant endCosine = Instant.now().minus(startCosine.getEpochSecond(), ChronoUnit.SECONDS);
+
+                Instant startJaccard = Instant.now();
                 double jaccardsim = jaccardSim.similarity(columnNewSource, columnBDW);
+                Instant endJaccard = Instant.now().minus(startJaccard.getEpochSecond(), ChronoUnit.SECONDS);
+
+                Instant startJaroWinkler = Instant.now();
                 double jarowinklersim = jaroWinklerSimilarity.similarity(columnNewSource, columnBDW);
+                Instant endJaroWinkler = Instant.now().minus(startJaroWinkler.getEpochSecond(), ChronoUnit.SECONDS);
+
+                Instant startLevenshtein = Instant.now();
                 double levenshteinSim = levenshteinSimilarity.similarity(columnNewSource, columnBDW);
+                Instant endLevenshtein = Instant.now().minus(startLevenshtein.getEpochSecond(), ChronoUnit.SECONDS);
 
-                Score score = new Score(jaccardsim, jarowinklersim, levenshteinSim, cosinesim);
+                Score score = new Score((double) endJaccard.getEpochSecond(), (double) endJaroWinkler.getEpochSecond(), (double) endLevenshtein.getEpochSecond(), (double) endCosine.getEpochSecond());
 
-                System.out.println("\t" + "---- CosineSimilarity" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + cosinesim);
-                System.out.println("\t" + "---- JaccardSimilarity" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + jaccardsim);
-                System.out.println("\t" + "---- JaroWinkler" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + jarowinklersim);
-                System.out.println("\t" + "---- Levenshtein" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + levenshteinSim);
-                System.out.println("Mean: " + score.getAverageSimilarity());
-                System.out.println("\n");
+                Match match = new Match();
+                match.setColumnBDW(columnTokenBDW);
+                match.setNewColumn(newcolumnToken);
+                match.setScore(score);
+                matchesList.add(match);
 
-                 Match match = new Match();
-                    match.setColumnBDW(columnTokenBDW);
-                    match.setNewColumn(newcolumnToken);
-                    match.setScore(score);
-                    matchesList.add(match);
-                    
-                }
-        }       
-             
+            }
+        }
+
         CSVGenerator.writeCSVResults(matchesList);
         System.out.println("Number of Pairs " + matchesList.size());
     }
-    }    
+}
