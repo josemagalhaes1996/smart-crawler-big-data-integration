@@ -26,8 +26,6 @@ public class CSVGenerator {
     public CSVGenerator() {
     }
 
-    
-    
     /**
      *
      *
@@ -41,9 +39,8 @@ public class CSVGenerator {
             listWriter = new CsvListWriter(new FileWriter("./FilterBenchmarkResults.csv"),
                     CsvPreference.STANDARD_PREFERENCE);
 
-            final CellProcessor[] processors = getProcessors();
-            final String[] header = new String[]{"New Source Column Name", "BDW Column Name", "Jaccard Similarity", "Cosine Similarity", "Jaro-Winkler Similarity", "Levenshtein Similarity",
-                "JCN", "WUP", "PATH"};
+            final CellProcessor[] processors = getMesuresProcessors();
+            final String[] header = new String[]{"Pairs", "Jaccard Similarity", "Cosine Similarity", "Jaro-Winkler Similarity", "Levenshtein Similarity"};
 
             // write the header
             listWriter.writeHeader(header);
@@ -55,12 +52,12 @@ public class CSVGenerator {
 
                     if (score.getConstructor() == 1) {
 
-                        listWriter.write(Arrays.asList(new Object[]{match.getNewColumn(), match.getColumnBDW(), match.getScore().getJaccard(), match.getScore().getCosine(),
-                            match.getScore().getJaro_winkler(), match.getScore().getLevenshetein(), "", "", "", match.getScore().getAverageSimilarity()}), processors);
+                        listWriter.write(Arrays.asList(new Object[]{match.getNewColumn().getToken() + "-" + match.getColumnBDW().getToken(), match.getScore().getJaccard(), match.getScore().getCosine(),
+                            match.getScore().getJaro_winkler(), match.getScore().getLevenshetein() }), processors);
 
                     } else {
 
-                        listWriter.write(Arrays.asList(new Object[]{match.getNewColumn(), match.getColumnBDW(), "", "", "", "", match.getScore().getJiangandConrath(), match.getScore().getWu_Palmer(), match.getScore().getPATH(), match.getScore().getAverageSimilarity()}), processors);
+                        listWriter.write(Arrays.asList(new Object[]{match.getNewColumn().getToken(), match.getColumnBDW().getToken(), "", "", "", "", match.getScore().getJiangandConrath(), match.getScore().getWu_Palmer(), match.getScore().getPATH(), match.getScore().getAverageSimilarity()}), processors);
                     }
 
                 }
@@ -118,8 +115,8 @@ public class CSVGenerator {
         }
 
     }
-    
-      public static void writeCSVJaccard (ArrayList<Match> matchArray) throws IOException {
+
+    public static void writeCSVJaccard(ArrayList<Match> matchArray) throws IOException {
 
         ICsvListWriter listWriter = null;
         try {
@@ -130,8 +127,7 @@ public class CSVGenerator {
             final String[] header = new String[]{
                 //                "New Source Column Name", 
                 "Pairs",
-                "Jaccard Similarity", "Jaccard  Time",
-                };
+                "Jaccard Similarity", "Jaccard  Time",};
 
             // write the header
             listWriter.writeHeader(header);
@@ -142,7 +138,7 @@ public class CSVGenerator {
                     Score score = match.getScore();
                     if (score.getConstructor() == 3) {
                         listWriter.write(Arrays.asList(new Object[]{match.getNewColumn().getToken() + "-" + match.getColumnBDW().getToken(),
-                            match.getScore().getJaccard(), match.getScore().getJaccardTime() }));
+                            match.getScore().getJaccard(), match.getScore().getJaccardTime()}));
                     }
                 }
             }
@@ -153,9 +149,8 @@ public class CSVGenerator {
         }
 
     }
-      
 
-    public  ICsvListWriter createHeaderCSV(String name) throws IOException {
+    public ICsvListWriter createHeaderCSV(String name) throws IOException {
         ICsvListWriter listWriter = null;
         try {
             listWriter = new CsvListWriter(new FileWriter("./" + name + ".csv"),
@@ -175,15 +170,13 @@ public class CSVGenerator {
         return listWriter;
     }
 
-    public  void writeLine(String name, String frequencyValues, ICsvListWriter listWriter) throws IOException {
-       
+    public void writeLine(String name, String frequencyValues, ICsvListWriter listWriter) throws IOException {
+
         final CellProcessor[] processors = getProcessorsFrequencyValues();
 
         listWriter.write(Arrays.asList(new Object[]{name, frequencyValues}), processors);
 
     }
-
-   
 
     private static CellProcessor[] getProcessors() {
         final CellProcessor[] processors = new CellProcessor[]{
@@ -232,13 +225,13 @@ public class CSVGenerator {
         return processors;
     }
 
-    
     private static CellProcessor[] getMesuresProcessors() {
         final CellProcessor[] processors = new CellProcessor[]{
-            new Optional(), //New Souce Column Name  
-            //            new Optional(), // BDW Column Name
+            new Optional(), //Pairs
             new Optional(), //Jaccard 
-            new Optional(), //Jaccard Time
+            new Optional(), //Levenshtein
+            new Optional(), //Cosine
+            new Optional(), //Jaro-Winkler
         };
 
         return processors;

@@ -130,7 +130,6 @@ public class JsonControler {
     }
 
     public JSONObject createEntityJob(String jobName, String sparkUser) {
-        AtlasConsumer getTableName = new AtlasConsumer();
         JSONObject jsonfinal = null;
         try {
 

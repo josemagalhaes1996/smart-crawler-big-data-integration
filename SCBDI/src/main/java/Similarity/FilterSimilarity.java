@@ -28,7 +28,7 @@ public class FilterSimilarity {
 
     public static void main(String args[]) throws IOException {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("tpcds", "item", conn);
+        Profiler prof = new Profiler("tpcds", "store_sales", conn);
         String path = "/user/jose/storesale_er/promotion/promotion.csv";
         String delimiter = ";";
         String header = "true";
@@ -42,7 +42,7 @@ public class FilterSimilarity {
         String[] columnsBDW = tableBDW.columns();
 
         Cosine cosineSim = new Cosine(2);
-        org.apache.commons.text.similarity.JaccardSimilarity jaccardSim = new org.apache.commons.text.similarity.JaccardSimilarity();
+        info.debatty.java.stringsimilarity.Jaccard jaccardSim = new info.debatty.java.stringsimilarity.Jaccard();
         JaroWinkler jaroWinklerSimilarity = new JaroWinkler();
         NormalizedLevenshtein levenshteinSimilarity = new NormalizedLevenshtein();
 
@@ -58,7 +58,7 @@ public class FilterSimilarity {
                 Token columnTokenBDW = new Token(columnBDW);
 
                 double cosinesim = cosineSim.similarity(columnNewSource, columnBDW);
-                double jaccardsim = jaccardSim.apply(columnNewSource, columnBDW);
+                double jaccardsim = jaccardSim.similarity(columnNewSource, columnBDW);
                 double jarowinklersim = jaroWinklerSimilarity.similarity(columnNewSource, columnBDW);
                 double levenshteinSim = levenshteinSimilarity.similarity(columnNewSource, columnBDW);
 
@@ -71,27 +71,34 @@ public class FilterSimilarity {
                 System.out.println("Mean: " + score.getAverageSimilarity());
                 System.out.println("\n");
 
-                /*  CASO o valor Seja inferior da média for inferior a 0.6 será aplicado ontologias de dados*/
-                /* client , customer - sex - gender */
-                /* Devido às ontologias é necessário algumas combinações nos dados*/
-                if (score.getAverageSimilarity() < threshold) {
-
-                    Score ontologyScore = checkOntology(columnNewSource, columnBDW, threshold);
-
-                    if (!(ontologyScore == null)) {
-                        Match match = new Match();
-                        match.setColumnBDW(columnTokenBDW);
-                        match.setNewColumn(newcolumnToken);
-                        match.setScore(ontologyScore);
-                        matchesList.add(match);
-                    }
-                } else {
-                    Match match = new Match();
+                 Match match = new Match();
                     match.setColumnBDW(columnTokenBDW);
                     match.setNewColumn(newcolumnToken);
                     match.setScore(score);
                     matchesList.add(match);
-                }
+                    
+                    
+                /*  CASO o valor Seja inferior da média for inferior a 0.6 será aplicado ontologias de dados*/
+                /* client , customer - sex - gender */
+                /* Devido às ontologias é necessário algumas combinações nos dados*/
+//                if (score.getAverageSimilarity() < threshold) {
+//
+//                    Score ontologyScore = checkOntology(columnNewSource, columnBDW, threshold);
+//
+//                    if (!(ontologyScore == null)) {
+//                        Match match = new Match();
+//                        match.setColumnBDW(columnTokenBDW);
+//                        match.setNewColumn(newcolumnToken);
+//                        match.setScore(ontologyScore);
+//                        matchesList.add(match);
+//                    }
+//                } else {
+//                    Match match = new Match();
+//                    match.setColumnBDW(columnTokenBDW);
+//                    match.setNewColumn(newcolumnToken);
+//                    match.setScore(score);
+//                    matchesList.add(match);
+//                }
             }
         }
         CSVGenerator.writeCSVResults(matchesList);
