@@ -24,7 +24,7 @@ import org.apache.spark.sql.Row;
  *
  * @author Utilizador
  */
-public class FilterSimilarity {
+public class FilterPairs {
 
     public static void main(String args[]) throws IOException {
         Connections conn = new Connections();

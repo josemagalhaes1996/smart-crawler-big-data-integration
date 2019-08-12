@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Similarity;
+package tests;
 
-import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
+import basicProfiler.Profiler;
+import info.debatty.java.stringsimilarity.NormalizedLevenshtein;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.spark.sql.Dataset;
@@ -17,19 +19,19 @@ import static org.apache.spark.sql.functions.col;
  *
  * @author Utilizador
  */
-public class JaccardSimilarity {
+public class LevenshteinSimilarity implements Serializable {
 
     private String attributeA;
-    private String JaccardSimilarity;
+    private String levenshteinDistance;
     private String attributeB;
 
-    public JaccardSimilarity(String attribute, String similarityValue, String attributebdw) {
+    public LevenshteinSimilarity(String attribute, String similarityValue, String attributebdw) {
         this.attributeA = attribute;
-        this.JaccardSimilarity = similarityValue;
+        this.levenshteinDistance = similarityValue;
         this.attributeB = attributebdw;
     }
 
-    public JaccardSimilarity() {
+    public LevenshteinSimilarity() {
     }
 
     public String getAttributeA() {
@@ -40,12 +42,12 @@ public class JaccardSimilarity {
         this.attributeA = attributeA;
     }
 
-    public String getJaccardSimilarity() {
-        return JaccardSimilarity;
+    public String getLevenshteinDistance() {
+        return levenshteinDistance;
     }
 
-    public void setJaccardSimilarity(String JaccardSimilarity) {
-        this.JaccardSimilarity = JaccardSimilarity;
+    public void setLevenshteinDistance(String levenshteinDistance) {
+        this.levenshteinDistance = levenshteinDistance;
     }
 
     public String getAttributeB() {
@@ -60,19 +62,20 @@ public class JaccardSimilarity {
         Connections conn = new Connections();
         Profiler prof = new Profiler("tpcds", "item", conn);
         List<String> out = new ArrayList<>();
-        runJaccardSimilarity(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
+        runLevenshteinSimilarity(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
     }
-
-    public static void runJaccardSimilarity(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
-        if (out.size() == k) {
+    
+    public static void runLevenshteinSimilarity(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
+ if (out.size() == k) {
             if (out.get(0) == out.get(1)) {
             } else {
-
-                org.apache.commons.text.similarity.JaccardSimilarity sim = new org.apache.commons.text.similarity.JaccardSimilarity();
+               NormalizedLevenshtein  sim = new NormalizedLevenshtein ();
                 List<Row> columnA = dataset.select(col(out.get(0))).collectAsList();
                 List<Row> columnB = dataset.select(col(out.get(1))).collectAsList();
-                //      sim.apply(columnA.toString(), columnB.toString());s
-                System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.apply(columnA.toString(), columnB.toString()));
+             //      sim.apply(columnA.toString(), columnB.toString());
+                System.out.println(columnA.toString());
+                System.out.println(columnB.toString());
+               System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.similarity(columnA.toString(), columnB.toString()));                
             }
             return;
         }
@@ -82,7 +85,7 @@ public class JaccardSimilarity {
             // add current element A[j] to the solution and recurse with
             // same index j (as repeated elements are allowed in combinations)
             out.add(A[j]);
-            runJaccardSimilarity(conn, dataset, A, out, k, j, n);
+            runLevenshteinSimilarity(conn, dataset, A, out, k, j, n);
             // backtrack - remove current element from solution
             out.remove(out.size() - 1);
 //	    code to handle duplicates - skip adjacent duplicate elements

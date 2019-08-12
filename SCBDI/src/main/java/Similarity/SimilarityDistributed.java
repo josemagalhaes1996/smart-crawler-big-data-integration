@@ -57,6 +57,8 @@ public class SimilarityDistributed {
             Dataset<Row> rowsBDWDistinct = prof2.getDataSet().select(columnsbdw[i]).distinct();
 
             for (int j = 0; j < columnsNS.length; j++) {
+                Instant startJaccard = Instant.now();
+
                 System.out.println("Column New Source: " + columnsNS[j]);
                 Dataset<Row> rowsNewSouceDistinct = prof.getDataSet().select(columnsNS[j]).distinct();
 
@@ -65,21 +67,16 @@ public class SimilarityDistributed {
                 RDD<Tuple2<Row, Row>> cartesianrdd = rowsBDWDistinct.rdd().cartesian(rowsNewSouceDistinct.rdd(), tag);
                 JavaPairRDD<Row, Row> javapair = JavaPairRDD.fromRDD(cartesianrdd, tag, tag);
 
-                
-                Instant startJaccard = Instant.now();
-                Double similarityJAc = javapair.map(pair -> {
+                Double similarityMesure = javapair.map(pair -> {
+                    info.debatty.java.stringsimilarity.Jaccard jaccardSim = new info.debatty.java.stringsimilarity.Jaccard();
 
-                    org.apache.commons.text.similarity.JaccardSimilarity jaccardSim = new org.apache.commons.text.similarity.JaccardSimilarity();
-
-                    return jaccardSim.apply(pair._1.mkString(), pair._2.mkString());
+                    return jaccardSim.similarity(pair._1.mkString(), pair._2.mkString());
                 }).reduce(((c1, c2) -> c1 + c2));
                 Instant endJaccard = Instant.now().minus(startJaccard.getEpochSecond(), ChronoUnit.SECONDS);
 
-                double similarityValue = ((double) similarityJAc / (double) javapair.count());
-
                 Token tokenBDW = new Token(columnsbdw[i]);
                 Token tokenNS = new Token(columnsNS[j]);
-                Score scoreSimilarity = new Score(similarityValue, (double)endJaccard.getEpochSecond());
+                Score scoreSimilarity = new Score(similarityMesure, (double) endJaccard.getEpochSecond());
 
                 Match match = new Match();
 
@@ -93,7 +90,7 @@ public class SimilarityDistributed {
         }
 
         //Print to CSV
-        CSVGenerator.writeCSVJaccard(matchList);
+        CSVGenerator.writeCSVResultsMesuresBenchMark(matchList);
 
     }
 }

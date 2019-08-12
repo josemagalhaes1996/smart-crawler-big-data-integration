@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Similarity;
+package tests;
+
 import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
 import info.debatty.java.stringsimilarity.JaroWinkler;
@@ -12,23 +13,24 @@ import java.util.List;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import static org.apache.spark.sql.functions.col;
+
 /**
  *
  * @author Utilizador
  */
-public class JaroWinklerDistances {
-  
+public class JaroWinklerSimilarity {
+    
     private String attributeA;
-    private String jaroWinklerDistance;
+    private String jaroWinklerSimilarity;
     private String attributeB;
 
-    public JaroWinklerDistances(String attribute, String similarityValue, String attributebdw) {
+    public JaroWinklerSimilarity(String attribute, String similarityValue, String attributebdw) {
         this.attributeA = attribute;
-        this.jaroWinklerDistance = similarityValue;
+        this.jaroWinklerSimilarity = similarityValue;
         this.attributeB = attributebdw;
     }
 
-    public JaroWinklerDistances() {
+    public JaroWinklerSimilarity() {
     }
 
     public String getAttributeA() {
@@ -39,12 +41,12 @@ public class JaroWinklerDistances {
         this.attributeA = attributeA;
     }
 
-    public String getJaroWinklerDistance() {
-        return jaroWinklerDistance;
+    public String getJaroWinklerSimilarity() {
+        return jaroWinklerSimilarity;
     }
 
-    public void setJaroWinklerDistance(String jaroWinklerDistance) {
-        this.jaroWinklerDistance = jaroWinklerDistance;
+    public void setJaroWinklerSimilarity(String jaroWinklerSimilarity) {
+        this.jaroWinklerSimilarity = jaroWinklerSimilarity;
     }
     
     public String getAttributeB() {
@@ -72,7 +74,7 @@ public class JaroWinklerDistances {
              //      sim.apply(columnA.toString(), columnB.toString());
                 System.out.println(columnA.toString());
                 System.out.println(columnB.toString());
-               System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.distance(columnA.toString(), columnB.toString()));                
+               System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.similarity(columnA.toString(), columnB.toString()));                
             }
             return;
         }

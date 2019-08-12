@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Similarity;
+package tests;
 
 import com.hortonworks.hwc.Connections;
 import basicProfiler.ColumnProfiler;

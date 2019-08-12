@@ -53,7 +53,7 @@ public class CSVGenerator {
                     if (score.getConstructor() == 1) {
 
                         listWriter.write(Arrays.asList(new Object[]{match.getNewColumn().getToken() + "-" + match.getColumnBDW().getToken(), match.getScore().getJaccard(), match.getScore().getCosine(),
-                            match.getScore().getJaro_winkler(), match.getScore().getLevenshetein() }), processors);
+                            match.getScore().getJaro_winkler(), match.getScore().getLevenshetein()}), processors);
 
                     } else {
 
@@ -149,6 +149,39 @@ public class CSVGenerator {
         }
 
     }
+      public static void writeCSVResultsMesuresBenchMark(ArrayList<Match> matchArray) throws IOException {
+
+        ICsvListWriter listWriter = null;
+        try {
+            listWriter = new CsvListWriter(new FileWriter("./BenchmarkContentBenchmark.csv"),
+                    CsvPreference.STANDARD_PREFERENCE);
+
+            final CellProcessor[] processors = getProcessorsContentMesures();
+            final String[] header = new String[]{
+                //                "New Source Column Name", 
+                "Pairs",
+                "Mesure Similarity", "Time Processing"};
+
+            // write the header
+            listWriter.writeHeader(header);
+
+            // write the customer lists
+            if (matchArray.size() > 0) {
+                for (Match match : matchArray) {
+                    Score score = match.getScore();
+                    if (score.getConstructor() == 4) {
+                        listWriter.write(Arrays.asList(new Object[]{match.getNewColumn().getToken() + "-" + match.getColumnBDW().getToken(),
+                            match.getScore().getIntersection(), match.getScore().getProcessingTime()}), processors);
+                    }
+                }
+            }
+        } finally {
+            if (listWriter != null) {
+                listWriter.close();
+            }
+        }
+
+    }
 
     public ICsvListWriter createHeaderCSV(String name) throws IOException {
         ICsvListWriter listWriter = null;
@@ -232,6 +265,16 @@ public class CSVGenerator {
             new Optional(), //Levenshtein
             new Optional(), //Cosine
             new Optional(), //Jaro-Winkler
+        };
+
+        return processors;
+    }
+
+    private static CellProcessor[] getProcessorsContentMesures() {
+        final CellProcessor[] processors = new CellProcessor[]{
+            new Optional(), //Pairs
+            new Optional(), //Mesure 
+            new Optional(), //Time Processing 
         };
 
         return processors;

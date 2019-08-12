@@ -33,6 +33,9 @@ public class Score {
     private double averageSimilarity;
     private double averageTime;
 
+    private double intersection;
+    private double processingTime;
+
     public Score(double jaccard, double jaro_winkler, double levenshetein, double cosine) {
         this.constructor = 1;
         this.jaccard = jaccard;
@@ -87,10 +90,28 @@ public class Score {
 
     }
 
-    public Score(double jaccard, double jaccardTime) {
-        this.constructor = 3;
-        this.jaccard = jaccard;
-        this.jaccardTime = jaccardTime;
+    public Score(double intersection, double secondsProcessing) {
+        this.constructor = 4;
+        this.intersection = intersection;
+        this.processingTime = secondsProcessing;
+    }
+
+    public double getProcessingTime() {
+        return processingTime;
+    }
+
+    public void setProcessingTime(double processingTime) {
+        this.processingTime = processingTime;
+    }
+
+   
+
+    public double getIntersection() {
+        return intersection;
+    }
+
+    public void setIntersection(double intersection) {
+        this.intersection = intersection;
     }
 
     public double getHashMatcher() {

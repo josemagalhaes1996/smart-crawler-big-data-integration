@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Similarity;
+package tests;
 
 import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
-import info.debatty.java.stringsimilarity.JaroWinkler;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.spark.sql.Dataset;
@@ -18,19 +17,19 @@ import static org.apache.spark.sql.functions.col;
  *
  * @author Utilizador
  */
-public class JaroWinklerSimilarity {
+public class CosineDistance {
     
     private String attributeA;
-    private String jaroWinklerSimilarity;
+    private String cosineDistance;
     private String attributeB;
 
-    public JaroWinklerSimilarity(String attribute, String similarityValue, String attributebdw) {
+    public CosineDistance(String attribute, String similarityValue, String attributebdw) {
         this.attributeA = attribute;
-        this.jaroWinklerSimilarity = similarityValue;
+        this.cosineDistance = similarityValue;
         this.attributeB = attributebdw;
     }
 
-    public JaroWinklerSimilarity() {
+    public CosineDistance() {
     }
 
     public String getAttributeA() {
@@ -41,14 +40,14 @@ public class JaroWinklerSimilarity {
         this.attributeA = attributeA;
     }
 
-    public String getJaroWinklerSimilarity() {
-        return jaroWinklerSimilarity;
+    public String getCosineDistance() {
+        return cosineDistance;
     }
 
-    public void setJaroWinklerSimilarity(String jaroWinklerSimilarity) {
-        this.jaroWinklerSimilarity = jaroWinklerSimilarity;
+    public void setCosineDistance(String cosineDistance) {
+        this.cosineDistance = cosineDistance;
     }
-    
+   
     public String getAttributeB() {
         return attributeB;
     }
@@ -61,30 +60,46 @@ public class JaroWinklerSimilarity {
         Connections conn = new Connections();
         Profiler prof = new Profiler("tpcds", "item", conn);
         List<String> out = new ArrayList<>();
-        runJaroWinklerSimilarity(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
+        runCosineDistance(conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
     }
     
-    public static void runJaroWinklerSimilarity(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
- if (out.size() == k) {
+    
+    /**
+     * Implements Cosine Similarity between strings. The strings are first
+     * transformed in vectors of occurrences of k-shingles (sequences of k
+     * characters). In this n-dimensional space, the similarity between the two
+     * strings is the cosine of their respective vectors.
+     * */
+    
+    
+    public static void runCosineDistance(Connections conn, Dataset<Row> dataset, String[] A, List<String> out, int k, int i, int n) {
+        if (out.size() == k) {
             if (out.get(0) == out.get(1)) {
             } else {
-               JaroWinkler   sim = new JaroWinkler ();
+
+               org.apache.commons.text.similarity.CosineDistance sim = new org.apache.commons.text.similarity.CosineDistance();
+            
                 List<Row> columnA = dataset.select(col(out.get(0))).collectAsList();
                 List<Row> columnB = dataset.select(col(out.get(1))).collectAsList();
              //      sim.apply(columnA.toString(), columnB.toString());
+
                 System.out.println(columnA.toString());
                 System.out.println(columnB.toString());
-               System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.similarity(columnA.toString(), columnB.toString()));                
+
+               System.out.println("----ColumnMain: " + out.get(0) + "ColumnToCompare: " + out.get(1) + "---Value: " + sim.apply(columnA.toString(), columnB.toString()));
+  
+                
             }
             return;
         }
+        
         // start from previous element in the current combination
         // till last element
         for (int j = i; j < n; j++) {
             // add current element A[j] to the solution and recurse with
             // same index j (as repeated elements are allowed in combinations)
             out.add(A[j]);
-            runJaroWinklerSimilarity(conn, dataset, A, out, k, j, n);
+            runCosineDistance(conn, dataset, A, out, k, j, n);
             // backtrack - remove current element from solution
             out.remove(out.size() - 1);
 //	    code to handle duplicates - skip adjacent duplicate elements

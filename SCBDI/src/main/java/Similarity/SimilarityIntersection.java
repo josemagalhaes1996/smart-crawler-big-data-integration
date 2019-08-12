@@ -5,11 +5,16 @@
  */
 package Similarity;
 
+import Controller.CSVGenerator;
+import Domain.Match;
+import Domain.Score;
+import Domain.Token;
 import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Map;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.broadcast.Broadcast;
@@ -25,13 +30,13 @@ public class SimilarityIntersection {
     public static void main(String args[]) throws IOException {
         Instant start = Instant.now();
         Connections conn = new Connections();
-        joinAnalysis("tpcds", "promotion", "item");
+        joinAnalysis("tpcds", "promotion", "store_sales");
         Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
         System.out.println("O JOb demorou " + end.getEpochSecond() + " Segundos");
 
     }
 
-    public static void joinAnalysis(String dbName, String newsourceName, String sourceBDWName) {
+    public static void joinAnalysis(String dbName, String newsourceName, String sourceBDWName) throws IOException {
 
         String db = dbName;
         String newSource = newsourceName;
@@ -43,23 +48,23 @@ public class SimilarityIntersection {
 
         String[] columnsbdw = prof2.getDataSet().columns();
         String[] columnsNS = prof.getDataSet().columns();
+        ArrayList<Match> matchesList = new ArrayList<>();
 
         for (int i = 0; i < columnsbdw.length; i++) {
             System.out.println("Column Main BDW: " + columnsbdw[i]);
 
             Dataset<Row> rowsBDWDistinct = prof2.getDataSet().select(columnsbdw[i]).distinct();
+            Token columnbdw = new Token(columnsbdw[i]);
 
             for (int j = 0; j < columnsNS.length; j++) {
+                Instant start = Instant.now();
+                Token newcolumnNS = new Token(columnsNS[j]);
                 System.out.println("\t" + "Column New Source: " + columnsNS[j]);
-
                 Dataset<Row> rowsNewSouce = prof.getDataSet().select(columnsNS[j]);
                 Map<Row, Long> frequencyVal = rowsNewSouce.rdd().toJavaRDD().countByValue();
 
-                
-
                 JavaRDD<Row> intersectedRows = rowsBDWDistinct.rdd().intersection(rowsNewSouce.rdd()).toJavaRDD();
                 JavaRDD<Long> numValues = intersectedRows.map(x -> {
-
                     return frequencyVal.get(x);
 
                 });
@@ -76,8 +81,19 @@ public class SimilarityIntersection {
                 }
 
                 System.out.println("Intersection: " + intersection);
+                Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
+
+                Score scoreIntersection = new Score(intersection, (double) end.getEpochSecond());
+
+                Match match = new Match();
+                match.setColumnBDW(columnbdw);
+                match.setNewColumn(newcolumnNS);
+                match.setScore(scoreIntersection);
+                matchesList.add(match);
 
             }
         }
+
+        CSVGenerator.writeCSVResultsMesuresBenchMark(matchesList);
     }
 }
