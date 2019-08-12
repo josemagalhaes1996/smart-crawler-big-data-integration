@@ -24,15 +24,17 @@ import org.apache.spark.sql.Row;
  * @author Utilizador
  */
 public class SimilarityMesuresHeaders {
+
     public static void main(String args[]) throws IOException {
         Connections conn = new Connections();
         Profiler prof = new Profiler("tpcds", "store_sales", conn);
+        Profiler prof2 = new Profiler("tpcds", "income_band", conn);
+
         String path = "/user/jose/storesale_er/promotion/promotion.csv";
         String delimiter = ";";
         String header = "true";
         Dataset<Row> newDataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
-        filterPairs(newDataset, prof.getDataSet());
-
+        filterPairs(prof2.getDataSet(), prof.getDataSet());
     }
 
     public static void filterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW) throws IOException {
@@ -69,16 +71,16 @@ public class SimilarityMesuresHeaders {
                 System.out.println("Mean: " + score.getAverageSimilarity());
                 System.out.println("\n");
 
-                 Match match = new Match();
-                    match.setColumnBDW(columnTokenBDW);
-                    match.setNewColumn(newcolumnToken);
-                    match.setScore(score);
-                    matchesList.add(match);
-                    
-                }
-        }       
-             
+                Match match = new Match();
+                match.setColumnBDW(columnTokenBDW);
+                match.setNewColumn(newcolumnToken);
+                match.setScore(score);
+                matchesList.add(match);
+
+            }
+        }
+
         CSVGenerator.writeCSVResults(matchesList);
         System.out.println("Number of Pairs " + matchesList.size());
     }
-    }    
+}

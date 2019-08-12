@@ -40,7 +40,7 @@ public class CSVGenerator {
                     CsvPreference.STANDARD_PREFERENCE);
 
             final CellProcessor[] processors = getMesuresProcessors();
-            final String[] header = new String[]{"Pairs", "Jaccard Similarity", "Cosine Similarity", "Jaro-Winkler Similarity", "Levenshtein Similarity"};
+            final String[] header = new String[]{"Pairs", "Jaccard Similarity", "Jaro-Winkler Similarity", "Levenshtein Similarity", "Cosine Similarity"};
 
             // write the header
             listWriter.writeHeader(header);
