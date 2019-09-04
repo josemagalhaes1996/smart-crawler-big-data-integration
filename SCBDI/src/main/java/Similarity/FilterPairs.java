@@ -28,23 +28,25 @@ public class FilterPairs {
 
     public static void main(String args[]) throws IOException {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("tpcds", "store_sales", conn);
-        String path = "/user/jose/storesale_er/promotion/promotion.csv";
+//        Profiler prof = new Profiler("tpcds", "store_sales", conn);
+//        String path = "/user/jose/storesale_er/promotion/promotion.csv";
+        String path = "/user/jose/Genoma/GWAS_dataset.csv";
+
+        String path2 = "/user/jose/Genoma/DisGeNET RAW.csv";
         String delimiter = ";";
         String header = "true";
         Dataset<Row> newDataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
-        filterPairs(newDataset, prof.getDataSet(), 0.75);
+        Dataset<Row> newDataset2 = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path2);
+
+        filterPairs(newDataset, newDataset2, 0, true);
 
     }
 
-    public static void filterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW, double threshold) throws IOException {
+    public static void filterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW, double threshold, boolean wordNetProcess) throws IOException {
         String[] columnsNewSource = newSource.columns();
         String[] columnsBDW = tableBDW.columns();
 
         Cosine cosineSim = new Cosine(2);
-        info.debatty.java.stringsimilarity.Jaccard jaccardSim = new info.debatty.java.stringsimilarity.Jaccard();
-        JaroWinkler jaroWinklerSimilarity = new JaroWinkler();
-        NormalizedLevenshtein levenshteinSimilarity = new NormalizedLevenshtein();
 
         ArrayList<Match> matchesList = new ArrayList<>();
 
@@ -58,58 +60,51 @@ public class FilterPairs {
                 Token columnTokenBDW = new Token(columnBDW);
 
                 double cosinesim = cosineSim.similarity(columnNewSource, columnBDW);
-                double jaccardsim = jaccardSim.similarity(columnNewSource, columnBDW);
-                double jarowinklersim = jaroWinklerSimilarity.similarity(columnNewSource, columnBDW);
-                double levenshteinSim = levenshteinSimilarity.similarity(columnNewSource, columnBDW);
-
-                Score score = new Score(jaccardsim, jarowinklersim, levenshteinSim, cosinesim);
 
                 System.out.println("\t" + "---- CosineSimilarity" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + cosinesim);
-                System.out.println("\t" + "---- JaccardSimilarity" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + jaccardsim);
-                System.out.println("\t" + "---- JaroWinkler" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + jarowinklersim);
-                System.out.println("\t" + "---- Levenshtein" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + levenshteinSim);
-                System.out.println("Mean: " + score.getAverageSimilarity());
                 System.out.println("\n");
 
-                 Match match = new Match();
+                Match match = new Match();
+
+                //FALTA VERIFICAR QUE SER OU NAO UTILIZAR A SEMANTICA 
+                /*  CASO o valor Seja inferior da média for inferior a 0.6 será aplicado ontologias de dados*/
+                /* client , customer - sex - gender */
+                /* Devido às ontologias é necessário algumas combinações nos dados*/
+                if (cosinesim < threshold) {
+                    Double ontologyScore = null;
+                    if (wordNetProcess == true) {
+                        ontologyScore = checkOntology(columnNewSource, columnBDW, threshold);
+                    }
+
+                    if (!(ontologyScore == null)) {
+                        Score score = new Score(ontologyScore);
+                        match.setColumnBDW(columnTokenBDW);
+                        match.setNewColumn(newcolumnToken);
+                        match.setScore(score);
+                        matchesList.add(match);
+                    }
+                } else {
+                    Score score = new Score(cosinesim);
                     match.setColumnBDW(columnTokenBDW);
                     match.setNewColumn(newcolumnToken);
                     match.setScore(score);
                     matchesList.add(match);
-                    
-                    
-                /*  CASO o valor Seja inferior da média for inferior a 0.6 será aplicado ontologias de dados*/
-                /* client , customer - sex - gender */
-                /* Devido às ontologias é necessário algumas combinações nos dados*/
-//                if (score.getAverageSimilarity() < threshold) {
-//
-//                    Score ontologyScore = checkOntology(columnNewSource, columnBDW, threshold);
-//
-//                    if (!(ontologyScore == null)) {
-//                        Match match = new Match();
-//                        match.setColumnBDW(columnTokenBDW);
-//                        match.setNewColumn(newcolumnToken);
-//                        match.setScore(ontologyScore);
-//                        matchesList.add(match);
-//                    }
-//                } else {
-//                    Match match = new Match();
-//                    match.setColumnBDW(columnTokenBDW);
-//                    match.setNewColumn(newcolumnToken);
-//                    match.setScore(score);
-//                    matchesList.add(match);
-//                }
+                }
             }
         }
-        CSVGenerator.writeCSVResults(matchesList);
+        CSVGenerator.writeCSVResultsMesuresBenchMark(matchesList);
         System.out.println("Number of Pairs " + matchesList.size());
 
+        
+        
     }
+    
+    
 
-    public static Score checkOntology(String newcolumnToken, String columnTokenBDW, double threshold) {
+    public static Double checkOntology(String newcolumnToken, String columnTokenBDW, double threshold) {
 
-        ArrayList<Score> semanticScoreList = new ArrayList<>();
-        Score bestscore = null;
+        ArrayList<Double> semanticScoreList = new ArrayList<>();
+        Double bestscore = null;
         hesmlclient.HESMLclient semanticClient = new HESMLclient();
         ArrayList<String> stringNewSource = new ArrayList<>();
         ArrayList<String> stringSourceBDW = new ArrayList<>();
@@ -169,6 +164,7 @@ public class FilterPairs {
             }
 
             stringNewSource.stream().forEach((token) -> {
+
                 stringSourceBDW.stream().forEach((tokenbdw) -> {
                     try {
 
@@ -176,8 +172,7 @@ public class FilterPairs {
 
                         if (!(result == null)) {
 
-                            Score semanticScore = new Score(result[0], result[1], result[2]);
-                            semanticScoreList.add(semanticScore);
+                            semanticScoreList.add(result[0]);
                         }
 
                     } catch (Exception e) {
@@ -188,12 +183,12 @@ public class FilterPairs {
 
             if (semanticScoreList.size() > 0) {
 
-                for (Score scoreElement : semanticScoreList) {
+                for (Double scoreElement : semanticScoreList) {
 
                     if (bestscore == null) {
                         bestscore = scoreElement;
                     } else {
-                        if (bestscore.getAverageSimilarity() > scoreElement.getAverageSimilarity()) {
+                        if (bestscore > scoreElement) {
                             bestscore = scoreElement;
                         }
                     }
@@ -204,19 +199,19 @@ public class FilterPairs {
                 return null;
             }
 
-            if (bestscore.getAverageSimilarity() > threshold) {
-                System.out.println("\n" + "Recorreu ao passos semanticos e obteve uma similaridade de " + bestscore.getAverageSimilarity());
+            if (bestscore > threshold) {
+                System.out.println("\n" + "Recorreu ao passos semanticos e obteve uma similaridade de " + bestscore);
 
                 return bestscore;
 
             }
 
         } else {
-            bestscore = new Score(resultsSemanctic[0], resultsSemanctic[1], resultsSemanctic[2]);
-            System.out.println("Semanticamente " + bestscore.getAverageSimilarity());
+            bestscore = resultsSemanctic[0];
+            System.out.println("Semanticamente " + bestscore);
 
-            if (bestscore.getAverageSimilarity() > threshold) {
-                System.out.println("\n" + " Semantic Similarity Score  is " + bestscore.getAverageSimilarity());
+            if (bestscore > threshold) {
+                System.out.println("\n" + " Semantic Similarity Score  is " + bestscore);
                 return bestscore;
             }
         }

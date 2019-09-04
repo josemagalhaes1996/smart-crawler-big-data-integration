@@ -79,7 +79,7 @@ public class Profiler implements Serializable {
 
         JSONObject jobJSON = jobEntity.createEntityJob(conn.getJavasparkContext().sc().applicationId(), conn.getJavasparkContext().sc().sparkUser());
         restEntity.createEntityAtlas(jobJSON);
-        Profiler prof = new Profiler("tpcds", "store_sales", conn);
+        Profiler prof = new Profiler("tpcds", "promotion", conn);
        
         // runcreateDataSetColumnProfiler(prof, conn.getSession());
         

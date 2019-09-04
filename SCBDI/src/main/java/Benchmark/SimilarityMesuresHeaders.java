@@ -16,6 +16,8 @@ import info.debatty.java.stringsimilarity.JaroWinkler;
 import info.debatty.java.stringsimilarity.NormalizedLevenshtein;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
@@ -29,12 +31,13 @@ public class SimilarityMesuresHeaders {
         Connections conn = new Connections();
         Profiler prof = new Profiler("tpcds", "store_sales", conn);
         Profiler prof2 = new Profiler("tpcds", "income_band", conn);
-
+        
         String path = "/user/jose/storesale_er/promotion/promotion.csv";
         String delimiter = ";";
         String header = "true";
         Dataset<Row> newDataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
-        filterPairs(prof2.getDataSet(), prof.getDataSet());
+        
+            filterPairs(prof2.getDataSet(), prof.getDataSet());
     }
 
     public static void filterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW) throws IOException {

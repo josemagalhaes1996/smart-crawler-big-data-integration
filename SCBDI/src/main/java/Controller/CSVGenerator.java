@@ -173,6 +173,10 @@ public class CSVGenerator {
                         listWriter.write(Arrays.asList(new Object[]{match.getNewColumn().getToken() + "-" + match.getColumnBDW().getToken(),
                             match.getScore().getIntersection(), match.getScore().getProcessingTime()}), processors);
                     }
+                    if(score.getConstructor() == 5){
+                     listWriter.write(Arrays.asList(new Object[]{match.getNewColumn().getToken() + "-" + match.getColumnBDW().getToken(),
+                            match.getScore().getCosine(),""}), processors);
+                    }
                 }
             }
         } finally {

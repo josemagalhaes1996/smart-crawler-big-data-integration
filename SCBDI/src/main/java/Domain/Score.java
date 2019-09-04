@@ -36,6 +36,11 @@ public class Score {
     private double intersection;
     private double processingTime;
 
+    public Score(double cosine){
+    this.cosine = cosine;
+    this.constructor = 5;
+    }
+    
     public Score(double jaccard, double jaro_winkler, double levenshetein, double cosine) {
         this.constructor = 1;
         this.jaccard = jaccard;

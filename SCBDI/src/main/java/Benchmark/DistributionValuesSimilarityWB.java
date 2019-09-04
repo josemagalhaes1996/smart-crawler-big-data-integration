@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Similarity;
+package Benchmark;
 
+import Similarity.*;
 import Controller.CSVGenerator;
 import Domain.Match;
 import Domain.Score;
@@ -25,12 +26,12 @@ import org.apache.spark.sql.Row;
  *
  * @author Utilizador
  */
-public class SimilarityIntersectionWB {
+public class DistributionValuesSimilarityWB {
 
     public static void main(String args[]) throws IOException {
         Instant start = Instant.now();
         Connections conn = new Connections();
-        joinAnalysis("tpcds", "promotion", "store_sales");
+        joinAnalysis("tpcds", "promotion", "item");
         Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
         System.out.println("O JOb demorou " + end.getEpochSecond() + " Segundos");
 
@@ -100,8 +101,6 @@ public class SimilarityIntersectionWB {
 
             }
         }
-        
-        
                 CSVGenerator.writeCSVResultsMesuresBenchMark(matchesList);
 
     }

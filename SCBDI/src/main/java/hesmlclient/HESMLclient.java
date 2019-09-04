@@ -97,15 +97,11 @@ public class HESMLclient {
                     wordnet.getWordSynsetsID(word2));
 
             // We create all the similarity measures
-            JCN = MeasureFactory.getMeasure(wordnetTaxonomy, SimilarityMeasureType.JiangConrath);
             WUP = MeasureFactory.getMeasure(wordnetTaxonomy, SimilarityMeasureType.WuPalmer);
-            PATH = MeasureFactory.getMeasure(wordnetTaxonomy, SimilarityMeasureType.PedersenPath);
 
             // We compute the four similarity values
-            simValues[0] = JCN.getHighestPairwiseSimilarity(word1Concepts, word2Concepts);
-            simValues[1] = WUP.getHighestPairwiseSimilarity(word1Concepts, word2Concepts);
-            simValues[2] = PATH.getHighestPairwiseSimilarity(word1Concepts, word2Concepts);
-
+            simValues[0] = WUP.getHighestPairwiseSimilarity(word1Concepts, word2Concepts);
+            
             // We destroy all resources
             word1Concepts.clear();
             word2Concepts.clear();

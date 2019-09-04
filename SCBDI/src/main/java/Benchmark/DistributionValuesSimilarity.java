@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Similarity;
+package Benchmark;
 
+import Similarity.*;
 import Controller.CSVGenerator;
 import Domain.Match;
 import Domain.Score;
@@ -25,7 +26,7 @@ import org.apache.spark.sql.Row;
  *
  * @author Utilizador
  */
-public class SimilarityIntersectionWB {
+public class DistributionValuesSimilarity {
 
     public static void main(String args[]) throws IOException {
         Instant start = Instant.now();
@@ -57,28 +58,24 @@ public class SimilarityIntersectionWB {
             Token columnbdw = new Token(columnsbdw[i]);
 
             for (int j = 0; j < columnsNS.length; j++) {
-                System.out.println("\t" + "Column New Source: " + columnsNS[j]);
                 Instant start = Instant.now();
                 Token newcolumnNS = new Token(columnsNS[j]);
-
+                System.out.println("\t" + "Column New Source: " + columnsNS[j]);
                 Dataset<Row> rowsNewSouce = prof.getDataSet().select(columnsNS[j]);
-                Broadcast<Dataset<Row>> newSourceBroadCasted = conn.getJavasparkContext().broadcast(rowsNewSouce);
-                Map<Row, Long> frequencyVal = newSourceBroadCasted.value().rdd().toJavaRDD().countByValue();
-                Broadcast< Map<Row, Long>> mapFrequencyBroadCasted = conn.getJavasparkContext().broadcast(frequencyVal);
-                JavaRDD<Row> intersectedRows = rowsBDWDistinct.rdd().intersection(newSourceBroadCasted.value().rdd()).toJavaRDD();
-                JavaRDD<Long> numValues = intersectedRows.map(x -> {
+                Map<Row, Long> frequencyVal = rowsNewSouce.rdd().toJavaRDD().countByValue();
 
-                    return mapFrequencyBroadCasted.value().get(x);
+                JavaRDD<Row> intersectedRows = rowsBDWDistinct.rdd().intersection(rowsNewSouce.rdd()).toJavaRDD();
+                JavaRDD<Long> numValues = intersectedRows.map(x -> {
+                    return frequencyVal.get(x);
 
                 });
-
                 double intersection;
 
                 if (numValues.count() > 0) {
 
                     long sumIntersections = numValues.reduce((c1, c2) -> c1 + c2);
-                    intersection = ((double) (sumIntersections * 100)) / (double) newSourceBroadCasted.value().count();
 
+                    intersection = ((double) (sumIntersections * 100)) / (double) rowsNewSouce.count();
                 } else {
 
                     intersection = 0.0;
@@ -95,14 +92,9 @@ public class SimilarityIntersectionWB {
                 match.setScore(scoreIntersection);
                 matchesList.add(match);
 
-                newSourceBroadCasted.destroy();
-                mapFrequencyBroadCasted.destroy();
-
             }
         }
-        
-        
-                CSVGenerator.writeCSVResultsMesuresBenchMark(matchesList);
 
+        CSVGenerator.writeCSVResultsMesuresBenchMark(matchesList);
     }
 }

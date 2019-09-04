@@ -12,6 +12,7 @@ import Domain.Token;
 import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -29,7 +30,6 @@ public class SimilarityIntersection {
 
     public static void main(String args[]) throws IOException {
         Instant start = Instant.now();
-        Connections conn = new Connections();
         joinAnalysis("tpcds", "promotion", "store_sales");
         Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
         System.out.println("O JOb demorou " + end.getEpochSecond() + " Segundos");
@@ -37,30 +37,39 @@ public class SimilarityIntersection {
     }
 
     public static void joinAnalysis(String dbName, String newsourceName, String sourceBDWName) throws IOException {
-
         String db = dbName;
         String newSource = newsourceName;
         String sourceBDW = sourceBDWName;
 
         Connections conn = new Connections();
-        Profiler prof = new Profiler(db, newSource, conn); //New Source
-        Profiler prof2 = new Profiler(db, sourceBDW, conn); // BDW        
+//        Profiler prof = new Profiler(db, newSource, conn); //New Source
+//        Profiler prof2 = new Profiler(db, sourceBDW, conn); // BDW        
+//       String[] columnsbdw = prof2.getDataSet().columns();
+//        String[] columnsNS = prof.getDataSet().columns();
 
-        String[] columnsbdw = prof2.getDataSet().columns();
-        String[] columnsNS = prof.getDataSet().columns();
+        String path = "/user/jose/Genoma/Ensembl_dataset.csv";
+
+        String path2 = "/user/jose/Genoma/DisGeNET RAW.csv";
+        String delimiter = ";";
+        String header = "true";
+        Dataset<Row> newDataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
+        Dataset<Row> newDataset2 = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path2);
+
+        String[] columnsbdw = newDataset.columns();
+        String[] columnsNS = newDataset2.columns();
         ArrayList<Match> matchesList = new ArrayList<>();
 
         for (int i = 0; i < columnsbdw.length; i++) {
             System.out.println("Column Main BDW: " + columnsbdw[i]);
 
-            Dataset<Row> rowsBDWDistinct = prof2.getDataSet().select(columnsbdw[i]).distinct();
+            Dataset<Row> rowsBDWDistinct = newDataset.select(columnsbdw[i]).distinct();
             Token columnbdw = new Token(columnsbdw[i]);
 
             for (int j = 0; j < columnsNS.length; j++) {
                 Instant start = Instant.now();
                 Token newcolumnNS = new Token(columnsNS[j]);
                 System.out.println("\t" + "Column New Source: " + columnsNS[j]);
-                Dataset<Row> rowsNewSouce = prof.getDataSet().select(columnsNS[j]);
+                Dataset<Row> rowsNewSouce = newDataset2.select(columnsNS[j]);
                 Map<Row, Long> frequencyVal = rowsNewSouce.rdd().toJavaRDD().countByValue();
 
                 JavaRDD<Row> intersectedRows = rowsBDWDistinct.rdd().intersection(rowsNewSouce.rdd()).toJavaRDD();
@@ -80,8 +89,13 @@ public class SimilarityIntersection {
                     intersection = 0.0;
                 }
 
+                  DecimalFormat df = new DecimalFormat("#.00");
+               intersection = Double.parseDouble(df.format(intersection));
+               
                 System.out.println("Intersection: " + intersection);
                 Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
+
+              
 
                 Score scoreIntersection = new Score(intersection, (double) end.getEpochSecond());
 
