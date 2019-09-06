@@ -160,6 +160,8 @@ public class JsonControler {
         }
         return jsonfinal;
     }
+    
+    
     /*
      This function has the purpose of creating json to create a Process Entity in the Atlas.
      It is invoked in  Profiler Class (package basicProfiler)
@@ -171,7 +173,6 @@ public class JsonControler {
      */
 
     public JSONObject createEntityProcess(String tableName, String database, String startdate, String endDate, String qualifiedName) {
-
         AtlasConsumer restConsumer = new AtlasConsumer();
         JSONObject jsonfinal = null;
         try {

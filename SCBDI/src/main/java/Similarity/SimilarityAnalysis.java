@@ -5,16 +5,14 @@
  */
 package Similarity;
 
-import Controller.CSVGenerator;
+import AtlasClient.AtlasConsumer;
+import Controller.JsonControler;
 import Domain.Match;
 import Domain.Score;
 import Domain.Token;
-import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
 import hesmlclient.HESMLclient;
 import info.debatty.java.stringsimilarity.Cosine;
-import info.debatty.java.stringsimilarity.JaroWinkler;
-import info.debatty.java.stringsimilarity.NormalizedLevenshtein;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.apache.spark.sql.Dataset;
@@ -24,7 +22,7 @@ import org.apache.spark.sql.Row;
  *
  * @author Utilizador
  */
-public class FilterPairs {
+public class SimilarityAnalysis {
 
     public static void main(String args[]) throws IOException {
         Connections conn = new Connections();
@@ -38,32 +36,26 @@ public class FilterPairs {
         Dataset<Row> newDataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
         Dataset<Row> newDataset2 = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path2);
 
-        filterPairs(newDataset, newDataset2, 0, true);
+        similarityAnalysis(newDataset, newDataset2, 0, true);
 
     }
 
-    public static void filterPairs(Dataset<Row> newSource, Dataset<Row> tableBDW, double threshold, boolean wordNetProcess) throws IOException {
+    public static void similarityAnalysis(Dataset<Row> newSource, Dataset<Row> tableBDW, double threshold, boolean wordNetProcess) throws IOException {
         String[] columnsNewSource = newSource.columns();
         String[] columnsBDW = tableBDW.columns();
-
         Cosine cosineSim = new Cosine(2);
-
-        ArrayList<Match> matchesList = new ArrayList<>();
+        ArrayList<Match> matchList = new ArrayList<>();
 
         for (String columnNewSource : columnsNewSource) {
             System.out.println("\n" + " ColumnMain: " + columnNewSource);
-
             Token newcolumnToken = new Token(columnNewSource);
 
             for (String columnBDW : columnsBDW) {
 
                 Token columnTokenBDW = new Token(columnBDW);
-
                 double cosinesim = cosineSim.similarity(columnNewSource, columnBDW);
-
                 System.out.println("\t" + "---- CosineSimilarity" + "\t" + "ColumnToCompare: " + columnBDW + "---Value: " + cosinesim);
                 System.out.println("\n");
-
                 Match match = new Match();
 
                 //FALTA VERIFICAR QUE SER OU NAO UTILIZAR A SEMANTICA 
@@ -81,28 +73,35 @@ public class FilterPairs {
                         match.setColumnBDW(columnTokenBDW);
                         match.setNewColumn(newcolumnToken);
                         match.setScore(score);
-                        matchesList.add(match);
+                        matchList.add(match);
                     }
                 } else {
                     Score score = new Score(cosinesim);
                     match.setColumnBDW(columnTokenBDW);
                     match.setNewColumn(newcolumnToken);
                     match.setScore(score);
-                    matchesList.add(match);
+                    matchList.add(match);
                 }
             }
         }
-        CSVGenerator.writeCSVResultsMesuresBenchMark(matchesList);
-        System.out.println("Number of Pairs " + matchesList.size());
+        //CSVGenerator.writeCSVResultsMesuresBenchMark(matchList);
+        System.out.println("Number of Pairs " + matchList.size());
 
-        
-        
+        for (int i = 0; i < matchList.size(); i++) {
+            String columnBDWName = matchList.get(i).getColumnBDW().getToken();
+            String columnNSName = matchList.get(i).getNewColumn().getToken();
+            double intersectionResult = SimilarityIntersection.similarityInterface(tableBDW, newSource, columnBDWName, columnNSName);
+            double similarityHeaders = matchList.get(i).getScore().getCosine();
+
+            JsonControler jsonControllerInterStats = new JsonControler();
+            AtlasConsumer restEntity = new AtlasConsumer();
+
+            //restEntity.createEntityAtlas();
+        }
+
     }
-    
-    
 
     public static Double checkOntology(String newcolumnToken, String columnTokenBDW, double threshold) {
-
         ArrayList<Double> semanticScoreList = new ArrayList<>();
         Double bestscore = null;
         hesmlclient.HESMLclient semanticClient = new HESMLclient();

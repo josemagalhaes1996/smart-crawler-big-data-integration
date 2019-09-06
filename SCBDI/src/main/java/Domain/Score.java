@@ -109,6 +109,22 @@ public class Score {
         this.processingTime = processingTime;
     }
 
+    public void setJaccardTime(double jaccardTime) {
+        this.jaccardTime = jaccardTime;
+    }
+
+    public void setJaro_winklerTime(double jaro_winklerTime) {
+        this.jaro_winklerTime = jaro_winklerTime;
+    }
+
+    public void setLevensheteinTime(double levensheteinTime) {
+        this.levensheteinTime = levensheteinTime;
+    }
+
+    public void setCosineTime(double cosineTime) {
+        this.cosineTime = cosineTime;
+    }
+
    
 
     public double getIntersection() {
