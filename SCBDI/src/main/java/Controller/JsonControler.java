@@ -57,11 +57,14 @@ public class JsonControler {
     }
 
     public JSONObject createEntityColumnProfiler(String columnName, String datatype, String database, String tablename,
-            String comment, String min, String max, long recordCount, long uniqueValues, long emptyValues, long nullValues, String maxFieldLength, String minFieldLength, long percentFillRecords, long percentUniqueValues, long numTrueValues, long numFalseValues, Dataset<Row> frequencyValuesDS) {
+            String comment, String min, String max, long recordCount, long uniqueValues, long emptyValues, long nullValues,
+            String maxFieldLength, String minFieldLength, long percentFillRecords, long percentUniqueValues, long numTrueValues, long numFalseValues, Dataset<Row> frequencyValuesDS) {
+
         AtlasConsumer getTableName = new AtlasConsumer();
         JSONObject jsonfinal = null;
         try {
             String idTableName = getTableName.getIDAtlasTableACTIVE(tablename, database);
+
             String idColumn = getTableName.getIDAtlasColumnACTIVE(columnName, tablename, database);
 
             jsonfinal = new JSONObject();
@@ -88,9 +91,12 @@ public class JsonControler {
             tablenameEntity.put("state", "ACTIVE");
             values.put("tableName", tablenameEntity);
             JSONObject frequencyValues = new JSONObject();
+
             for (int i = 0; i < frequencyValuesDS.collectAsList().size(); i++) {
+
                 frequencyValues.put(frequencyValuesDS.select(columnName).collectAsList().get(i).mkString(), frequencyValuesDS.select("count").collectAsList().get(i).mkString());
             }
+
             values.put("FrequencyValues", frequencyValues);
             JSONObject columnEntity = new JSONObject();
             columnEntity.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
@@ -99,6 +105,7 @@ public class JsonControler {
             columnEntity.put("typeName", "hive_column");
             columnEntity.put("state", "ACTIVE");
             values.put("columnReference", columnEntity);
+
             Instant instant = Instant.now();
             values.put("createTime", instant.toString());
             values.put("comment", comment);
@@ -160,8 +167,87 @@ public class JsonControler {
         }
         return jsonfinal;
     }
-    
-    
+
+    public JSONObject createEntityInterStatistics(String tableBDW, String tableNewSource, String columnBDW,
+            String columnNS, double intersectionResultContent, double similarityHeader, double threshold, String database) {
+        JSONObject jsonfinal = null;
+        AtlasConsumer atlas = new AtlasConsumer();
+        try {
+
+            jsonfinal = new JSONObject();
+            jsonfinal.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Reference");
+
+            JSONObject id = new JSONObject();
+            id.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
+            id.put("id", "-146668360");
+            id.put("version", 0);
+            id.put("typeName", "InterStatistics");
+            jsonfinal.put("id", id);
+            jsonfinal.put("typeName", "InterStatistics");
+
+            JSONObject values = new JSONObject();
+            values.put("name", "InterStatistics between " + columnBDW + " and " + columnNS + " columns . |Tables: " + tableBDW + " and " + tableNewSource);
+            values.put("thresholdFilter", threshold);
+            values.put("contentSimilarity", intersectionResultContent);
+            values.put("headerSimilarity", similarityHeader);
+
+                        System.out.println("chegou aqui" );
+
+            
+            String idColumnBDW = atlas.getIDColumn(columnBDW, tableBDW, database);
+            JSONObject columnMain = new JSONObject();
+            columnMain.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
+            columnMain.put("id", idColumnBDW);
+            columnMain.put("version", 0);
+            columnMain.put("typeName", "hive_column");
+            columnMain.put("state", "ACTIVE");
+            values.put("columnMain", columnMain);
+            
+            System.out.println("chegou aqui" + idColumnBDW);
+
+            String idColumnNS = atlas.getIDColumn(columnBDW, tableBDW, database);
+            JSONObject columnNSJson = new JSONObject();
+            columnNSJson.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
+            columnNSJson.put("id", idColumnNS);
+            columnNSJson.put("version", 0);
+            columnNSJson.put("typeName", "hive_column");
+            columnNSJson.put("state", "ACTIVE");
+            values.put("columnToCompare", columnNSJson);
+            values.put("qualifiedName", "interStatistics." + tableBDW + "." + tableNewSource + "." + database);
+
+            JSONArray inputs = new JSONArray();
+            String idTableBDW = atlas.getIDTables(tableBDW, database);
+            String idTableNS = atlas.getIDTables(tableNewSource, database);
+
+            JSONObject tablesBDW = new JSONObject();
+            tablesBDW.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
+            tablesBDW.put("id", idTableBDW);
+            tablesBDW.put("version", 0);
+            tablesBDW.put("typeName", "hive_table");
+            tablesBDW.put("state", "ACTIVE");
+            inputs.put(tablesBDW);
+            
+            JSONObject NSTable = new JSONObject();
+            NSTable.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
+            NSTable.put("id", idTableNS);
+            NSTable.put("version", 0);
+            NSTable.put("typeName", "hive_table");
+            NSTable.put("state", "ACTIVE");
+            inputs.put(NSTable);
+
+
+            values.put("tables",inputs);
+
+            jsonfinal.put("values", values);
+            JSONArray traitNames = new JSONArray();
+            jsonfinal.put("traitNames", traitNames);
+            JSONObject traits = new JSONObject();
+            jsonfinal.put("traits", traits);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        return jsonfinal;
+    }
     /*
      This function has the purpose of creating json to create a Process Entity in the Atlas.
      It is invoked in  Profiler Class (package basicProfiler)
@@ -207,6 +293,7 @@ public class JsonControler {
             inputEntity.put("typeName", "hive_table");
             inputEntity.put("state", "ACTIVE");
             inputs.put(inputEntity);
+
             values.put("inputs", inputs);
 
             JSONArray outputs = new JSONArray();
@@ -219,8 +306,7 @@ public class JsonControler {
             outputs.put(outputEntity);
             values.put("outputs", outputs);
 
-            
-           String idJob =  restConsumer.getJob(qualifiedName);
+            String idJob = restConsumer.getJob(qualifiedName);
             System.out.println("\n" + " Encontrou o id e é este" + idJob);
             JSONObject job = new JSONObject();
             job.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");

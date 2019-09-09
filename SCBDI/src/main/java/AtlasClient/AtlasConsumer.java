@@ -81,10 +81,43 @@ public class AtlasConsumer {
             if (resultsArray.getJSONObject(i).get("qualifiedName").equals(qualifiedNameJob) && resultsArray.getJSONObject(i).getJSONObject("$id$").get("state").equals("ACTIVE")) {
                 return resultsArray.getJSONObject(i).getJSONObject("$id$").getString("id");
             }
-
         }
         return null;
     }
+
+    public String getIDColumn(String columnName, String tableName, String dbName) throws JSONException {
+        String url = "/api/atlas/discovery/search/dsl?query=hive_column+where+__state=ACTIVE+name=" + columnName + "+table+where name=" + tableName + "db where name=" + dbName;
+        String authString = name + ":" + password;
+        String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
+        javax.ws.rs.client.Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(host + url);
+        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + authStringEnc);
+        Response response = invocationBuilder.get();
+        String output = response.readEntity(String.class);
+        JSONObject obj = new JSONObject(output);
+        JSONArray resultsArray = obj.getJSONArray("results");
+
+        return resultsArray.getJSONObject(0).getJSONObject("$id$").getString("id");
+
+    }
+    
+    
+    public String getIDTables(String tableName, String dbName) throws JSONException {
+        String url = "/api/atlas/discovery/search/dsl?query=hive_table+where+__state=ACTIVE+name="+ tableName+"db+where%20name="+dbName;
+        String authString = name + ":" + password;
+        String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
+        javax.ws.rs.client.Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(host + url);
+        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + authStringEnc);
+        Response response = invocationBuilder.get();
+        String output = response.readEntity(String.class);
+        JSONObject obj = new JSONObject(output);
+        JSONArray resultsArray = obj.getJSONArray("results");
+
+        return resultsArray.getJSONObject(0).getJSONObject("$id$").getString("id");
+
+    }
+    
 
     public ArrayList<String> getColumnStatsID(String tableID) throws JSONException {
         JSONObject jsonColumnStatsIDs = entitiesbyType("ColumnStatistics");

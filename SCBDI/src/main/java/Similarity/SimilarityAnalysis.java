@@ -10,13 +10,16 @@ import Controller.JsonControler;
 import Domain.Match;
 import Domain.Score;
 import Domain.Token;
+import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
 import hesmlclient.HESMLclient;
 import info.debatty.java.stringsimilarity.Cosine;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
+import org.json.JSONObject;
 
 /**
  *
@@ -24,23 +27,24 @@ import org.apache.spark.sql.Row;
  */
 public class SimilarityAnalysis {
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException, Exception {
         Connections conn = new Connections();
-//        Profiler prof = new Profiler("tpcds", "store_sales", conn);
-//        String path = "/user/jose/storesale_er/promotion/promotion.csv";
-        String path = "/user/jose/Genoma/GWAS_dataset.csv";
+        Profiler prof = new Profiler("tpcds", "store_sales", conn);
+        Profiler prof2 = new Profiler("tpcds", "promotion", conn);
 
-        String path2 = "/user/jose/Genoma/DisGeNET RAW.csv";
+        String path = "/user/jose/storesale_er/promotion/promotion.csv";
+//        String path = "/user/jose/Genoma/GWAS_dataset.csv";
+//        String path2 = "/user/jose/Genoma/DisGeNET RAW.csv";
         String delimiter = ";";
         String header = "true";
-        Dataset<Row> newDataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
-        Dataset<Row> newDataset2 = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path2);
+//        Dataset<Row> newDataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
+//        Dataset<Row> newDataset2 = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path2);
 
-        similarityAnalysis(newDataset, newDataset2, 0, true);
+        similarityAnalysis(prof2.getTable(), prof.getTable(),prof2.getDataSet(), prof.getDataSet(), 0.5, false, prof.getDatabase());
 
     }
 
-    public static void similarityAnalysis(Dataset<Row> newSource, Dataset<Row> tableBDW, double threshold, boolean wordNetProcess) throws IOException {
+    public static void similarityAnalysis(String nsNameTable , String tableBDWName, Dataset<Row> newSource, Dataset<Row> tableBDW, double threshold, boolean wordNetProcess, String database) throws IOException, Exception {
         String[] columnsNewSource = newSource.columns();
         String[] columnsBDW = tableBDW.columns();
         Cosine cosineSim = new Cosine(2);
@@ -92,11 +96,21 @@ public class SimilarityAnalysis {
             String columnNSName = matchList.get(i).getNewColumn().getToken();
             double intersectionResult = SimilarityIntersection.similarityInterface(tableBDW, newSource, columnBDWName, columnNSName);
             double similarityHeaders = matchList.get(i).getScore().getCosine();
+            double thresholdController = threshold;
 
             JsonControler jsonControllerInterStats = new JsonControler();
             AtlasConsumer restEntity = new AtlasConsumer();
+            JSONObject json = jsonControllerInterStats.createEntityInterStatistics(tableBDWName, nsNameTable, columnBDWName, columnNSName, intersectionResult, similarityHeaders, threshold, database);
 
-            //restEntity.createEntityAtlas();
+           try (FileWriter file = new FileWriter("entity.json")) {
+            file.write(json.toString());
+            System.out.println("Successfully Copied JSON Object to File...");
+            System.out.println("\nJSON Object: " + json.toString());
+        }
+
+            
+            restEntity.createEntityAtlas(json);
+
         }
 
     }

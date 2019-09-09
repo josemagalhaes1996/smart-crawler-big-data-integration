@@ -63,7 +63,7 @@ public class CorrelationAnalysis implements Serializable {
 
     public static void main(String args[]) throws JSONException, Exception {
         Connections conn = new Connections();
-        Profiler prof = new Profiler("storesale_er", "income_band", conn);
+        Profiler prof = new Profiler("tpcds", "store_sales", conn);
 
         List<String> out = new ArrayList<>();
         runCorrelations(prof.getTable(), prof.getDatabase(), conn, prof.getDataSet(), prof.getDataSet().columns(), out, 2, 0, prof.getDataSet().columns().length);
