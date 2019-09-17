@@ -191,10 +191,10 @@ public class JsonControler {
             values.put("contentSimilarity", intersectionResultContent);
             values.put("headerSimilarity", similarityHeader);
 
-                        System.out.println("chegou aqui" );
+            System.out.println("chegou aqui" );
 
             
-            String idColumnBDW = atlas.getIDColumn(columnBDW, tableBDW, database);
+            String idColumnBDW = atlas.getIDAtlasColumnACTIVE(columnBDW, tableBDW, database);
             JSONObject columnMain = new JSONObject();
             columnMain.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
             columnMain.put("id", idColumnBDW);
@@ -205,7 +205,7 @@ public class JsonControler {
             
             System.out.println("chegou aqui" + idColumnBDW);
 
-            String idColumnNS = atlas.getIDColumn(columnBDW, tableBDW, database);
+            String idColumnNS = atlas.getIDAtlasColumnACTIVE(columnNS, tableNewSource, database);
             JSONObject columnNSJson = new JSONObject();
             columnNSJson.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");
             columnNSJson.put("id", idColumnNS);
@@ -213,11 +213,15 @@ public class JsonControler {
             columnNSJson.put("typeName", "hive_column");
             columnNSJson.put("state", "ACTIVE");
             values.put("columnToCompare", columnNSJson);
-            values.put("qualifiedName", "interStatistics." + tableBDW + "." + tableNewSource + "." + database);
+            values.put("qualifiedName", "interStatistics." +columnBDW+"."+ columnNS+"."+ tableBDW + "." + tableNewSource + "." + database);
 
+            
+          System.out.println("ultimo passo antes da tabela");
+
+            
             JSONArray inputs = new JSONArray();
-            String idTableBDW = atlas.getIDTables(tableBDW, database);
-            String idTableNS = atlas.getIDTables(tableNewSource, database);
+            String idTableBDW = atlas.getIDAtlasTableACTIVE(tableBDW, database);
+            String idTableNS = atlas.getIDAtlasTableACTIVE(tableNewSource, database);
 
             JSONObject tablesBDW = new JSONObject();
             tablesBDW.put("jsonClass", "org.apache.atlas.typesystem.json.InstanceSerialization$_Id");

@@ -25,7 +25,7 @@ import org.json.JSONObject;
  *
  * @author Utilizador
  */
-public class SimilarityAnalysis {
+public class SimilarityAnalysis  {
 
     public static void main(String args[]) throws IOException, Exception {
         Connections conn = new Connections();
@@ -91,9 +91,11 @@ public class SimilarityAnalysis {
         //CSVGenerator.writeCSVResultsMesuresBenchMark(matchList);
         System.out.println("Number of Pairs " + matchList.size());
 
+        
         for (int i = 0; i < matchList.size(); i++) {
             String columnBDWName = matchList.get(i).getColumnBDW().getToken();
             String columnNSName = matchList.get(i).getNewColumn().getToken();
+           
             double intersectionResult = SimilarityIntersection.similarityInterface(tableBDW, newSource, columnBDWName, columnNSName);
             double similarityHeaders = matchList.get(i).getScore().getCosine();
             double thresholdController = threshold;
@@ -102,15 +104,11 @@ public class SimilarityAnalysis {
             AtlasConsumer restEntity = new AtlasConsumer();
             JSONObject json = jsonControllerInterStats.createEntityInterStatistics(tableBDWName, nsNameTable, columnBDWName, columnNSName, intersectionResult, similarityHeaders, threshold, database);
 
-           try (FileWriter file = new FileWriter("entity.json")) {
-            file.write(json.toString());
-            System.out.println("Successfully Copied JSON Object to File...");
-            System.out.println("\nJSON Object: " + json.toString());
-        }
+         
 
             
             restEntity.createEntityAtlas(json);
-
+                System.out.println("criado");
         }
 
     }

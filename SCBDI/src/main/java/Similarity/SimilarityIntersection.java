@@ -45,8 +45,8 @@ public class SimilarityIntersection {
 //       String[] columnsbdw = prof2.getDataSet().columns();
 //        String[] columnsNS = prof.getDataSet().columns();
 
-        String path = "/user/jose/Genoma/Ensembl_dataset.csv";
-        String path2 = "/user/jose/Genoma/DisGeNET RAW.csv";
+        String path = "/user/joao/TPC-DS-SF1/promotion.dat";
+        String path2 = "/user/joao/TPC-DS-SF1/store_sales.dat";
         String delimiter = ";";
         String header = "true";
         Dataset<Row> newDataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).option("inferSchema", "true").load(path);
