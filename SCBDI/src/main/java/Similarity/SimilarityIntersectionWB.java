@@ -30,7 +30,7 @@ public class SimilarityIntersectionWB {
     public static void main(String args[]) throws IOException {
         Instant start = Instant.now();
         Connections conn = new Connections();
-        joinAnalysis("tpcds", "promotion", "store_sales");
+        joinAnalysis("sf1tpcds", "promotion", "store_sales");
         Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
         System.out.println("O JOb demorou " + end.getEpochSecond() + " Segundos");
 

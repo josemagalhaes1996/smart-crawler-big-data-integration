@@ -32,7 +32,7 @@ public class JaccardContentSimilarity {
     public static void main(String args[]) throws IOException {
         Instant start = Instant.now();
         Connections conn = new Connections();
-        similirtyAnalysis("tpcds", "promotion", "store_sales");
+        similirtyAnalysis("sf1tpcds", "promotion", "store_sales");
         Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
         System.out.println("O JOb demorou " + end.getEpochSecond() + " Segundos");
 
@@ -52,20 +52,20 @@ public class JaccardContentSimilarity {
 
         ArrayList<Match> matchList = new ArrayList<>();
 
-        for (int i = 0; i < columnsbdw.length; i++) {
-            System.out.println("Column Main BDW: " + columnsbdw[i]);
+        for (int i = 0; i < columnsNS.length; i++) {
+            System.out.println("Column New Source: " + columnsNS[i]);
 
-            Dataset<Row> rowsBDWDistinct = prof2.getDataSet().select(columnsbdw[i]).distinct();
+            Dataset<Row> rowsNSDistinct = prof.getDataSet().select(columnsNS[i]).distinct();
 
-            for (int j = 0; j < columnsNS.length; j++) {
+            for (int j = 0; j < columnsbdw.length; j++) {
                 Instant startJaccard = Instant.now();
 
-                System.out.println("Column New Source: " + columnsNS[j]);
-                Dataset<Row> rowsNewSouceDistinct = prof.getDataSet().select(columnsNS[j]).distinct();
+                System.out.println("Column BDW: " + columnsbdw[j]);
+                Dataset<Row> rowsBDWDistinct = prof2.getDataSet().select(columnsbdw[j]).distinct();
 
                 ClassTag<Row> tag = scala.reflect.ClassTag$.MODULE$.apply(Row.class);
 
-                RDD<Tuple2<Row, Row>> cartesianrdd = rowsBDWDistinct.rdd().cartesian(rowsNewSouceDistinct.rdd(), tag);
+                RDD<Tuple2<Row, Row>> cartesianrdd = rowsBDWDistinct.rdd().cartesian(rowsNSDistinct.rdd(), tag);
                 JavaPairRDD<Row, Row> javapair = JavaPairRDD.fromRDD(cartesianrdd, tag, tag);
 
                 Double similarityMesure = javapair.map(pair -> {
@@ -90,8 +90,6 @@ public class JaccardContentSimilarity {
             }
         }
 
-        //Print to CSV
         CSVGenerator.writeCSVResultsMesuresBenchMark(matchList);
-
     }
 }
