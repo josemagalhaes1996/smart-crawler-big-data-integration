@@ -9,6 +9,7 @@ import Controller.CSVGenerator;
 import Domain.Match;
 import Domain.Score;
 import Domain.Token;
+import static Similarity.SimilarityIntersection.joinAnalysis;
 import com.hortonworks.hwc.Connections;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -24,8 +25,7 @@ import org.apache.spark.sql.Row;
  *
  * @author Utilizador
  */
-public class SimilarityIntersection {
-
+public class SimilarityIntersection2 {
     public static void main(String args[]) throws IOException {
         Instant start = Instant.now();
         joinAnalysis("tpcds", "promotion", "store_sales");
@@ -33,7 +33,7 @@ public class SimilarityIntersection {
         System.out.println("O JOb demorou " + end.getEpochSecond() + " Segundos");
 
     }
-
+    
     public static void joinAnalysis(String dbName, String newsourceName, String sourceBDWName) throws IOException {
         String db = dbName;
         String newSource = newsourceName;
@@ -58,53 +58,72 @@ public class SimilarityIntersection {
         
         String[] columnsbdw = newDataset.columns();
         String[] columnsNS = newDataset2.columns();
+        
         ArrayList<Match> matchesList = new ArrayList<>();
 
-        for (int i = 0; i < columnsbdw.length; i++) {
-            System.out.println("Column Main BDW: " + columnsbdw[i]);
-            Dataset<Row> rowsBDWDistinct = newDataset.select(columnsbdw[i]).distinct();
-            rowsBDWDistinct = rowsBDWDistinct.where(rowsBDWDistinct.col(columnsbdw[i]).isNotNull()); //delete nulls
-            Token columnbdw = new Token(columnsbdw[i]);
-        
-            
-            
-            for (int j = 0; j < columnsNS.length; j++) {
-                Instant start = Instant.now();
-                Token newcolumnNS = new Token(columnsNS[j]);
-                System.out.println("\t" + "Column New Source: " + columnsNS[j]);
-              
-                Dataset<Row> rowsNewSouce = newDataset2.select(columnsNS[j]);
-           
-                rowsNewSouce = rowsNewSouce.where(rowsNewSouce.col(columnsNS[j]).isNotNull()); //delete nulls
-                
-                Map<Row, Long> frequencyVal = rowsNewSouce.rdd().toJavaRDD().countByValue();
+        for (int i = 0; i < columnsNS.length; i++) {
 
+            
+            System.out.println("Column New Source: " + columnsNS[i]);
+            Dataset<Row> rowsNSDistinct = newDataset2.select(columnsNS[i]).distinct();
+            rowsNSDistinct = rowsNSDistinct.where(rowsNSDistinct.col(columnsNS[i]).isNotNull()); //delete nulls
+            Token newcolumnNS = new Token(columnsNS[i]);
+        
+//            rowsNSDistinct.show(); //Está correto
+            
+            
+            for (int j = 0; j < columnsbdw.length; j++) {
                 
                 
-                JavaRDD<Row> intersectedRows = rowsBDWDistinct.rdd().intersection(rowsNewSouce.rdd().distinct()).toJavaRDD();
+                Instant start = Instant.now();
+                Token columnbdw = new Token(columnsbdw[j]);
+                System.out.println("\t" + "Column BDW: " + columnsbdw[j]);
+              
+                Dataset<Row> rowsBDW = newDataset.select(columnsbdw[j]);
+            //    System.out.println("Numero de linhas com nulls: " + rowsBDW.count());
+                
+                rowsBDW = rowsBDW.where(rowsBDW.col(columnsbdw[j]).isNotNull()); //delete nulls
+               
+              //  System.out.println("Numero de linhas sem nulls: " + rowsBDW.count());
+
+                Map<Row, Long> frequencyVal = rowsBDW.rdd().toJavaRDD().countByValue();
+
+                               
+                JavaRDD<Row> intersectedRows = rowsNSDistinct.intersect(rowsBDW).rdd().toJavaRDD();
               
                 System.out.println("Número de linhas intersectadas:" + intersectedRows.count());
                 
-                JavaRDD<Long> numValues = intersectedRows.map(x -> {
+                
+                JavaRDD<Long> numValues = intersectedRows.map(x -> {    
+                
                     return frequencyVal.get(x);
 
                 });
+                
+                
                 double intersection = 0;
-
+                
                 
                 
                 if (numValues.count() > 0) {
 
+                    numValues.toString();
                     long sumIntersections = numValues.reduce((c1, c2) -> c1 + c2);
 
                     System.out.println("SumIntersections: " + sumIntersections);
                     
-                    intersection = ((double) (sumIntersections * 100)) / (double) rowsNewSouce.count();
+                    intersection = ((double) (sumIntersections * 100)) / (double) rowsBDW.count();
+                
+                
                 } else {
 
+                    
                     intersection = 0.0;
+                
+                    
                 }
 
+                
                 DecimalFormat df = new DecimalFormat("#.00");
                 intersection = Double.parseDouble(df.format(intersection));
 
@@ -121,32 +140,6 @@ public class SimilarityIntersection {
         }
 
         CSVGenerator.writeCSVResultsMesuresBenchMark(matchesList);
-    }
-
-    public static double similarityInterface(Dataset<Row> sourceBDW, Dataset<Row> sourceNS, String columnbdw, String columnNS) throws IOException {
-        Dataset<Row> rowsBDWDistinct = sourceBDW.select(columnbdw).distinct();
-        rowsBDWDistinct = rowsBDWDistinct.where(rowsBDWDistinct.col(columnbdw).isNotNull()); //delete nulls
-
-        Dataset<Row> rowsNewSouce = sourceNS.select(columnNS);
-        rowsNewSouce = rowsNewSouce.where(rowsNewSouce.col(columnNS).isNotNull()); //delete nulls
-        Map<Row, Long> frequencyVal = rowsNewSouce.rdd().toJavaRDD().countByValue();
-
-        JavaRDD<Row> intersectedRows = rowsBDWDistinct.rdd().intersection(rowsNewSouce.rdd()).toJavaRDD();
-        JavaRDD<Long> numValues = intersectedRows.map(x -> {
-            return frequencyVal.get(x);
-        });
-        double intersection = 0;
-
-        if (numValues.count() > 0) {
-            long sumIntersections = numValues.reduce((c1, c2) -> c1 + c2);
-            intersection = ((double) (sumIntersections * 100)) / (double) rowsNewSouce.count();
-        } else {
-            intersection = 0.0;
-        }
-
-        DecimalFormat df = new DecimalFormat("#.00");
-        intersection = Double.parseDouble(df.format(intersection));
-        return intersection;
     }
 
 }
