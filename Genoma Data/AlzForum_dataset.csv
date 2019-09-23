@@ -1,0 +1,399 @@
+Variation;GRCh;Chromosome;Clinical Significance;ID;Type;Start;End;Reference;Alt;Gene;Database;Disease;Citations
+A201V;GRCh37 (105);Chr21;Not Pathogenic;rs149995579;Point;27423376 ;27423376 ;C;T;APP;Alzforum/Mutations;(Late-Onset) Alzheimer's Disease;25104557
+A235V;GRCh37 (105);Chr21;Unclear Pathogenicity;;;;;;;APP;Alzforum/Mutations;;
+D243N;GRCh37 (105);Chr21;Unclear Pathogenicity;;;;;;;APP;Alzforum/Mutations;;
+E246K;GRCh37 (105);Chr21;Unclear Pathogenicity;rs147485129;;;;;;APP;Alzforum/Mutations;;
+E296K;GRCh37 (105);Chr21;Unclear Pathogenicity;;;;;;;APP;Alzforum/Mutations;;
+P299L;GRCh37 (105);Chr21;Unclear Pathogenicity;;;;;;;APP;Alzforum/Mutations;;
+R468H;GRCh37 (105);Chr21;Unclear Pathogenicity;;;;;;;APP;Alzforum/Mutations;;
+A479S;GRCh37 (105);Chr21;Not Pathogenic;rs143794560;Point;27347406 ;27347406 ;G;T;APP;Alzforum/Mutations;Alzheimer's Disease;25937274
+K496Q;GRCh37 (105);Chr21;Unclear Pathogenicity;rs201384815;;;;;;APP;Alzforum/Mutations;;
+A500T;GRCh37 (105);Chr21;Not Pathogenic;rs201547994;Point;27328030;27328030;G;A;APP;Alzforum/Mutations;Alzheimer's Disease;25604855
+Y538H;GRCh37 (105);Chr21;Not Pathogenic;;;;;;;APP;Alzforum/Mutations;;
+V562I;GRCh37 (105);Chr21;Not Pathogenic;rs199586073;Point;27326907;27326907;G;A;APP;Alzforum/Mutations;Alzheimer's Disease;25104557
+E599K;GRCh37 (105);Chr21;Not Pathogenic;rs140304729;Point;27284167;27284167;G;A;APP;Alzforum/Mutations;(Late and early- onset) Alzheimer's Disease;25104557, 26242991
+T600M;GRCh37 (105);Chr21;Not Pathogenic;rs200088099;Point;27284163;27284163;C;T;APP;Alzforum/Mutations;Alzheimer's Disease ;25604855
+P620A;GRCh37 (105);Chr21;Unclear Pathogenicity;;;;;;;APP;Alzforum/Mutations;;
+P620L;GRCh37 (105);Chr21;Not Pathogenic;;;;;;;APP;Alzforum/Mutations;;
+T663M;GRCh37 (105);Chr21;Not Pathogenic;;;;;;;APP;Alzforum/Mutations;;
+E665D;GRCh37 (105);Chr21;Not Pathogenic;rs63750363;Point;27269954;27269954;G;C;APP;Alzforum/Mutations;Alzheimer's Disease;8154870
+KM670;GRCh37 (105);Chr21;Pathogenic;rs63751263;Point;27269939 ;27269939 ;G;T;APP;Alzforum/Mutations;Alzheimer's Disease;1302033, 8705854, 8705854, 11528419, 10097173, 8424174, 1465129, 7991571, 7957938
+671NL ;GRCh37 (105);Chr21;Pathogenic;rs63750445;Point;27269938;27269938;A;C;APP;Alzforum/Mutations;Alzheimer's Disease;1302033, 8705854, 8705854, 11528419, 10097173, 8424174, 1465129, 7991571, 7957938
+A673T;GRCh37 (105);Chr21;Protective;rs63750847;Point;27269932;27269932;G;A;APP;Alzforum/Mutations;Alzheimer's Diseas;8170579, 22801501, 24529499, 23102935, 22312439, 25531812, 26239177, 23652020, 24126161, 25253695, 25253696, 26244608, 24646423
+A673V;GRCh37 (105);Chr21;Pathogenic;;Point;27269917;27269917;G;A;APP;Alzforum/Mutations;Alzheimer's Disease;19286555, 20842367, 25253695, 22727994,
+H677R;GRCh37 (105);Chr21;Unclear Pathogenicity;rs63749953;;;;;;APP;Alzforum/Mutations;;
+D678H;GRCh37 (105);Chr21;Pathogenic;;;;;;;APP;Alzforum/Mutations;;22558227, 18667258
+D678N;GRCh37 (105);Chr21;Pathogenic;rs63750064;;;;;;APP;Alzforum/Mutations;;20452980, 17170111, 15201367
+E682K;GRCh37 (105);Chr21;Pathogenic;;;;;;;APP;Alzforum/Mutations;;21500352
+K687N;GRCh37 (105);Chr21;Pathogenic;;;;;;;APP;Alzforum/Mutations;;22514144
+A692G;GRCh37 (105);Chr21;Pathogenic;rs63750671;Point;27264170;27264170;C;G;APP;Alzforum/Mutations;Alzheimer's Disease;15534244, 1303239, 9754958, 12163376, 8021287, 9848098,     12054732, 17525469, 16891372, 15811339, 26424029, 20062056, 24462250
+E693del;GRCh37 (105);Chr21;Pathogenic;;;;;;;APP;Alzforum/Mutations;;25743013, 18300294, 21846988
+E693G;GRCh37 (105);Chr21;Pathogenic;rs63751039;Point;27264167;27264167;A;G;APP;Alzforum/Mutations;Alzheimer's Disease;11528419, 1415269, 22700814, 12801742
+D694N;GRCh37 (105);Chr21;Pathogenic;rs63749810;Point;27264165;27264165;G;A;APP;Alzforum/Mutations;Alzheimer's Disease;11409420, 12654973, 24878480, 26104569
+G708G;GRCh37 (105);Chr21;Not Pathogenic;rs148888161;Point;27264121;27264121;C;T;APP;Alzforum/Mutations;Alzheimer's Disease;1634237
+G709S;GRCh37 (105);Chr21;Not Pathogenic;rs201269325;Point;27264120;27264120;G;A;APP;Alzforum/Mutations;Alzheimer's Disease;25604855
+A713T;GRCh37 (105);Chr21;Pathogenic;rs63750066;Point;27264108;27264108;G;A;APP;Alzforum/Mutations;Alzheimer's Disease;1303275, 15365148, 15488330, 25948718, 26803359, 19363265
+A713V;GRCh37 (105);Chr21;Not Pathogenic;rs1800557;Point;27264107;27264107;C;T;APP;Alzforum/Mutations;Alzheimer's Disease;7724053
+T714A ;GRCh37 (105);Chr21;Pathogenic;rs63750643;Point;27264105;27264105;A;G;APP;Alzforum/Mutations;Alzheimer's Disease;12034808, 14769392, 18187157
+T714I;GRCh37 (105);Chr21;Pathogenic;rs63750973;Point;27264104;27264104;C;T;APP;Alzforum/Mutations;Alzheimer's Disease;11063718, 15668448
+V715A;GRCh37 (105);Chr21;Pathogenic;rs63750868;Point;27264101;27264101;T;C;APP;Alzforum/Mutations;Alzheimer's Disease;14648157, 14769392, 18667258, 11487570, 24390130
+V715M;GRCh37 (105);Chr21;Pathogenic;rs63750734;Point;27264102;27264102;G;A;APP;Alzforum/Mutations;Alzheimer's Disease;10097173, 18437002, 24390130
+I716F;GRCh37 (105);Chr21;Pathogenic;;;;;;;APP;Alzforum/Mutations;;19281847, 10077635, 12498954, 16237129, 20010303, 25182745, 18667258
+I716M;GRCh37 (105);Chr21;Pathogenic;;;;;;;APP;Alzforum/Mutations;;26522186
+I716T;GRCh37 (105);Chr21;Pathogenic;rs63750851;Point;27264098;27264098;T;C;APP;Alzforum/Mutations;Alzheimer's Disease;
+I716V;GRCh37 (105);Chr21;Pathogenic;rs63750399;Point;27264099;27264099;A;G;APP;Alzforum/Mutations;Alzheimer's Disease;9328472, 11487570
+V717F;GRCh37 (105);Chr21;Pathogenic;rs63750264;Point;27264096;27264096;G;T;APP;Alzforum/Mutations;Alzheimer's Disease;1925564, 15776278, 7806491, 8191290
+V717G;GRCh37 (105);Chr21;Pathogenic;rs63749964;Point;27264095;27264095;T;G;APP;Alzforum/Mutations;Alzheimer's Disease;1944558, 1303172, 26803359, 1944558, 7806491
+V717I;GRCh37 (105);Chr21;Pathogenic;rs63750264;Point;27264096;27264096;G;A;APP;Alzforum/Mutations;Alzheimer's Disease;1671712, 1674311, 9328472, 11487570, 16917905, 19281847, 24524897
+V717L;GRCh37 (105);Chr21;Pathogenic;rs63750264;Point;27264096;27264096;G;C;APP;Alzforum/Mutations;Alzheimer's Disease;10867787, 16505331, 15776278, 22702962, 24880964, 11487570
+T719P;GRCh37 (105);Chr21;Pathogenic;;;;;;;APP;Alzforum/Mutations;;19584443
+M722K;GRCh37 (105);Chr21;Pathogenic;;;;;;;APP;Alzforum/Mutations;;26402764
+L723P;GRCh37 (105);Chr21;Pathogenic;rs63751122;Point;27264077 ;27264077 ;T;C;APP;Alzforum/Mutations;Alzheimer's Disease;10665499, 22221884, 18667258
+K724N;GRCh37 (105);Chr21;Pathogenic;rs63750151;Point;27264073;27264073;G;C;APP;Alzforum/Mutations;Alzheimer's Disease;16917905
+H733P;GRCh37 (105);Chr21;Not Pathogenic;;;;;;;APP;Alzforum/Mutations;Alzheimer's Disease;
+IVS17 83-88delAAGTAT;GRCh37 (105);Chr21;Unclear Pathogenicity;rs367709245;;;;;;APP;Alzforum/Mutations;Alzheimer's Disease;
+R29H;GRCh37 (105);Chr1;Not Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+G34S;GRCh37 (105);Chr1;Unclear Pathogenicity;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+R62C;GRCh37 (105);Chr1;Unclear Pathogenicity;rs150400387;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+R62H;GRCh37 (105);Chr1;Not Pathogenic;rs58973334;Point;227071449;227071449;G;A;PSEN2;Alzforum/Mutations;Alzheimer's Disease;22312439,9384602, 15130954, 18667258, 19768372, 22503161, 25604855, 25937274, 
+P69A;GRCh37 (105);Chr1;Unclear Pathogenicity;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+R71W;GRCh37 (105);Chr1;Not Pathogenic;rs140501902;Point;227071475;227071475;C;T;PSEN2;Alzforum/Mutations;Alzheimer's Disease;15130954, 18608129, 18667258, 22503161, 22475797, 22312439, 25604855, 26242991
+K82R;GRCh37 (105);Chr1;Unclear Pathogenicity;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+A85V;GRCh37 (105);Chr1;Pathogenic;rs63750048;Point;227071518;227071518;C;T;PSEN2;Alzforum/Mutations;Alzheimer's Disease;18427071
+V101M;GRCh37 (105);Chr1;Unclear Pathogenicity;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+K115Efs*;GRCh37 (105);Chr1;Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;20375137, 31020001
+T122P;GRCh37 (105);Chr1;Pathogenic;rs63749851;Point;227073246;227073246;A;C;PSEN2;Alzforum/Mutations;Alzheimer's Disease;10631141, 15776278
+P123L;GRCh37 (105);Chr1;Unclear Pathogenicity;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+E126fs;GRCh37 (105);Chr1;Unclear Pathogenicity;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+E126K;GRCh37 (105);Chr1;Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;24844686
+S130L;GRCh37 (105);Chr1;Unclear Pathogenicity;rs63750197;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+V139M;GRCh37 (105);Chr1;Unclear Pathogenicity;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+N141I;GRCh37 (105);Chr1;Pathogenic;rs63750215;Point;227073304;227073304;A;T;PSEN2;Alzforum/Mutations;Alzheimer's Disease;7638622, 7651536, 3345066, 20375137, 26522186, 20457965, 21911706, 25130656, 1759558, 2011243, 15663477
+N141Y;GRCh37 (105);Chr1;Pathogenic;rs61761208;Point;227073303;227073303;A;T;PSEN2;Alzforum/Mutations;Alzheimer's Disease;24838186
+L143H;GRCh37 (105);Chr1;Not Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+V148I;GRCh37 (105);Chr1;Pathogenic;rs63750812;Point;227073324;227073324;G;A;PSEN2;Alzforum/Mutations;Alzheimer's Disease;10732806, 15663477
+K161R;GRCh37 (105);Chr1;Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;18667258, 22475797
+R163H;GRCh37 (105);Chr1;Not Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+H169N;GRCh37 (105);Chr1;Unclear Pathogenicity;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+M174V;GRCh37 (105);Chr1;Not Pathogenic;rs61757781;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+S175C;GRCh37 (105);Chr1;Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;20164579
+G212V;GRCh37 (105);Chr1;Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;27128372
+V214L;GRCh37 (105);Chr1;Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;25323700, 24885952
+Q228L;GRCh37 (105);Chr1;Pathogenic;rs63750880;Point;227076646;227076646;A;T;PSEN2;Alzforum/Mutations;Alzheimer's Disease;14769392
+I235F;GRCh37 (105);Chr1;Not Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+A237V;GRCh37 (105);Chr1;Unclear Pathogenicity;rs200670135;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+L238F;GRCh37 (105);Chr1;Unclear Pathogenicity;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+L238P;GRCh37 (105);Chr1;Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;26522186
+M239I;GRCh37 (105);Chr1;Pathogenic;rs63749884;Point;227076680;227076680;G;A;PSEN2;Alzforum/Mutations;Alzheimer's Disease;10822446, 22531416, 25010293, 6610841, 15663477, 15006697, 16620965
+M239V;GRCh37 (105);Chr1;Pathogenic;rs28936379;Point;227076678;227076678;A;G;PSEN2;Alzforum/Mutations;Alzheimer's Disease;7651536, 15055444, 22475797, 26242991, 15663477
+A252T;GRCh37 (105);Chr1;Not Pathogenic;rs138836272;Point;227076717;227076717;G;A;PSEN2;Alzforum/Mutations;Alzheimer's Disease;18667258
+A258T;GRCh37 (105);Chr1;Not Pathogenic;rs148238688;Point;227076735;227076735;G;A;PSEN2;Alzforum/Mutations;Alzheimer's Disease;25937274
+T301M;GRCh37 (105);Chr1;Unclear Pathogenicity;rs144277432;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+K306fs;GRCh37 (105);Chr1;Unclear Pathogenicity;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+P334A;GRCh37 (105);Chr1;Not Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+P334R;GRCh37 (105);Chr1;Not Pathogenic;rs63750207;Point;227079474;227079474;C;G;PSEN2;Alzforum/Mutations;Alzheimer's Disease;11803125
+P348L;GRCh37 (105);Chr1;Unclear Pathogenicity;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+A377V;GRCh37 (105);Chr1;Not Pathogenic;;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+V393M;GRCh37 (105);Chr1;Unclear Pathogenicity;rs142690225;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+T430M;GRCh37 (105);Chr1;Pathogenic;rs63750666;Point;227083222;227083222;C;T;PSEN2;Alzforum/Mutations;Alzheimer's Disease;12433263, 12925374
+D439A;GRCh37 (105);Chr1;Unclear Pathogenicity;rs63750110;;;;;;PSEN2;Alzforum/Mutations;Alzheimer's Disease;
+S16F;GRCh37 (105);Chr6;Unclear Pathogenicity;rs777808487;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;"12754369, 20301376, 15966270, 15883308, 29142083,     23318515, 24990881, 24139279, 24119542, 27520774, 23391427, 23150934, 24899047, 23380991, 
+    24762945"
+G17E;GRCh37 (105);Chr6;Unclear Pathogenicity;;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+V27M;GRCh37 (105);Chr6;Unclear Pathogenicity;rs768745050;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+A28V;GRCh37 (105);Chr6;Not Pathogenic;rs2234252;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+S31F;GRCh37 (105);Chr6;Unclear Pathogenicity;rs746216516;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+Q33X;GRCh37 (105);Chr6;Possible risk Modifier;rs104894002;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+D39E;GRCh37 (105);Chr6;Not Pathogenic;rs200392967;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+D39G;GRCh37 (105);Chr6;Unclear Pathogenicity;;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+H43Y;GRCh37 (105);Chr6;Unclear Pathogenicity;;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+G45E;GRCh37 (105);Chr6;Unclear Pathogenicity;;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+R47C;GRCh37 (105);Chr6;Unclear Pathogenicity;rs753325601;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+R47H;GRCh37 (105);Chr6;Risk Modifier;rs75932628;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;25260849, 27084067, 23855982, 25186855, 24899047, 23380991, 26058841, 24041969, 25160042, 25886450, 24866402, 24725293, 29256968, 24184202, 24762945, 25027412, 26076170, 24378087, 24131186, 26754641, 27995897, 25728668, 27717139, 26374899, 26374897, 27477018, 29321225, 30185230, 23150934, 23150908, 23391427
+R52H;GRCh37 (105);Chr6;Unclear Pathogenicity;rs374851046;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+G58A;GRCh37 (105);Chr6;Unclear Pathogenicity;;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+R62C;GRCh37 (105);Chr6;Unclear Pathogenicity;rs201258314;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+R62H;GRCh37 (105);Chr6;Risk Modifier;rs143332484;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;24899047, 27520774, 23391427, 24139279, 24119542, 23150934, 23150908, 23380991, 28714976, 25042114, 28930663, 28802038, 28209725
+N68K;GRCh37 (105);Chr6;Unclear Pathogenicity;rs753372932;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+L72V;GRCh37 (105);Chr6;Unclear Pathogenicity;rs765933093;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+D87N;GRCh37 (105);Chr6;Possible risk Modifier;rs142232675;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;23150934, 27520774, 23391427, 24139279, 24119542, 27084067, 24899047, 25886450, 23150908, 28714976, 24762945,     24119542, 27589997, 27995897, 27477018
+R98W;GRCh37 (105);Chr6;Unclear Pathogenicity;rs147564421;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+A105V;GRCh37 (105);Chr6;Not Pathogenic;rs145080901;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+S116C;GRCh37 (105);Chr6;Unclear Pathogenicity;;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+A130S;GRCh37 (105);Chr6;Unclear Pathogenicity;;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+A130V;GRCh37 (105);Chr6;Unclear Pathogenicity;rs201280312;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+D131D;GRCh37 (105);Chr6;Not Pathogenic;rs139607688;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+L133L;GRCh37 (105);Chr6;Unclear Pathogenicity;rs144250872;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+R136Q;GRCh37 (105);Chr6;Not Pathogenic;rs149622783;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+R136W;GRCh37 (105);Chr6;Unclear Pathogenicity;rs772641807;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+E151K;GRCh37 (105);Chr6;Not Pathogenic;rs79011726;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+H157Y;GRCh37 (105);Chr6;Possible risk Modifier;rs2234255;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;28855300, 28855301, 24990881, 24119542, 27084067, 23150934, 24899047, 24762945, 25886450, 27501831, 27520774, 28714976, 24119542 
+S162R;GRCh37 (105);Chr6;Unclear Pathogenicity;rs371702633;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+S183C;GRCh37 (105);Chr6;Unclear Pathogenicity;rs200820365;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+W191X;GRCh37 (105);Chr6;Unclear Pathogenicity;rs2234258;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+A192T;GRCh37 (105);Chr6;Not Pathogenic;rs150277350;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+A196T;GRCh37 (105);Chr6;Unclear Pathogenicity;;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+W200C;GRCh37 (105);Chr6;Unclear Pathogenicity;;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+E202D;GRCh37 (105);Chr6;Unclear Pathogenicity;rs530314472;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+L205P;GRCh37 (105);Chr6;Unclear Pathogenicity;;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+L211P;GRCh37 (105);Chr6;Possible risk Modifier;;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;25886450, 24119542, 23150934, 24899047, 27520774,  26754641, 25042114
+H215Q;GRCh37 (105);Chr6;Unclear Pathogenicity;;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+G219C;GRCh37 (105);Chr6;Unclear Pathogenicity;rs768583708;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+T223I;GRCh37 (105);Chr6;Not Pathogenic;rs138355759;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+;GRCh37 (105);Chr6;Unclear Pathogenicity;rs2234258;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+;GRCh37 (105);Chr6;Possible risk Modifier;rs7748513;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;24131184
+;GRCh37 (105);Chr6;Possible risk Modifier;rs7748777;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;25114068
+;GRCh37 (105);Chr6;Unclear Pathogenicity;rs7759295;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;
+;GRCh37 (105);Chr6;Possible risk Modifier;rs9357347;;;;;;TREM2;Alzforum/Mutations;Alzheimer's Disease;27939925
+N32N;GRCh37 (105);Chr14;Unclear Pathogenicity;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;17412506
+R35Q;GRCh37 (105);Chr14;Not Pathogenic;rs63750592;Point;73637521 ;73637521 ;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 26242991, 
+D40del (delACG);GRCh37 (105);Chr14;Unclear Pathogenicity;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26242991
+A79V;GRCh37 (105);Chr14;Pathogenic;rs63749824;Point;73637653;73637653;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9384602, 10631141, 17366635, 11524469, 22312439, 27454811, 29692703, 22118943, 16752394, 27345973, 27879212
+V82L;GRCh37 (105);Chr14;Pathogenic;rs63749967;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8634712, 7596406, 17254019
+I83_M84del;GRCh37 (105);Chr14;Pathogenic;rs63750307;Deletion;I83;M84;ATC.ATG;---.---;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11079548
+I83T;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26145164, 26695639
+M84V;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;23752245, 28532646, 21514250, 30021643
+L85P;GRCh37 (105);Chr14;Pathogenic;rs63750599;Point;73637671;73637671;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8437694, 15534188
+P88L;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;28550247, 28753424
+V89L (G>T);GRCh37 (105);Chr14;Pathogenic;rs63750815;Point;73637682 ;73637682 ;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11796781, 12433263
+V89L (G>C);GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;28550247, 11796781
+C92S;GRCh37 (105);Chr14;Pathogenic;rs63751141;Point;73637692;73637692;G;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;14623725, 11043553, 12525746
+V94M;GRCh37 (105);Chr14;Pathogenic;rs63750831;Point;73637697;73637697;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11568920
+V96F;GRCh37 (105);Chr14;Pathogenic;rs63750601;Point;73637703;73637703;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8733303
+V97L;GRCh37 (105);Chr14;Pathogenic;rs63750852;Point;73637703;73637703;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;15851849, 16916581
+T99A;GRCh37 (105);Chr14;Unclear Pathogenicity;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;23638752
+F105C;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;24650794, 24737487, 24737487, 18667258
+F105I;GRCh37 (105);Chr14;Pathogenic;rs63750325;Point;73637730;73637730;T;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16033913
+F105L;GRCh37 (105);Chr14;Pathogenic;rs63750321;Point;73637732 ;73637732 ;T;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10631141
+F105V;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;20157243, 10631141, 16033913, 20157243
+L113_I114insT;GRCh37 (105);Chr14;Pathogenic;rs63751475;Insertion/Deletion ;73637756;73637756;G;-;PSEN1;Alzforum/Mutations;Alzheimer's Disease;24880964, 9443865, 10401002, 12552037,11524469 ,
+L113Q;GRCh37 (105);Chr14;Pathogenic;rs63751399;Point;73637755;73637755;T;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;15776278
+Y115C;GRCh37 (105);Chr14;Pathogenic;rs63750450;Point;73640279;73640279;A;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7942850, 9384602, 11524469, 12552037, 16710641, 22475797, 10401002
+Y115H;GRCh37 (105);Chr14;Pathogenic;rs63749962;Point;73640278;73640278;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8634712, 10441572, 15776278, 10327206, 17254019, 27293189, 30980041, 22505025, 27930341, 28753424, 29078389
+T116I;GRCh37 (105);Chr14;Pathogenic;rs63750730;Point;73640282;73640282;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;15272895, 16033913, 18667258, 22475797
+T116N;GRCh37 (105);Chr14;Pathogenic;rs63750730;Point;73640282;73640282;C;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10439444, 16033913, 29404783, 11524469, 18667258, 26836192
+T116R;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11395394
+P117A;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;18024701, 23990795, 18479822
+P117L;GRCh37 (105);Chr14;Pathogenic;rs63749805;Point;73640285;73640285;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9507958, 17718701, 9737546, 10400232, 11311782, 11124426, 19555743, 12079399, 15246822
+P117R;GRCh37 (105);Chr14;Pathogenic;rs63749805;Point;73640285;73640285;C;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;14769392, 15004326, 9507958, 20157243, 22810102
+P117S;GRCh37 (105);Chr14;Pathogenic;rs63750550;Point;73640284;73640284;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;15004326
+E120D;GRCh37 (105);Chr14;Pathogenic;rs63751272;Point;73640295;73640295;A;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8931704, 11395394 
+E120D;GRCh37 (105);Chr14;Pathogenic;rs63751272;Point;73640295;73640295;A;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9521423, 10441572, 11395394
+E120G;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;20388456, 20157243
+E120K;GRCh37 (105);Chr14;Pathogenic;rs63750800;Point;73640293 ;73640293 ;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8733749, 19659892, 10327206
+E123K;GRCh37 (105);Chr14;Pathogenic;rs63750378;Point;73640302;73640302;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9923762, 27930341
+S132A;GRCh37 (105);Chr14;Pathogenic;rs200937800;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27777022
+L134R;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;22503161, 18667258
+N135D;GRCh37 (105);Chr14;Pathogenic;rs63750353;Point;73640338;73640338;A;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9225696, 12549925
+N135S;GRCh37 (105);Chr14;Pathogenic;rs63751278;Point;73640339;73640339;A;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;15776278, 18580586
+N135Y;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27793474
+A136G;GRCh37 (105);Chr14;Pathogenic;rs41345849;Point;73640342;73640342;C;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;17456364, 18706205, 27930341, 27601731
+M139I ;GRCh37 (105);Chr14;Pathogenic;rs63750522;Point;73640352 ;73640352 ;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8538334, 30598257, 11126202, 10327206, 30598257
+M139I ;GRCh37 (105);Chr14;Pathogenic;rs63750522;Point;73640352 ;73640352 ;G;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;20213228, 6610841, 11126202, 10327206
+M139K;GRCh37 (105);Chr14;Pathogenic;rs63751106;Point;73640351;73640351;T;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9719376
+M139L;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;30958370
+M139T;GRCh37 (105);Chr14;Pathogenic;rs63751106, 22505025, 27930341, 28753424;Point;73640351;73640351;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8634712, 10441572, 11165779, 12433263, 6610841, 22906081, 22307680, 20858974, 10327206, 26481686
+M139V;GRCh37 (105);Chr14;Pathogenic;rs63751037;Point;73640350;73640350;A;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7550356, 10090481, 7895004, 8733749, 9126060, 8538334, 8773614, 9728730, 10631141, 15337637, 14769392, 12810495, 12752408, 10327206, 17254019, 28753424, 23570890, 30980041
+V142F;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;29175279, 18667258
+I143F;GRCh37 (105);Chr14;Pathogenic;rs63750322;Point;73640362 ;73640362 ;A;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10090481, 10468510, 8684135
+I143N;GRCh37 (105);Chr14;Pathogenic;rs63750004;Point;73640363;73640363;T;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16033913
+I143T;GRCh37 (105);Chr14;Pathogenic;rs63750004;Point;73640363;73640363;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8634711, 11524469, 16033913, 1985297, 27014058
+I143V;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;21422519, 27014058
+M146I ;GRCh37 (105);Chr14;Pathogenic;rs63750391;Point;73640373;73640373;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 30980041
+M146I;GRCh37 (105);Chr14;Pathogenic;rs63750391;Point;73640373 ;73640373 ;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9007311, 30980041
+M146I;GRCh37 (105);Chr14;Pathogenic;rs63750391;Point;73640373;73640373;G;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9544835, 30980041, 27345998, 27540966
+M146L;GRCh37 (105);Chr14;Pathogenic;rs63750306;Point;73640371;73640371;A;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7732777, 17962197, 12707272, 17254019, 27930341, 25285942, 27601731, 27184076
+M146L;GRCh37 (105);Chr14;Pathogenic;rs63750306;Point;73640371;73640371;A;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;20164095, 27730373, 7596406, 9800154, 4001707, 7550356, 15776278, 1805554, 8192827, 7623584, 20164095, 10441572, 9800154, 11524469, 15622541, 12707272, 17254019, 27930341, 25285942, 27601731, 27184076
+M146V;GRCh37 (105);Chr14;Pathogenic;rs63750306;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7550356, 8080244, 21297272, 7550356, 11524469, 23489366, 10327206, 24011544, 27120160 
+T147I;GRCh37 (105);Chr14;Pathogenic;rs63750907;Point;73640375;73640375;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10441572, 25812849, 30598257, 27930341
+T147P;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;24718101
+L150P;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;22475797, 18667258
+L153V;GRCh37 (105);Chr14;Pathogenic;rs63751441;Point;73640392;73640392;C;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10874324, 11405810, 24495933, 27930341
+Y154C;GRCh37 (105);Chr14;Pathogenic;rs63751292;Point;73640396;73640396;A;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12552037
+Y154N;GRCh37 (105);Chr14;Pathogenic;rs63750588;Point;73640395;73640395;T;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;15364419, 27930341
+K155_Y156insFI ;GRCh37 (105);Chr14;Pathogenic;rs63750631;Insertion;73640401;73640401;T;TTTATAT;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 15159497
+H163P;GRCh37 (105);Chr14;Unclear Pathogenicity;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;23046926, 27014058
+H163R;GRCh37 (105);Chr14;Pathogenic;rs63750590;Point;73653568;73653568;A;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7596406, 8634712, 7623585, 8733303, 8538334, 8905716, 14769392, 20157243, 22503161, 26337232, 25323700, 27264813, 25937274, 10327206, 21559374, 27930341
+H163Y;GRCh37 (105);Chr14;Pathogenic;rs63749885;Point;73653567;73653567;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7550356, 9605727, 29747683, 19796846, 28209190, 10327206, 27930341
+A164V;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26350633
+W165C (G>C);GRCh37 (105);Chr14;Pathogenic;rs63741484;Point;73653575;73653575;G;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27930341
+W165G;GRCh37 (105);Chr14;Pathogenic;rs63751010;Point;73653573;73653573;T;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27930341
+L166H;GRCh37 (105);Chr14;Pathogenic;rs63750265;Point;73653577;73653577;T;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16388371
+L166P;GRCh37 (105);Chr14;Pathogenic;rs63750265;Point;73653577;73653577;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12048239, 26890779, 16405513, 22510327, 27014058, 27293189, 19159235, 22529981, 27930341, 22505025, 28753424, 15772361, 19924286, 29078389, 17431506 
+L166R;GRCh37 (105);Chr14;Pathogenic;rs63750265;Point;73653577;73653577;T;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10768621, 12433263
+L166V;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;24880964, 18667258
+L166del;GRCh37 (105);Chr14;Pathogenic;rs63751458;Deletion;73653575;73653575;GCTT;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;17594345
+I167del (TTAdel);GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;24650794, 18667258
+I167del (TATdel);GRCh37 (105);Chr14;Pathogenic;rs63750879;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12552037
+S169del;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;19853643
+S169L;GRCh37 (105);Chr14;Pathogenic;rs63751210;Point;73653586;73653586;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9831473, 11764087
+S169P;GRCh37 (105);Chr14;Pathogenic;rs63750418;Point;73653585;73653585;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10025789
+S170F;GRCh37 (105);Chr14;Pathogenic;rs63750577;Point;73653589;73653589;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16344340, 17502474, 17931627, 23415546, 22297172
+S170P;GRCh37 (105);Chr14;Pathogenic;rs63750577;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;23885714, 28664294
+L173F (G>T);GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;22906081
+L173F (G>C);GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;19280102
+L173S;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;30954774
+L173W;GRCh37 (105);Chr14;Pathogenic;rs63750299;Point;73653598;73653598;T;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10441572, 30598257, 27930341
+L174del;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;23583593
+L174M;GRCh37 (105);Chr14;Pathogenic;rs63751144;Point;73653600;73653600;C;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12484344, 14623725, 27930341
+L174R;GRCh37 (105);Chr14;Pathogenic;rs63751025;Point;73653601;73653601;T;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;15592140
+F177L;GRCh37 (105);Chr14;Pathogenic;rs63749911;Point;73653609;73653609;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 26280335, 27930341, 16546171
+F177S;GRCh37 (105);Chr14;Pathogenic;rs63749806;Point;73653610;73653610;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 23850332, 30598257
+S178P;GRCh37 (105);Chr14;Pathogenic;rs63750155;Point;73653612;73653612;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 22496554, 16221505
+E184D;GRCh37 (105);Chr14;Pathogenic;rs63750311;Point;73659355;73659355;A;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9292884, 12410385, 28323683, 12552037, 10644793, 27930341
+E184G;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;22475797, 18667258
+I202F;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;21144619
+G206A;GRCh37 (105);Chr14;Pathogenic;rs63750082;Point;73659420;73659420;G;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27073747, 23114514, 27312774, 27930341, 11710891, 11524469, 25333068, 29874583
+G206D;GRCh37 (105);Chr14;Pathogenic;rs63750082;Point;73659420;73659420;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16033913, 21335660
+G206S;GRCh37 (105);Chr14;Pathogenic;rs63750569;Point;73659419;73659419;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 16033913, 18437002 , 30814350, 27930341
+G206V;GRCh37 (105);Chr14;Pathogenic;rs63750082;Point;73659420;73659420;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12112163
+G209A;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27206484
+G209E;GRCh37 (105);Chr14;Pathogenic;rs63750053;Point;73659429;73659429;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469
+G209R;GRCh37 (105);Chr14;Pathogenic;rs63749880;Point;73659428;73659428;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10447269, 12755040
+G209V;GRCh37 (105);Chr14;Pathogenic;rs63750053;Point;73659429;73659429;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8080245, 9521423
+S212Y;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;21094210
+I213F;GRCh37 (105);Chr14;Pathogenic;rs63750861;Point;73659440;73659440;A;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;14769392, 22810102
+I213L;GRCh37 (105);Chr14;Pathogenic;rs63750861;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 26280335, 27930341
+I213T;GRCh37 (105);Chr14;Pathogenic;rs63751039;Point;73659441;73659441;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8733303, 18430735, 22505025, 10383647
+H214D;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27930341
+H214N;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26925509
+H214Y;GRCh37 (105);Chr14;Pathogenic;rs63751003;Point;73659443;73659443;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16033913, 22503161, 18667258
+L219F;GRCh37 (105);Chr14;Pathogenic;rs63749987;Point;73659458;73659458;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27930341
+L219P;GRCh37 (105);Chr14;Pathogenic;rs63750761;Point;73659459;73659459;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10208579
+R220P;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26925509
+Q222H;GRCh37 (105);Chr14;Pathogenic;rs63751072;Point;73659469;73659469;G;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12885573
+Q222P;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;23380992, 27777022
+Q222R;GRCh37 (105);Chr14;Pathogenic;rs63750009;Point;73659468;73659468;A;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469
+Q223R;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;19912322, 22475797, 27014058, 27930341
+L226F;GRCh37 (105);Chr14;Pathogenic;rs63750487;Point;73659479;73659479;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16546171, 20157243, 27785004, 22810102, 27930341
+I229F;GRCh37 (105);Chr14;Pathogenic;rs63749970;Point;73659488;73659488;A;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12552037, 27930341
+S230I;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;22475797, 18667258
+S230N;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;28764909, 18667258
+S230R;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;24880964, 18667258
+A231P;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26242991
+A231T;GRCh37 (105);Chr14;Pathogenic;rs63749836;Point;73659494;73659494;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27930341
+L232P;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;28532645
+M233I (G>C);GRCh37 (105);Chr14;Pathogenic;rs63751479;Point;73659502;73659502;G;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;14581682
+M233I (G>A);GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;22475797, 18667258
+M233L (A>T);GRCh37 (105);Chr14;Pathogenic;rs63751287;Point;73659500;73659500;A;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;6610841, 10533070, 11524469, 25595498, 30838239, 26280335, 27930341
+M233T;GRCh37 (105);Chr14;Pathogenic;rs63751024;Point;73659501;73659501;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9172170, 10441572, 16033913, 18437002, 18667258, 12549925, 15647487, 12707272
+M233V;GRCh37 (105);Chr14;Pathogenic;rs63751287;Point;73659500;73659500;A;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11684347, 9470133, 29316780
+L235P;GRCh37 (105);Chr14;Pathogenic;rs63749835;Point;73659507;73659507;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8904759, 10441572, 15776278, 11524469
+L235R;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;21501661, 18667258
+L235V;GRCh37 (105);Chr14;Pathogenic;rs63751130;Point;73659506;73659506;C;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12552037, 14966176, 21373759
+F237I;GRCh37 (105);Chr14;Pathogenic;rs63750858;Point;73659512;73659512;T;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11561050, 26280335, 27930341
+F237L;GRCh37 (105);Chr14;Pathogenic;rs63750858;Point;73659512;73659512;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12552037
+I238M;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;24413619, 21094210
+K239N;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;20158511, 27498054, 27930341
+T245P;GRCh37 (105);Chr14;Pathogenic;rs63750888;Point;73659536;73659536;A;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16469444, 19085559, 27930341
+A246E;GRCh37 (105);Chr14;Pathogenic;rs63750526;Point;73659540;73659540;C;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7596406, 6600923, 6610841, 12817569, 15119739, 19776335, 10327206, 8938131, 25027006, 27926491, 28034781,     27930341, 24418614, 28959184, 17431506, 30138848
+A246P;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26350633
+L248P;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;24650794, 18667258
+L248R;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26280335, 27930341
+L250F;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;20481270
+L250S;GRCh37 (105);Chr14;Pathogenic;rs63751163;Point;73659552;73659552;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8733749, 9436726, 27930341
+Y256S;GRCh37 (105);Chr14;Pathogenic;rs63751320;Point;73659570;73659570;A;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12885573, 10560655, 27930341
+A260V;GRCh37 (105);Chr14;Pathogenic;rs63751420;Point;73664748;73664748;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7651536, 9007097, 9521423, 12552037, 18667258, 22475797, 10327206, 27930341, 14643748 
+V261F;GRCh37 (105);Chr14;Pathogenic;rs63750964;Point;73664750;73664750;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 19915487, 26280335, 27930341
+V261L;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;18637955, 20157243
+L262S;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;30954774
+L262V;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;22475797, 22503161, 8667258
+C263F;GRCh37 (105);Chr14;Pathogenic;rs63751102;Point;73664757;73664757;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12552037
+C263R;GRCh37 (105);Chr14;Pathogenic;rs63750543;Point;73664756;73664756;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7585193, 27930341
+P264L;GRCh37 (105);Chr14;Pathogenic;rs63750301;Point;73664760;73664760;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8634712, 7824141, 10441572, 16033913, 11836371, 16941492, 22572737, 7585193, 9172170, 9521423, 19849793, 22503161, 23579325, 10327206, 26438723, 
+G266S;GRCh37 (105);Chr14;Pathogenic;rs121917807;Point;73664765;73664765;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11920851, 27930341, 
+P267A;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26888304
+P267L;GRCh37 (105);Chr14;Pathogenic;rs63750779;Point;73664769;73664769;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;15094846, 12817569
+P267S;GRCh37 (105);Chr14;Pathogenic;rs63751229;Point;73664768;73664768;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7550356, 8733749, 26438723, 11124426
+R269G;GRCh37 (105);Chr14;Pathogenic;rs63751019;Point;73664774;73664774;C;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8910898, 15205973, 27930341
+R269H;GRCh37 (105);Chr14;Pathogenic;rs63750900;Point;73664775;73664775;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9189043, 9804121, 12552037, 17188713, 30598257
+L271V;GRCh37 (105);Chr14;Pathogenic;rs63750886;Point;73664780;73664780;C;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12493737, 16941492, 11146110
+V272A;GRCh37 (105);Chr14;Pathogenic;rs63750680;Point;73664784;73664784;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;15469450, 18667258, 27930341
+E273A;GRCh37 (105);Chr14;Pathogenic;rs63750772;Point;73664787;73664787;A;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9804121, 27930341, 17431506
+E273G;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;22475797, 18667258
+T274R;GRCh37 (105);Chr14;Pathogenic;rs63750284;Point;73664790;73664790;C;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 27930341
+A275V;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;24582897, 18667258
+R278I;GRCh37 (105);Chr14;Pathogenic;rs63749891;Point;73664802;73664802;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;15534260, 15764596, 21725313, 26481686, 27100199, 30980041, 27810638 
+R278K;GRCh37 (105);Chr14;Pathogenic;rs63749891;Point;73664802;73664802;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12525746, 27930341
+R278S;GRCh37 (105);Chr14;Pathogenic;rs63750524;Point;73664803;73664803;A;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;17507029
+R278T;GRCh37 (105);Chr14;Pathogenic;rs63749891;Point;73664802;73664802;G;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9172170
+E280A;GRCh37 (105);Chr14;Pathogenic;rs63750231;Point;73664808;73664808;A;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;29955659, 24239249, 21296022, 25471389, 9298817, 12891668, 26619808, 22710270, 27573710, 26949549, 22766738, 26902171, 21194156, 26121081, 11568920, 28550254, 25580592, 9172170, 8945747, 9052708, 29435558, 30717814, 8837617, 15230697, 18045903, 24217025, 27930341, 27014058, 30769329, 31026686
+E280G;GRCh37 (105);Chr14;Pathogenic;rs63750231;Point;73664808;73664808;A;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7550356, 8733749, 12370477, 16033913, 16941492, 14557582
+E280K;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26396515
+L282F;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;19430857
+L282R;GRCh37 (105);Chr14;Pathogenic;rs63750050;Point;73664814;73664814;T;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9502232, 20157243
+L282V;GRCh37 (105);Chr14;Pathogenic;rs63749937;Point;73664813;73664813;C;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11701593
+F283L;GRCh37 (105);Chr14;;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;23380992, 27777022, 27743520
+P284L;GRCh37 (105);Chr14;Pathogenic;rs63750863;Point;73664820;73664820;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12391599
+P284S;GRCh37 (105);Chr14;Pathogenic;rs63750324;Point;73664819;73664819;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16401857, 26401689, 27930341
+A285V;GRCh37 (105);Chr14;Pathogenic;rs63751139;Point;73664823;73664823;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9007097, 9109915, 17962197, 27930341
+L286P;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;18028191, 21212633, 22307680, 10811883, 26481686
+L286V;GRCh37 (105);Chr14;Pathogenic;rs63751235;Point;73664825;73664825;C;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7596406, 2025423, 18587238, 8986743, 10811883, 10327206, 27930341, 17158800, 22102510, 30636740
+T291P;GRCh37 (105);Chr14;Pathogenic;rs63750298;Point;73673096;73673096;A;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16941492
+K311R;GRCh37 (105);Chr14;Pathogenic;rs115865530;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;28269784
+E318G;GRCh37 (105);Chr14;Risk Modifier;rs17125721;Point;73673178;73673178;A;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27930341, 16952411, 9851443, 9915968, 9851450, 15003276, 10643802, 22906081, 23990795, 27535542, 27357204, 25937274, 28554858, 27312774, 30381075, 22810102, 27930341
+R358Q;GRCh37 (105);Chr14;Pathogenic;rs63751174;Point;73678594;73678594;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 27930341
+S365A;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;18667258, 28132667, 25458374
+R377M;GRCh37 (105);Chr14;Pathogenic;rs63751051;Point;73683834;73683834;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12552037
+R377W;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;22475797, 18667258, 21822699
+G378E;GRCh37 (105);Chr14;Pathogenic;rs63750323;Point;73683837;73683837;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10200054, 15776278, 18587238, 24928006
+G378V;GRCh37 (105);Chr14;Pathogenic;rs63750323;Point;73683837;73683837;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;12552037, 27073747, 27743520, 27930341
+L381F;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;24121961
+L381V;GRCh37 (105);Chr14;Pathogenic;rs63750687;Point;73683845;73683845;C;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;19797784, 18587238, 27014058
+G384A;GRCh37 (105);Chr14;Pathogenic;rs63750646;Point;73683855;73683855;G;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8634711, 1985297, 8945747, 27014058, 9224802, 22505025, 10448055, 16405513, 27930341, 18768471, 22479317, 28753424, 15772361, 26559975, 27293189, 17431506
+F386I;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27816212
+F386S;GRCh37 (105);Chr14;Pathogenic;rs63749860;Point;73683861;73683861;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16033913, 27930341, 16941492
+F388L;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27836335
+S390I;GRCh37 (105);Chr14;Pathogenic;rs63750883;Point;73683873;73683873;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;27930341
+S390N;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26242991
+V391F;GRCh37 (105);Chr14;Pathogenic;rs63751066;Point;73683875;73683875;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16033913, 22475797, 27930341
+V391G;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;28131463
+L392P;GRCh37 (105);Chr14;Pathogenic;rs63750218;Point;73683879;73683879;T;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11094128
+L392V;GRCh37 (105);Chr14;Pathogenic;rs63751416;Point;73683878;73683878;C;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;7651536, 8634712, 7824141, 10441572, 16033913, 18587238, 22906081, 27014058
+G394V;GRCh37 (105);Chr14;Pathogenic;rs63750929;Point;73683885 ;73683885 ;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 30954774, 27930341, 18525293
+A396T;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;22503161, 30021643, 27930341, 18667258
+N405S;GRCh37 (105);Chr14;Pathogenic;rs63751254;Point;73683918;73683918;A;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10644793, 27930341
+I408T;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26549787
+A409T;GRCh37 (105);Chr14;Pathogenic;rs63750227;Point;73683929;73683929;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10533070, 27930341
+C410Y;GRCh37 (105);Chr14;Pathogenic;rs661;Point;73683933;73683933;G;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;24880964, 17553989, 17545141, 10327206, 16043812, 9065468, 23843529, 27930341, 25741723, 27100199, 27100200, 24011544, 21559374, 10359821, 11020224, 9680315, 23843529, 29078389,     7596406, 7205322, 9521423, 8634712, 10441572
+I416T;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;30745123, 18667258
+G417S;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;30755281
+L418F;GRCh37 (105);Chr14;Pathogenic;rs63751316;Point;73685847;73685847;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 27930341
+L420R;GRCh37 (105);Chr14;Pathogenic;rs63750802;Point;73685852;73685852;T;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;17645236, 22882713
+L424H;GRCh37 (105);Chr14;Pathogenic;rs63751032;Point;73685864;73685864;T;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16033913, 16546171
+L424R;GRCh37 (105);Chr14;Pathogenic;rs63751032;Point;73685864;73685864;T;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10337065, 15094846, 24906965, 19494431
+L424V;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;19001354, 26280335, 27930341
+A426P;GRCh37 (105);Chr14;Pathogenic;rs63751223;Point;73685869;73685869;G;C;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9521423, 17553989, 23990795, 27930341
+A431E;GRCh37 (105);Chr14;Pathogenic;rs63750083;Point;73685885;73685885;C;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 16628450, 16897084, 16801675 , 14966176, 30716424, 27614114, 18509095, 22343824, 21373759, 20145736, 27930341
+A434C;GRCh37 (105);Chr14;Pathogenic;rs63750528;Point;73685893;73685893;G;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;14557582, 11030797
+A434C;GRCh37 (105);Chr14;Pathogenic;rs63750341;Point, Double;73685894;73685894;C;G;PSEN1;Alzforum/Mutations;Alzheimer's Disease;14557582, 11030798
+A434T;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;24650794, 18667258
+L435F;GRCh37 (105);Chr14;Pathogenic;rs63750001;Point;73685896;73685896;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11524469, 20460383, 26988102, 27930341, 27100199, 28753424, 25741723, 27100200, 29078389
+P436Q;GRCh37 (105);Chr14;Pathogenic;rs121917808;Point;73685900;73685900;C;A;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9831473, 15115757
+P436S;GRCh37 (105);Chr14;Pathogenic;rs63749925;Point;73685899;73685899;C;T;PSEN1;Alzforum/Mutations;Alzheimer's Disease;10090481, 20460383, 27930341
+I437V;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26242991
+I439S;GRCh37 (105);Chr14;Pathogenic;;;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;20157243
+869-1G>A;GRCh37 (105);Chr14;Pathogenic;;Point;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;30279455
+869-22_869-23ins18;GRCh37 (105);Chr14;Pathogenic;;Insertion;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;16941492, 9212102, 8755489, 16752394, 16405513, 8938131, 24239350, 22529981, 27930341, 22505025, 22479317, 24011544, 20484632, 17158800, 27732852, 30682043, 28870815, 29153989
+L171_ L172insY;GRCh37 (105);Chr14;Pathogenic;;Insertion/Deletion ;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;30279455
+"S290C;T291_S319del";GRCh37 (105);Chr14;Pathogenic;;Complex;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;11198283, 10502791, 15622541, 9212102, 8755489, 16941492, 16752394, 10075646, 16405513, 8938131, 24239350, 22529981, 27930341, 22505025, 22479317, 24011544, 17158800, 28870815, 29153989, 27732852
+"S290C;T291_S319del";GRCh37 (105);Chr14;Pathogenic;;Complex;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9546792, 10502791, 10720282, 10854108, 9212102, 8755489, 16941492, 16752394, 10075646, 16405513, 8938131, 24239350, 22529981, 27930341, 22505025, 22479317, 24011544, 17158800, 28870815, 29153989, 27732852
+"S290C;T291_S319del A>G";GRCh37 (105);Chr14;Pathogenic;;Complex;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;26194182, 26522186, 9212102, 8755489, 16941492, 16752394, 10075646, 16405513, 8938131, 24239350, 22529981, 27930341, 22505025, 22479317, 24011544, 17158800, 28870815, 29153989, 27732852
+"S290C;T291_S319del G>A";GRCh37 (105);Chr14;Pathogenic;rs63750219;Complex;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;9452052, 12615638, 12391599, 11489138, 9212102, 8755489, 16941492, 16752394, 10075646, 16405513, 8938131, 24239350, 22529981, 27930341, 22505025, 22479317, 24011544, 17158800, 28870815, 29153989, 27732852
+"S290C;T291_S319del G>T";GRCh37 (105);Chr14;Pathogenic;rs63750219;Complex;;;;;PSEN1;Alzforum/Mutations;Alzheimer's Disease;8742474, 8733749, 9172170, 12615638, 9212102, 8755489, 16941492, 16752394, 10075646, 16405513, 8938131, 24239350, 22529981, 27930341, 22505025, 22479317, 24011544, 17158800, 28870815, 29153989, 27732852
+"S290W;S291_R377del";GRCh37 (105);Chr14;Pathogenic;;Deletion;;;;;PSEN1;Alzforum/Mutations;Early-Onset;28461250
+P4T;GRCh37 (105);;Not Pathogenic;;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+R5H;GRCh37 (105);;Unclear Pathogenicity;rs63750959;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+A90V;GRCh37 (105);;Unclear Pathogenicity;;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+A152T;GRCh37 (105);;Risk Modifier;rs143624519;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;21176711, 22595371, 22906081, 22556362, 23518664, 23692670, 23990795, 25604855, 25937274, 26333800
+G213R;GRCh37 (105);;Unclear Pathogenicity;rs76375268;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+V224G;GRCh37 (105);;Unclear Pathogenicity;rs141120474;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+Q230R;GRCh37 (105);;Unclear Pathogenicity;rs63750072;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+K280del;GRCh37 (105);;Unclear Pathogenicity;rs63750688;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+V287I;GRCh37 (105);;Unclear Pathogenicity;rs149280278;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+A297V;GRCh37 (105);;Unclear Pathogenicity;;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+S318L;GRCh37 (105);;Unclear Pathogenicity;rs73314997;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+L410F;GRCh37 (105);;Not Pathogenic;;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+S427F;GRCh37 (105);;Unclear Pathogenicity;rs143956882;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+P512H;GRCh37 (105);;Not Pathogenic;rs192236920;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
+IVS10+25 C>T;GRCh37 (105);;Not Pathogenic;rs63750117;;;;;;MAPT;Alzforum/Mutations;Alzheimer's Disease;
