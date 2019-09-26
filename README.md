@@ -27,7 +27,6 @@ To start developing
 2. Clone the git repository;
 3. Configure as Maven project;
 
-
 ## Deployment
 
 Maven package and deploy them in the Big Data infrastructure.
