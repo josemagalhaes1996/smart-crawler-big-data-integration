@@ -9,7 +9,6 @@ This project aims to produce a set of tools, that will help big data integration
 </p>
 
 
-
 ## Getting Started
 
 These instructions help you start developing and running the project for testing purposes.
@@ -36,7 +35,7 @@ Maven package and deploy them in the Big Data infrastructure.
 * [Spark](https://spark.apache.org) - The scalabe event processing engine
 * [Atlas](https://atlas.apache.org/) - Data Governance and Metadata framework for Hadoop
 * [Ranger](https://ranger.apache.org/) - Enable, monitor and manage comprehensive data security across the Hadoop platform.
-* 
+
 ## Authors
 
 * **José Magalhães** 
