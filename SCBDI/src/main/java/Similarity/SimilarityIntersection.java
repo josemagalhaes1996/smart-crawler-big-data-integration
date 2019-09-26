@@ -9,6 +9,7 @@ import Controller.CSVGenerator;
 import Domain.Match;
 import Domain.Score;
 import Domain.Token;
+import basicProfiler.Profiler;
 import com.hortonworks.hwc.Connections;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -28,7 +29,7 @@ public class SimilarityIntersection {
 
     public static void main(String args[]) throws IOException {
         Instant start = Instant.now();
-        joinAnalysis("sf1tpcds", "promotion", "store_sales");
+        joinAnalysis("sf3tpcds", "promotion", "store_sales");
         Instant end = Instant.now().minus(start.getEpochSecond(), ChronoUnit.SECONDS);
         System.out.println("O JOb demorou " + end.getEpochSecond() + " Segundos");
 
@@ -40,30 +41,31 @@ public class SimilarityIntersection {
         String sourceBDW = sourceBDWName;
         Connections conn = new Connections();
         
-//        Profiler prof = new Profiler(db, newSource, conn); //New Source
-//        Profiler prof2 = new Profiler(db, sourceBDW, conn); // BDW        
-//        String[] columnsbdw = prof2.getDataSet().columns();
-//        String[] columnsNS = prof.getDataSet().columns();
-
-        String path = "/user/jose/Genoma/AlzForum_dataset.csv";
-        String path2 = "/user/jose/Genoma/Ensembl_dataset.csv";
-        String delimiter = ";";
-        String header = "true";
-        Dataset<Row> newDataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).load(path);
-        Dataset<Row> newDataset2 = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).load(path2);
-
-        System.out.println("Linhas de BDW:" + newDataset.count());
-        System.out.println("Linhas de new DataSource:" + newDataset2.count());
-
-        String[] columnsbdw = newDataset.columns();
-        String[] columnsNS = newDataset2.columns();
+        Profiler prof = new Profiler(db, newSource, conn); //New Source
+        Profiler prof2 = new Profiler(db, sourceBDW, conn); // BDW        
+        String[] columnsbdw = prof2.getDataSet().columns();
+        String[] columnsNS = prof.getDataSet().columns();
+        
+//
+//        String path = "/user/jose/Genoma/AlzForum_dataset.csv";
+//        String path2 = "/user/jose/Genoma/DisGeNET.csv";
+//        String delimiter = ";";
+//        String header = "true";
+//        Dataset<Row> newDataset = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).load(path);
+//        Dataset<Row> newDataset2 = conn.getSession().read().format("csv").option("header", header).option("delimiter", delimiter).load(path2);
+//
+//        System.out.println("Linhas de BDW:" + newDataset.count());
+////        System.out.println("Linhas de new DataSource:" + newDataset2.count());
+//
+//        String[] columnsbdw = newDataset.columns();
+//        String[] columnsNS = newDataset2.columns();
 
         ArrayList<Match> matchesList = new ArrayList<>();
 
         for (int i = 0; i < columnsNS.length; i++) {
 
             System.out.println("Column New Source: " + columnsNS[i]);
-            Dataset<Row> rowsNSDistinct = newDataset2.select(columnsNS[i]).distinct();
+            Dataset<Row> rowsNSDistinct = prof.getDataSet().select(columnsNS[i]).distinct();
             rowsNSDistinct = rowsNSDistinct.where(rowsNSDistinct.col(columnsNS[i]).isNotNull()); //delete nulls
             Token newcolumnNS = new Token(columnsNS[i]);
 
@@ -74,7 +76,7 @@ public class SimilarityIntersection {
                 Token columnbdw = new Token(columnsbdw[j]);
                 System.out.println("\t" + "Column BDW: " + columnsbdw[j]);
 
-                Dataset<Row> rowsBDW = newDataset.select(columnsbdw[j]);
+                Dataset<Row> rowsBDW =  prof2.getDataSet().select(columnsbdw[j]);
 
                 rowsBDW = rowsBDW.where(rowsBDW.col(columnsbdw[j]).isNotNull()); //delete nulls
 
@@ -84,7 +86,7 @@ public class SimilarityIntersection {
                 JavaRDD<Row> intersectedRows = rowsNSDistinct.intersect(rowsBDW).rdd().toJavaRDD();
 
 //              System.out.println("Número de linhas intersectadas:" + intersectedRows.count()); //DEu certo
-                System.out.println("Intersecção  numeros:" + intersectedRows.collect().toString());
+//                System.out.println("Intersecção  numeros:" + intersectedRows.collect().toString());
 
            if (intersectedRows.count() > 0) {
                     JavaRDD<Long> numValues = intersectedRows.map(x -> {

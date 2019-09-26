@@ -103,9 +103,6 @@ public class SimilarityAnalysis  {
             JsonControler jsonControllerInterStats = new JsonControler();
             AtlasConsumer restEntity = new AtlasConsumer();
             JSONObject json = jsonControllerInterStats.createEntityInterStatistics(tableBDWName, nsNameTable, columnBDWName, columnNSName, intersectionResult, similarityHeaders, threshold, database);
-
-         
-
             
             restEntity.createEntityAtlas(json);
                 System.out.println("criado");
