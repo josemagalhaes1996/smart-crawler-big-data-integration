@@ -29,9 +29,11 @@ To start developing
 ## Deployment
 
 Maven package and deploy them in the Big Data infrastructure.
-Change endpoints in AtlasClient.AtlasCosumer
+Change endpoints in ```AtlasClient.AtlasCosumer``` 
 
-##Running the tests
+## Running the tests
+
+
 
 
 
