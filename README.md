@@ -2,8 +2,49 @@
 
 This project aims to produce a set of tools, that will help big data integration engineers, model the data automatically with a certain confidence interval.
 
+#General Architecture
 
 ![Alt text](/img/DataGovernanceArchitecture3.png?raw=true "SCBDI General Arquitecture V1")
 
+## Getting Started
 
-**General Arquitecture**
+These instructions help you start developing and running the project for testing purposes.
+
+### Prerequisites
+
+1. Netbeans
+2. Hadoop Cluster
+
+### Installing
+
+To start developing
+
+1. Install Netbeans;
+2. Clone the git repository;
+3. Configure as Maven project;
+
+## Deployment
+
+Maven package each consumer or producer to your needs, and deploy them in the Big Data infrastructure.
+
+## Built With
+
+* [Spark](https://spark.apache.org) - The scalabe event processing engine
+* [Atlas](https://atlas.apache.org/) - Data Governance and Metadata framework for Hadoop
+* [Ranger](https://ranger.apache.org/) - Enable, monitor and manage comprehensive data security across the Hadoop platform.
+* 
+## Authors
+
+* **José Magalhães** - 
+* **João Galvão** -  
+* **Maria Inês Costa** - 
+
+## License
+
+This project is currently internal.
+
+## Acknowledgments
+
+* Cheers for the LID4 community 
+
+
