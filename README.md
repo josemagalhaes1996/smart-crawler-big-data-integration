@@ -4,6 +4,11 @@ This project aims to produce a set of tools, that will help big data integration
 
 #General Architecture
 
+<p align="center">
+  <img width="460" height="300" src="/img/DataGovernanceArchitecture3.png">
+</p>
+
+
 ![Alt text](/img/DataGovernanceArchitecture3.png?raw=true "SCBDI General Arquitecture V1")
 
 ## Getting Started
@@ -23,9 +28,10 @@ To start developing
 2. Clone the git repository;
 3. Configure as Maven project;
 
+
 ## Deployment
 
-Maven package each consumer or producer to your needs, and deploy them in the Big Data infrastructure.
+Maven package and deploy them in the Big Data infrastructure.
 
 ## Built With
 
@@ -35,9 +41,9 @@ Maven package each consumer or producer to your needs, and deploy them in the Bi
 * 
 ## Authors
 
-* **José Magalhães** - 
-* **João Galvão** -  
-* **Maria Inês Costa** - 
+* **José Magalhães** 
+* **João Galvão**  
+* **Maria Inês Costa** 
 
 ## License
 
