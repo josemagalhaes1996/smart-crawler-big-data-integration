@@ -5,11 +5,10 @@ This project aims to produce a set of tools, that will help big data integration
 #General Architecture
 
 <p align="center">
-  <img width="460" height="300" src="/img/DataGovernanceArchitecture3.png">
+  <img src="/img/DataGovernanceArchitecture3.png">
 </p>
 
 
-![Alt text](/img/DataGovernanceArchitecture3.png?raw=true "SCBDI General Arquitecture V1")
 
 ## Getting Started
 
