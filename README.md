@@ -2,7 +2,7 @@
 
 This project aims to produce a set of tools, that will help big data integration engineers, model the data automatically with a certain confidence interval.
 
-##General Architecture
+## General Architecture
 
 <p align="center">
   <img src="/img/DataGovernanceArchitecture3.png">
