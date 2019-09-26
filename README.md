@@ -29,6 +29,11 @@ To start developing
 ## Deployment
 
 Maven package and deploy them in the Big Data infrastructure.
+Change endpoints in AtlasClient.AtlasCosumer
+
+##Running the tests
+
+
 
 ## Built With
 
@@ -41,6 +46,10 @@ Maven package and deploy them in the Big Data infrastructure.
 * **José Magalhães** 
 * **João Galvão**  
 * **Maria Inês Costa** 
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://gitlab.com/lid4_uminho/smart-crawler-big-data-integration/-/tags). 
 
 ## License
 
