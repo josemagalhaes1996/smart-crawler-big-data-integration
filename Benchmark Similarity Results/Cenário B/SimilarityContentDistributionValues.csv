@@ -1,0 +1,37 @@
+Pairs,Mesure Similarity,Time Processing
+PUBMEDID-PubMed ID,3.0,2.0
+CHR_ID-Chromosome/scaffold name,99.91,2.0
+CHR_ID-Strand,100.0,2.0
+CHR_ID-Global minor allele count (all individuals),3.74,2.0
+CHR_ID-Transcript strand,96.59,2.0
+CHR_POS-Chromosome/scaffold position start (bp),89.67,3.0
+CHR_POS-Chromosome/scaffold position end (bp),89.67,3.0
+REPORTED GENE(S)-Associated gene with phenotype,90.17,2.0
+MAPPED_GENE-Associated gene with phenotype,90.29,3.0
+UPSTREAM_GENE_ID-Gene stable ID,0.3,3.0
+DOWNSTREAM_GENE_ID-Gene stable ID,89.86,4.0
+SNP_GENE_IDS-Gene stable ID,90.73,3.0
+UPSTREAM_GENE_DISTANCE-Chromosome/scaffold name,0.01,3.0
+UPSTREAM_GENE_DISTANCE-Global minor allele count (all individuals),0.31,2.0
+DOWNSTREAM_GENE_DISTANCE-Global minor allele count (all individuals),0.13,2.0
+DOWNSTREAM_GENE_DISTANCE-Variant start in cDNA (bp),0.05,3.0
+DOWNSTREAM_GENE_DISTANCE-Variant end in cDNA (bp),0.05,3.0
+DOWNSTREAM_GENE_DISTANCE-Distance to transcript,0.03,3.0
+SNPS-Variant name,89.67,3.0
+SNPS-Associated gene with phenotype,89.67,3.0
+MERGED-Chromosome/scaffold name,1.42,3.0
+MERGED-Strand,100.0,1.0
+MERGED-Transcript strand,96.59,2.0
+CONTEXT-Variant consequence,97.9,2.0
+INTERGENIC-Chromosome/scaffold name,1.42,3.0
+INTERGENIC-Strand,100.0,2.0
+INTERGENIC-Transcript strand,96.59,2.0
+PVALUE_MLOG-Global minor allele count (all individuals),0.15,2.0
+PVALUE_MLOG-Variant start in cDNA (bp),0.99,3.0
+PVALUE_MLOG-Variant end in cDNA (bp),0.99,1.0
+PVALUE_MLOG-Variant start in translation (aa),73.07,2.0
+PVALUE_MLOG-Variant end in translation (aa),73.07,2.0
+PVALUE_MLOG-Distance to transcript,0.94,2.0
+OR or BETA-Chromosome/scaffold name,98.48,3.0
+OR or BETA-Global minor allele count (all individuals),3.99,3.0
+OR or BETA-Distance to transcript,0.07,3.0
