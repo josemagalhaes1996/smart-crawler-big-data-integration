@@ -1,0 +1,37 @@
+Pairs;Mesure Similarity;Time Processing
+Chromosome/scaffold name-CHR_ID;95,52;2
+Variant consequence-CONTEXT;64,35;42
+Chromosome/scaffold name-INTERGENIC;35,13;2
+Strand-INTERGENIC;35,13;2
+Transcript strand-INTERGENIC;35,13;2
+Chromosome/scaffold name-OR or BETA;8,06;2
+PubMed ID-PUBMEDID;4,82;2
+Strand-CHR_ID;4,58;2
+Transcript strand-CHR_ID;4,58;3
+Global minor allele count (all individuals)-CHR_ID;2,96;2
+Gene stable ID-SNP_GENE_IDS;1,9;2
+Associated gene with phenotype-REPORTED GENE(S);1,89;3
+Associated gene with phenotype-MAPPED_GENE;1,05;3
+Global minor allele count (all individuals)-OR or BETA;1,01;2
+Global minor allele count (all individuals)-UPSTREAM_GENE_DISTANCE;0,82;2
+Distance to transcript-DOWNSTREAM_GENE_DISTANCE;0,82;4
+Global minor allele count (all individuals)-PVALUE_MLOG;0,76;2
+Gene stable ID-UPSTREAM_GENE_ID;0,55;3
+Gene stable ID-DOWNSTREAM_GENE_ID;0,55;3
+Distance to transcript-OR or BETA;0,38;5
+Distance to transcript-PVALUE_MLOG;0,28;4
+Chromosome/scaffold name-UPSTREAM_GENE_DISTANCE;0,27;2
+Global minor allele count (all individuals)-DOWNSTREAM_GENE_DISTANCE;0,27;2
+Variant start in cDNA (bp)-DOWNSTREAM_GENE_DISTANCE;0,27;3
+Variant end in cDNA (bp)-DOWNSTREAM_GENE_DISTANCE;0,27;3
+Variant name-SNPS;0,19;2
+Chromosome/scaffold position start (bp)-CHR_POS;0,19;3
+Chromosome/scaffold position end (bp)-CHR_POS;0,19;2
+Variant start in translation (aa)-PVALUE_MLOG;0,19;3
+Variant end in translation (aa)-PVALUE_MLOG;0,19;3
+Chromosome/scaffold name-MERGED;0,09;2
+Strand-MERGED;0,09;2
+Associated gene with phenotype-SNPS;0,09;3
+Transcript strand-MERGED;0,09;2
+Variant start in cDNA (bp)-PVALUE_MLOG;0,09;2
+Variant end in cDNA (bp)-PVALUE_MLOG;0,09;5
